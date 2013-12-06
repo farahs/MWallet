@@ -7,5 +7,9 @@
     <string name="title_activity_splash">Splash</string>
     <string name="title_activity_register">Register</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_setting">SettingActivity</string>
+    <string name="title_activity_history">HistoryActivity</string>
+    <string name="title_activity_payment">PaymentActivity</string>
+    <string name="title_activity_top_up">TopUpActivity</string>
 
 </resources>

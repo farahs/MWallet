@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="10"
+        android:minSdkVersion="14"
         android:targetSdkVersion="17" />
 
     <application
@@ -33,6 +33,22 @@
         <activity
             android:name="com.example.mwallet.LoginActivity"
             android:label="@string/title_activity_login" >
+        </activity>
+        <activity
+            android:name="com.example.mwallet.SettingActivity"
+            android:label="@string/title_activity_setting" >
+        </activity>
+        <activity
+            android:name="com.example.mwallet.HistoryActivity"
+            android:label="@string/title_activity_history" >
+        </activity>
+        <activity
+            android:name="com.example.mwallet.PaymentActivity"
+            android:label="@string/title_activity_payment" >
+        </activity>
+        <activity
+            android:name="com.example.mwallet.TopUpActivity"
+            android:label="@string/title_activity_top_up" >
         </activity>
     </application>
 
