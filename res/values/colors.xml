@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Normal Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    
+    <!-- Default Colors -->
+    <color name="default_bg">#E6E6E6</color>
+    <color name="default_blue">#4682B4</color>
+    <color name="default_deactivated_blue">#95B9D7</color>
+    <color name="default_orange">#FF6600</color>
+    <color name="default_red">#FF3300</color>
+    <color name="default_green">#00BB5D</color>
+    
+    <color name="devider">#E5E5E5</color>
+    
+    <!-- Default Label Colors -->
+    <color name="default_label_black">#333333</color>
+    <color name="default_label_blue">#79A7CC</color>
+    
+    <!-- Default Input Colors -->
+    <color name="default_input_gray">#666666</color>
+    <color name="default_input_white">#ffffff</color>
+    
+    <!-- Deafult Shades Colors -->
+    <color name="default_shade_bg">#D7D7D7</color>
+    
+</resources>
+
