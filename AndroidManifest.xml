@@ -50,6 +50,10 @@
             android:name="com.example.mwallet.TopUpActivity"
             android:label="@string/title_activity_top_up" >
         </activity>
+        <activity
+            android:name="com.example.mwallet.DrawerActivity"
+            android:label="@string/title_activity_drawer" >
+        </activity>
     </application>
 
 </manifest>

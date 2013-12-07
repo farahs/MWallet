@@ -34,10 +34,8 @@
             android:id="@+id/main_paymentBtn"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
             android:layout_weight="30"
-            android:background="@color/our_blue"
+            android:background="@color/default_red"
             android:text="Payment"
             android:textColor="@color/white"
             android:textSize="20sp" />

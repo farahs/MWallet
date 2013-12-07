@@ -71,7 +71,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 			this.passwordInput.setText("");
 			break;
 		case R.id.login_submitBtn:
-			Intent intent =  new Intent(this.getApplicationContext(), MainActivity.class);
+			Intent intent =  new Intent(this.getApplicationContext(), DrawerActivity.class);
 			this.startActivity(intent);
 			break;
 		case R.id.login_register:
