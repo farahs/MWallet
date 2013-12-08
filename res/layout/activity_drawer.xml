@@ -59,11 +59,11 @@
                 <ListView
                     android:id="@+id/menuList"
                     android:layout_width="match_parent"
-                    android:layout_height="209dp"
+                    android:layout_height="203dp"
                     android:background="#444444"
                     android:choiceMode="singleChoice"
                     android:divider="#fff"
-                    android:dividerHeight="3dp" />
+                    android:dividerHeight="1dp" />
               
             </LinearLayout>
         </ScrollView>
