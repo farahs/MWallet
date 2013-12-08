@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="main_menus_array">
+        <item>Home</item>
         <item>Payment</item>
         <item>Top Up</item>
         <item>History</item>

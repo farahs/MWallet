@@ -2,6 +2,7 @@ package com.example.mwallet;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -54,9 +55,10 @@ public class DrawerActivity extends Activity implements OnClickListener {
 	}
 
 	private void setupMainFragment() {
-		MainActivity fragment = new MainActivity();
+		
+		MainFragment fragment = new MainFragment();
 		FragmentManager fragmentManager = this.getFragmentManager();
-		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment);
+		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
 	}
 
@@ -93,6 +95,7 @@ public class DrawerActivity extends Activity implements OnClickListener {
 	}
 
 	private void setupListPanel() {
+		
 		this.menuTitles = this.getResources().getStringArray(R.array.main_menus_array);
 		this.menuList = (ListView) this.findViewById(R.id.menuList);
 		this.mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
@@ -113,27 +116,45 @@ public class DrawerActivity extends Activity implements OnClickListener {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,	long id) {
-			// TODO Auto-generated method stub
-			switch (position) {
-			case 0:
-				Intent payIntent = new Intent(getApplicationContext(), PaymentActivity.class);
-				startActivity(payIntent);
-//				Toast.makeText(this.getApplicationContext(), "Payment", Toast.LENGTH_SHORT).show();
-				break;
-			case 1:
-				Intent topIntent = new Intent(getApplicationContext(), TopUpActivity.class);
-				startActivity(topIntent);
-//				 Toast.makeText(this.getApplicationContext(), "Top Up", Toast.LENGTH_SHORT).show();
-				break;
-			case 2:
-				Intent hisIntent = new Intent(getApplicationContext(), HistoryActivity.class);
-				startActivity(hisIntent);
-//				 Toast.makeText(this.getApplicationContext(), "History", Toast.LENGTH_SHORT).show();
-				break;
-			default:
-				break;
-			}
+			
+			DrawerActivity.this.menuSelectItem(position);
+			
 		}
+		
+	}
+	
+	private void menuSelectItem(int position) {
+		
+		this.mDrawerLayout.closeDrawer(this.mDrawerLeftPanel);
+		Fragment fragment;
+		FragmentManager fragmentManager;
+		
+		switch (position) {
+		case 0:
+			fragment = new MainFragment();
+			fragmentManager = this.getFragmentManager();
+			fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+			break;
+		case 1:
+			fragment = new PaymentFragment();
+			fragmentManager = this.getFragmentManager();
+			fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+			break;
+		case 2:
+			fragment = new TopUpFragment();
+			fragmentManager = this.getFragmentManager();
+			fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+			break;
+		case 3:
+			fragment = new HistoryFragment();
+			fragmentManager = this.getFragmentManager();
+			fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+			break;
+		default:
+			break;
+		}
+
+		
 		
 	}
 	
@@ -143,6 +164,27 @@ public class DrawerActivity extends Activity implements OnClickListener {
 		boolean drawerOpen = this.mDrawerLayout.isDrawerOpen(this.mDrawerLeftPanel);
 		// menu.findItem(R.id.action_openSettingDrawer).setVisible(!drawerOpen);
 		return super.onPrepareOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		// The action bar home/up action should open or close the drawer.
+		// ActionBarDrawerToggle will take care of this.
+		if (this.mDrawerToggle.onOptionsItemSelected(item))
+		{
+
+			return true;
+		}
+		// Handle action buttons
+		switch (item.getItemId())
+		{
+			case android.R.id.home:
+				return true;
+
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 	
 	@Override
@@ -166,6 +208,9 @@ public class DrawerActivity extends Activity implements OnClickListener {
 		
 	}
 		
+	
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

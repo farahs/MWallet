@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:textAppearance="?android:attr/textAppearanceListItemSmall"
-    android:textColor="#333333"
+    android:textColor="#ffffff"
     android:textSize="16sp"
     android:paddingLeft="25dp"
     android:gravity="center_vertical"

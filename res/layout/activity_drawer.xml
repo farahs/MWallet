@@ -56,25 +56,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:background="#444444"
-                    android:choiceMode="singleChoice"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:text="Menu"
-                    android:textColor="#fff"
-                    android:textSize="18sp" />
-
                 <ListView
                     android:id="@+id/menuList"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:background="@color/bright_gray"
+                    android:layout_height="209dp"
+                    android:background="#444444"
                     android:choiceMode="singleChoice"
-                    android:divider="#dedede"
-                    android:dividerHeight="1dp" />
+                    android:divider="#fff"
+                    android:dividerHeight="3dp" />
               
             </LinearLayout>
         </ScrollView>

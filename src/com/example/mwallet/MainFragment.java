@@ -13,7 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class MainActivity extends Fragment implements OnClickListener {
+public class MainFragment extends Fragment implements OnClickListener {
 
 	DrawerActivity activity;
 	View rootView;
@@ -62,17 +62,17 @@ public class MainActivity extends Fragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.main_historyBtn:
-			Intent hisIntent = new Intent(this.activity, HistoryActivity.class);
+			Intent hisIntent = new Intent(this.activity, HistoryFragment.class);
 			this.startActivity(hisIntent);
 //			 Toast.makeText(this.getApplicationContext(), "History", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.main_paymentBtn:
-			Intent payIntent = new Intent(this.activity, PaymentActivity.class);
+			Intent payIntent = new Intent(this.activity, PaymentFragment.class);
 			this.startActivity(payIntent);
 //			Toast.makeText(this.getApplicationContext(), "Payment", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.main_top_upBtn:
-			Intent topIntent = new Intent(this.activity, TopUpActivity.class);
+			Intent topIntent = new Intent(this.activity, TopUpFragment.class);
 			this.startActivity(topIntent);
 //			 Toast.makeText(this.getApplicationContext(), "Top Up", Toast.LENGTH_SHORT).show();
 			break;

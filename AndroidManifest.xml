@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.example.mwallet.Splash"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@android:style/Theme.Holo.Light" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,12 +23,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.mwallet.MainActivity"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
             android:name="com.example.mwallet.RegisterActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@android:style/Theme.Holo.Light" >
         </activity>
         <activity
             android:name="com.example.mwallet.LoginActivity"
@@ -39,20 +35,8 @@
             android:label="@string/title_activity_setting" >
         </activity>
         <activity
-            android:name="com.example.mwallet.HistoryActivity"
-            android:label="@string/title_activity_history" >
-        </activity>
-        <activity
-            android:name="com.example.mwallet.PaymentActivity"
-            android:label="@string/title_activity_payment" >
-        </activity>
-        <activity
-            android:name="com.example.mwallet.TopUpActivity"
-            android:label="@string/title_activity_top_up" >
-        </activity>
-        <activity
             android:name="com.example.mwallet.DrawerActivity"
-            android:label="@string/title_activity_drawer" >
+            android:label="@string/app_name" >
         </activity>
     </application>
 
