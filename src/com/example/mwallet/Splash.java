@@ -1,59 +1,39 @@
 package com.example.mwallet;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 public class Splash extends Activity {
-	private Thread mSplashThread;
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.activity_splash);
-		final Splash sPlash = this;   
-        
-        // The thread to wait for splash screen events
-        mSplashThread =  new Thread(){
-            @Override
-            public void run(){
-                try {
-                    synchronized(this){
-                        // Wait given period of time or exit on touch
-                        wait(1500);
-                    }
-                }
-                catch(InterruptedException ex){                    
-                }
+	ImageView img;
+    public void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(0, 0);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
 
-                finish();
-                
-                // Run next activity
-                Intent intent = new Intent();
-                intent.setClass(sPlash, LoginActivity.class);
-                startActivity(intent);
-                finish();                    
+        int secondsDelayed = 1;
+        img = (ImageView)findViewById(R.id.home);
+        img.setBackgroundResource(R.drawable.splash_gif);
+        img.post(new Runnable() {
+            public void run() {
+                AnimationDrawable progressAnimation = (AnimationDrawable) img.getBackground();
+                progressAnimation.start();
             }
-        };
-        
-        mSplashThread.start();     
-	}
-
-	@Override
-	public boolean onTouchEvent(MotionEvent evt) {
-		if(evt.getAction() == MotionEvent.ACTION_DOWN)
-        {
-            synchronized(mSplashThread){
-                mSplashThread.notifyAll();
-            }
-        }
-        return true;
-	}
-
+        });
+        new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    
+                        startActivity(new Intent(Splash.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+                        finish();
+                        
+                }
+        }, secondsDelayed * 2100);
+    }
 }
