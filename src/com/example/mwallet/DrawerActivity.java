@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -215,13 +216,21 @@ public class DrawerActivity extends Activity implements OnClickListener {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
-		
-		return true;
-	}
+	
+		menu.findItem(R.id.action_settings).setOnMenuItemClickListener(
+				new OnMenuItemClickListener() {
 
-	public void openSetting(MenuItem item) {
-		Intent i = new Intent(this.getApplicationContext(), SettingActivity.class);
-		this.startActivity(i);
+					@Override
+					public boolean onMenuItemClick(MenuItem item) {
+						Intent intent = new Intent(DrawerActivity.this,
+								SettingActivity.class);
+						startActivity(intent);
+						return true;
+					}
+				});
+
+		return super.onCreateOptionsMenu(menu);
+		
 	}
 
 }

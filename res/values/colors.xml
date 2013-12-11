@@ -6,6 +6,7 @@
     <color name="black">#000000</color>
     <color name="our_blue">#3399FF</color>
     <color name="blue">#0099CC</color>
+    <color name="grey">#E6E6E6</color>
     
     <!-- Default Colors -->
     <color name="default_bg">#E6E6E6</color>
