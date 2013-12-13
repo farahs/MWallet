@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,9 +8,92 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".PaymentFragment" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title_activity_payment" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-</RelativeLayout>
+        <LinearLayout
+            android:id="@+id/payment_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose Your Payment"
+                android:textColor="@color/our_blue"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/payment_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="5dp"
+                android:entries="@array/payment_array"
+                android:gravity="center"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_below="@+id/payment_title"
+            android:id="@+id/first_payment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="300dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="10dp" >
+
+            <TextView
+                android:id="@+id/cinema_location_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="LOCATION"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/cinema_location_button"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/cinema_location_title"
+                android:layout_centerHorizontal="true"
+                android:background="@color/our_blue"
+                android:gravity="center"
+                android:text="CHOOSE LOCATION"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+            
+            <TextView
+                android:layout_below="@+id/cinema_location_button"
+                android:id="@+id/movie_name_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layout_marginTop="10dp"
+                android:text="MOVIE NAME"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/movie_name_button"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/movie_name_title"
+                android:layout_centerHorizontal="true"
+                android:background="@color/our_blue"
+                android:gravity="center"
+                android:text="CHOOSE MOVIE"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>

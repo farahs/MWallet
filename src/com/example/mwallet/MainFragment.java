@@ -17,9 +17,6 @@ public class MainFragment extends Fragment implements OnClickListener {
 
 	DrawerActivity activity;
 	View rootView;
-	Button historyBtn;
-	Button paymentBtn;
-	Button topUpBtn;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,15 +31,9 @@ public class MainFragment extends Fragment implements OnClickListener {
 	}
 	
 	private void setupView() {
-		this.historyBtn = (Button) this.rootView.findViewById(R.id.main_historyBtn);
-		this.paymentBtn = (Button) this.rootView.findViewById(R.id.main_paymentBtn);
-		this.topUpBtn = (Button) this.rootView.findViewById(R.id.main_top_upBtn);
 	}
 
 	private void setupEvent() {
-		this.historyBtn.setOnClickListener(this);
-		this.paymentBtn.setOnClickListener(this);
-		this.topUpBtn.setOnClickListener(this);
 	}
 
 //	@Override
@@ -60,25 +51,6 @@ public class MainFragment extends Fragment implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.main_historyBtn:
-			Intent hisIntent = new Intent(this.activity, HistoryFragment.class);
-			this.startActivity(hisIntent);
-//			 Toast.makeText(this.getApplicationContext(), "History", Toast.LENGTH_SHORT).show();
-			break;
-		case R.id.main_paymentBtn:
-			Intent payIntent = new Intent(this.activity, PaymentFragment.class);
-			this.startActivity(payIntent);
-//			Toast.makeText(this.getApplicationContext(), "Payment", Toast.LENGTH_SHORT).show();
-			break;
-		case R.id.main_top_upBtn:
-			Intent topIntent = new Intent(this.activity, TopUpFragment.class);
-			this.startActivity(topIntent);
-//			 Toast.makeText(this.getApplicationContext(), "Top Up", Toast.LENGTH_SHORT).show();
-			break;
-		default:
-			break;
-		}
 
 	}
 

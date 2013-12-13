@@ -6,4 +6,13 @@
         <item>Top Up</item>
         <item>History</item>
     </string-array>
+    
+    <string-array name="payment_array">
+        <item>PAYMENT A</item>
+        <item>PAYMENT B</item>
+        <item>PAYMENT C</item>
+        <item>PAYMENT D</item>
+        <item>PAYMENT E</item>
+        <item>PAYMENT F</item>
+    </string-array>
 </resources>
