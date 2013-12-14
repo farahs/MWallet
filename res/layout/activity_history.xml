@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".HistoryFragment" >
 
@@ -22,13 +21,23 @@
                 android:textColor="@color/our_blue"
                 android:textSize="35sp" />
 
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/page_1_of_5" 
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:orientation="vertical"
                 android:layout_marginTop="10dp"
-                android:textSize="15sp"/>
+                android:background="@color/our_blue" >
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/page_1_of_5"
+                    android:textSize="15sp"
+                    android:textColor="@color/white" />
+            </LinearLayout>
 
     </LinearLayout>
 
@@ -47,9 +56,10 @@
             android:id="@+id/listView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true" 
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentTop="true" >
+
         </ListView>
 
         
@@ -64,6 +74,7 @@
         android:layout_alignBaseline="@+id/button2"
         android:layout_alignBottom="@+id/button2"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
         android:text="@string/next" />
 
     <Button
@@ -72,6 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/history_title"
         android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
         android:text="@string/previous" />
 
 </RelativeLayout>
