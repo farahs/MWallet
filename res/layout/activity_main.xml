@@ -6,10 +6,44 @@
     android:padding="0dp"
     tools:context=".MainFragment" >
 
-    <TextView
-        android:id="@+id/tv"
+    
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-
+        android:orientation="vertical" >
+   
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Nama" 
+        android:textSize="20dp"
+        />
+    <TextView
+        android:id="@+id/usernameCaption"	
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="username" /> 
+ 	<View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#3399ff" />
+ 	<TextView
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="abc@gmail.com" 
+        android:textSize="20dp"
+        />
+    <TextView
+        android:id="@+id/usernameCaption"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Email" /> 
+ 	<View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#3399ff" />
+ 	 </LinearLayout>
 </RelativeLayout>
