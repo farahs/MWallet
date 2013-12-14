@@ -5,10 +5,6 @@ import android.os.Handler;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
-import android.view.Menu;
-import android.view.MotionEvent;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
 public class Splash extends Activity {

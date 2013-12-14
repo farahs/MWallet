@@ -37,62 +37,99 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:layout_below="@+id/payment_title"
             android:id="@+id/first_payment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/payment_title"
             android:layout_marginBottom="300dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:paddingBottom="10dp" >
 
-            <TextView
-                android:id="@+id/cinema_location_title"
+            <LinearLayout
+                android:id="@+id/location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="left"
-                android:text="LOCATION"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/cinema_location_button"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="5dp"
-                android:layout_below="@+id/cinema_location_title"
-                android:layout_centerHorizontal="true"
-                android:background="@color/our_blue"
-                android:gravity="center"
-                android:text="CHOOSE LOCATION"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
-            
-            <TextView
-                android:layout_below="@+id/cinema_location_button"
-                android:id="@+id/movie_name_title"
+                <TextView
+                    android:id="@+id/cinema_location_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="LOCATION"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/cinema_location_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/our_blue"
+                    android:gravity="center"
+                    android:text="CHOOSE LOCATION"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/movie_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="left"
-                android:layout_marginTop="10dp"
-                android:text="MOVIE NAME"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:layout_below="@+id/location"
+                android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/movie_name_button"
+                <TextView
+                    android:id="@+id/movie_name_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="left"
+                    android:text="MOVIE NAME"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/movie_name_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/our_blue"
+                    android:gravity="center"
+                    android:text="CHOOSE MOVIE"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/movie_date"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="5dp"
-                android:layout_below="@+id/movie_name_title"
-                android:layout_centerHorizontal="true"
-                android:background="@color/our_blue"
-                android:gravity="center"
-                android:text="CHOOSE MOVIE"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/movie_name"
+                android:orientation="vertical" >
+                <TextView
+                    android:id="@+id/movie_date_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="left"
+                    android:text="MOVIE DATE"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
 
+                <Button
+                    android:id="@+id/movie_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/our_blue"
+                    android:gravity="center"
+                    android:text="CHOOSE DATE"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
 
