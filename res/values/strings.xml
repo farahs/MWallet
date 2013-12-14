@@ -15,5 +15,16 @@
     
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="history">History</string>
+    <string name="page_1_of_5">Page 1 of 5</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="transaksi">Transaksi</string>
+    <string name="textview">TextView</string>
+    <string name="tanggal">Tanggal</string>
+    <string name="harga">Harga</string>
+    <string name="_20_november_2013">20 November 2013</string>
+    <string name="_21_film_the_hobbit">21-Film The Hobbit</string>
+    <string name="rp156_000">Rp156.000</string>
 
 </resources>
