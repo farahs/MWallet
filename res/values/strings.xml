@@ -15,5 +15,9 @@
     
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="history">History</string>
+    <string name="page_1_of_5">Page 1 of 5</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
 
 </resources>
