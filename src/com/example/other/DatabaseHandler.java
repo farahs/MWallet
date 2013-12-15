@@ -25,13 +25,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 	private static final String KEY_ID = "id";
 	private static final String KEY_IDUSER = "id_user";
-	private static final String KEY_FULLNAME = "fullname";
+	private static final String KEY_NAME = "name";
 	private static final String KEY_USERNAME = "username";
 	private static final String KEY_EMAIL = "email";
 	private static final String KEY_SEX = "sex";
 	private static final String KEY_AGE = "age";
 	private static final String KEY_BALANCE = "balance";
-	private static final String KEY_BIRTHDATE = "birthdate";
+	private static final String KEY_PIN = "pin";
 
 	public DatabaseHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -43,8 +43,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_LOGIN + "("
 				+ KEY_ID + " INTEGER PRIMARY KEY," + KEY_IDUSER
 				+ " TEXT UNIQUE," + KEY_USERNAME + " TEXT UNIQUE," + KEY_EMAIL
-				+ " TEXT UNIQUE," + KEY_FULLNAME + " TEXT," + KEY_SEX + " TEXT,"
-				+ KEY_AGE + " TEXT,"+ KEY_BIRTHDATE + " TEXT," + KEY_BALANCE + " TEXT"+")";
+				+ " TEXT UNIQUE," + KEY_NAME + " TEXT," + KEY_SEX + " TEXT,"
+				+ KEY_AGE + " TEXT,"+ KEY_PIN + " TEXT," + KEY_BALANCE + " TEXT"+")";
 		db.execSQL(CREATE_LOGIN_TABLE);
 	}
 
@@ -70,17 +70,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	 * @param birthdate
 	 */
 	public void editUser(String id_user, String username, String email,
-			String fullname, String birthdate, String sex,
+			String fullname, String sex,
 			String age) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
-		values.put(KEY_FULLNAME, fullname);
+		values.put(KEY_NAME, fullname);
 		values.put(KEY_USERNAME, username);
 		values.put(KEY_EMAIL, email);
 		values.put(KEY_SEX, sex);
 		values.put(KEY_AGE, age);
-		values.put(KEY_BIRTHDATE, birthdate);
 
 		// updating row
 		db.update(TABLE_LOGIN, values, KEY_IDUSER + " = ?",
@@ -99,20 +98,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	 * @param sex
 	 * @param age
 	 */
-	public void loginUser(String id_user, String username, String email,
-			String fullname, String balance, String birthdate, String sex,
-			String age) {
+	public void loginUser(String id, String username, String email, String name, String sex, String age, String pin, String balance) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
-		values.put(KEY_IDUSER, id_user); // Id account
+		values.put(KEY_IDUSER, id); // Id account
 		values.put(KEY_USERNAME, username); // Username
 		values.put(KEY_EMAIL, email); // Email
-		values.put(KEY_FULLNAME, fullname); // Fullname
-		values.put(KEY_BIRTHDATE, birthdate); // Tanggal Lahir
+		values.put(KEY_NAME,name); // Fullname
 		values.put(KEY_SEX, sex); // Jenis Kelamin
 		values.put(KEY_AGE, age); // Umur
 		values.put(KEY_BALANCE, balance); // Saldo
+		values.put(KEY_PIN, pin); // Saldo
 
 		// Inserting Row
 		db.insert(TABLE_LOGIN, null, values);
@@ -131,12 +128,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		// Move to first row
 		cursor.moveToFirst();
 		if (cursor.getCount() > 0) {
-			user.put("id_acc", cursor.getString(1));
+			user.put("id_user", cursor.getString(1));
 			user.put("username", cursor.getString(2));
 			user.put("email", cursor.getString(3));
-			user.put("fullname", cursor.getString(4));
+			user.put("name", cursor.getString(4));
 			user.put("balance", cursor.getString(8));
-			user.put("birthdate", cursor.getString(7));
+			user.put("pin", cursor.getString(7));
 			user.put("sex", cursor.getString(5));
 			user.put("age", cursor.getString(6));
 		}

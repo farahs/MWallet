@@ -1,5 +1,7 @@
 package com.example.mwallet;
 
+import com.example.pengguna.PenggunaController;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
@@ -25,9 +27,14 @@ public class Splash extends Activity {
         });
         new Handler().postDelayed(new Runnable() {
                 public void run() {
-                    
-                        startActivity(new Intent(Splash.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
-                        finish();
+                    	PenggunaController penggunaController = new PenggunaController();
+                    	if(penggunaController.isUserLoggedIn(getApplicationContext())){
+                    		startActivity(new Intent(Splash.this, DrawerActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+                    		finish();
+                    	}else{
+                    		startActivity(new Intent(Splash.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+                    		finish();
+                		}
                         
                 }
         }, secondsDelayed * 2100);
