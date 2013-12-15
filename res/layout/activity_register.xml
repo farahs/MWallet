@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/LinearLayout2"
     android:layout_width="match_parent"
@@ -11,7 +11,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".RegisterActivity" >
 
-    <LinearLayout
+   	<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -38,13 +38,45 @@
                 android:background="@color/white"
                 android:ems="10"
                 android:hint="Username"
-                android:maxLength="16"
+                android:maxLength="20"
                 android:maxLines="1"
                 android:paddingLeft="15dp"
                 android:textColor="@color/default_input_gray" />
 
             <ImageView
                 android:id="@+id/usernameIn_clear"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_clear_idle" />
+        </RelativeLayout>
+        
+        <!-- name -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/nameIn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:ems="10"
+                android:hint="Name"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:paddingLeft="15dp"
+                android:textColor="@color/default_input_gray" />
+
+            <ImageView
+                android:id="@+id/nameIn_clear"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_alignParentRight="true"
@@ -69,7 +101,7 @@
                 android:background="@color/white"
                 android:ems="10"
                 android:hint="Email"
-                android:maxLength="16"
+                android:maxLength="20"
                 android:maxLines="1"
                 android:paddingLeft="15dp"
                 android:textAlignment="center"
@@ -106,7 +138,7 @@
                 android:ems="10"
                 android:hint="Password"
                 android:inputType="textPassword"
-                android:maxLength="16"
+                android:maxLength="100"
                 android:maxLines="1"
                 android:paddingLeft="15dp"
                 android:textColor="@color/default_input_gray" />
@@ -138,7 +170,7 @@
                 android:ems="10"
                 android:hint="Verify Password"
                 android:inputType="textPassword"
-                android:maxLength="16"
+                android:maxLength="100"
                 android:maxLines="1"
                 android:paddingLeft="15dp"
                 android:textColor="@color/default_input_gray" />
@@ -170,7 +202,7 @@
                 android:ems="10"
                 android:hint="Pin number"
                 android:inputType="textPassword"
-                android:maxLength="16"
+                android:maxLength="6"
                 android:maxLines="1"
                 android:paddingLeft="15dp"
                 android:textColor="@color/default_input_gray" />
@@ -187,6 +219,84 @@
                 android:src="@drawable/ic_clear_idle" />
         </RelativeLayout>
 
+        <!-- age -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/ageIn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:ems="10"
+                android:hint="Age"
+                android:inputType="textPassword"
+                android:maxLength="3"
+                android:maxLines="1"
+                android:paddingLeft="15dp"
+                android:textColor="@color/default_input_gray" />
+
+            <ImageView
+                android:id="@+id/age_clear"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_clear_idle" />
+        </RelativeLayout>
+        
+        
+        
+         <!-- pin -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <RadioGroup
+	        android:id="@+id/radioSex"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal">
+
+			<RadioButton
+	   	    android:id="@+id/radioOther"
+	   	    android:layout_width="wrap_content"
+	   	    android:layout_height="wrap_content"
+	   	    android:layout_gravity="right"
+	   	    android:text="Other"
+	   	    android:enabled="true"
+	   	    android:textColor="#000" />
+			
+	   	    <RadioButton
+	        android:id="@+id/radioMale"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+			android:layout_marginRight="10dp"
+	        android:layout_gravity="left"
+	        android:text="Male"
+	        android:textColor="#000" />
+
+	   	    <RadioButton
+	   	    android:id="@+id/radioFemale"
+	   	    android:layout_width="wrap_content"
+	   	    android:layout_height="wrap_content"
+	   	    android:layout_gravity="center"
+	   	    android:layout_marginRight="10dp"
+	   	    android:text="Female" 
+	   	    android:textColor="#000"/>
+	    </RadioGroup>
+        </RelativeLayout>
+        
         <Button
             android:id="@+id/signUpBtn "
             android:layout_width="100dp"
@@ -203,4 +313,4 @@
             />
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>
