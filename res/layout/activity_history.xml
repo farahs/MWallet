@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".HistoryFragment" >
 
@@ -21,69 +20,51 @@
                 android:textColor="@color/our_blue"
                 android:textSize="35sp" />
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="25dp"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:background="@color/our_blue" >
-
-                <TextView
-                    android:id="@+id/textView1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/page_1_of_5"
-                    android:textSize="15sp"
-                    android:textColor="@color/white" />
-            </LinearLayout>
-
+            <TextView
+		        android:id="@+id/title"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:gravity="center"
+		        android:textSize="16sp"
+		        android:background="@color/our_blue"
+		        android:textColor="@color/white"
+		        android:padding="10dp"
+		        android:layout_marginTop="5dp"/>
+            
+             <ListView
+		        android:id="@+id/list"
+		        android:divider="@android:color/darker_gray"
+		        android:dividerHeight="1dp"
+		        android:cacheColorHint="#00000000"
+		        android:layout_width="fill_parent"
+		        android:layout_height="0dp"
+		        android:layout_weight="1"
+		        android:fadingEdge="none"/>
+		     
+		    <LinearLayout
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal" >
+		 
+			    <Button
+			        android:id="@+id/prev"
+			        android:text="Prev"
+			        android:layout_weight="1"
+			        android:layout_width="0dp"
+			        android:layout_height="wrap_content"
+			        />
+			     
+			    <Button
+			        android:id="@+id/next"
+			        android:text="Next"
+			        android:layout_weight="1"
+			        android:layout_width="0dp"
+			        android:layout_height="wrap_content"
+			        />
+			</LinearLayout>
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/first_history"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/history_title"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="78dp"
-         >
-
-        <ListView
-            android:id="@+id/listView1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true" >
-
-        </ListView>
-
-        
-        
-
-    </RelativeLayout>
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button2"
-        android:layout_alignBottom="@+id/button2"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
-        android:text="@string/next" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/history_title"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="10dp"
-        android:text="@string/previous" />
+    
+    
 
 </RelativeLayout>

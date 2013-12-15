@@ -1,7 +1,16 @@
 package com.example.mwallet;
 
+import java.util.ArrayList;
+
+import com.example.other.HistoryBaseAdapter;
+import com.example.other.ListData;
+//import com.irfan.customlistviewdemo.R;
+
+
 import android.os.Bundle;
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +25,32 @@ public class HistoryFragment extends Fragment {
 
 	TextView page;
 	ListView list;
-	Button next;
-	Button previous;
+	Context context = HistoryFragment.this.getActivity();
+	ArrayList<ListData> myList = new ArrayList<ListData>();
+	HistoryBaseAdapter hb;
 	
-	@Override
+	Button btn_prev;
+	Button btn_next;
+	private int pageCount;
+	private int increment = 0;
+	public int TOTAL_LIST_ITEMS = 8;
+	public int NUM_ITEMS_PAGE = 3;
+	
+	String[] transaction = new String[] {
+			"Title 1", "Title 2", "Title 3", "Title 4",
+			"Title 5", "Title 6", "Title 7", "Title 8"
+	};
+	String[] date = new String[] {
+			"Desc 1", "Desc 2", "Desc 3", "Desc 4",
+			"Desc 5", "Desc 6", "Desc 7", "Desc 8" 
+	};
+	String[] price = new String[] {
+			"Price 1", "Price 2", "Price 3", "Price 4",
+			"Price 5", "Price 6", "Price 7", "Price 8" 
+	};
+	
+	
+	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
