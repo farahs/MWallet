@@ -22,7 +22,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
-            android:src="@drawable/splash" />
+            android:src="@drawable/splash_gif" />
         <!-- username -->
 
         <RelativeLayout
@@ -101,7 +101,6 @@
                 android:background="@color/white"
                 android:ems="10"
                 android:hint="Email"
-                android:maxLength="20"
                 android:maxLines="1"
                 android:paddingLeft="15dp"
                 android:textAlignment="center"

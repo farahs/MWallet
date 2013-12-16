@@ -8,11 +8,10 @@
     </string-array>
     
     <string-array name="payment_array">
-        <item>PAYMENT A</item>
-        <item>PAYMENT B</item>
-        <item>PAYMENT C</item>
-        <item>PAYMENT D</item>
-        <item>PAYMENT E</item>
-        <item>PAYMENT F</item>
+        <item>Pilih Salah Satu</item>
+        <item>CINEMA</item>
+        <item>TRAIN</item>
+        <item>AIR PLANE</item>
+        <item>OTHERS</item>
     </string-array>
 </resources>

@@ -26,5 +26,37 @@
     <string name="_20_november_2013">20 November 2013</string>
     <string name="_21_film_the_hobbit">21-Film The Hobbit</string>
     <string name="rp156_000">Rp156.000</string>
-
+    
+    <!-- PAYMENT -->
+    
+    <string name="choose_payment">Choose Your Payment</string>
+    <string name="choose">CHOOSE</string>
+    <string name="cinema">CINEMA</string>
+    <string name="cinema_name">CINEMA NAME</string>
+    <string name="movie_title">MOVIE TITLE</string>
+    <string name="date">DATE</string>
+    <string name="time">TIME</string>
+    <string name="tickets">TICKETS</string>
+    <string name="num_of_tick">number of ticket</string>
+    
+    <string name="train">TRAIN</string>
+    <string name="train_name">TRAIN NAME</string>
+    <string name="departure">DEPARTURE</string>
+    <string name="destination">DESTINATION</string>
+    
+    <string name="airplane">AIRPLANE</string>
+	<string name="airplane_company">COMPANY / AIRLINE</string>
+	
+	<string name="other_payments">OTHER PAYMENTS</string>
+	<string name="categories">CATEGORIES</string>
+	<string name="paycode_title">PAYCODE</string>
+	<string name="paycode">paycode</string>
+	<string name="amount_title">AMOUNT</string>
+	<string name="amount">amount</string>
+	<string name="rp">Rp</string>
+	
+	<string name="process_payment">PROCESS PAYMENT</string>
+	
+	
+    
 </resources>
