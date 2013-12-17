@@ -1,12 +1,12 @@
 package com.example.mwallet;
 
 import android.os.Bundle;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
@@ -20,7 +20,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class DrawerActivity extends Activity implements OnClickListener {
+public class DrawerActivity extends FragmentActivity implements OnClickListener {
 
 	private DrawerLayout mDrawerLayout;
 	private ActionBarDrawerToggle mDrawerToggle;
@@ -58,7 +58,7 @@ public class DrawerActivity extends Activity implements OnClickListener {
 	private void setupMainFragment() {
 		
 		MainFragment fragment = new MainFragment();
-		FragmentManager fragmentManager = this.getFragmentManager();
+		FragmentManager fragmentManager = getSupportFragmentManager();
 		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
 	}
@@ -133,22 +133,22 @@ public class DrawerActivity extends Activity implements OnClickListener {
 		switch (position) {
 		case 0:
 			fragment = new MainFragment();
-			fragmentManager = this.getFragmentManager();
+			fragmentManager = this.getSupportFragmentManager();
 			fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 			break;
 		case 1:
 			fragment = new PaymentFragment();
-			fragmentManager = this.getFragmentManager();
+			fragmentManager = this.getSupportFragmentManager();
 			fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 			break;
 		case 2:
 			fragment = new TopUpFragment();
-			fragmentManager = this.getFragmentManager();
+			fragmentManager = this.getSupportFragmentManager();
 			fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 			break;
 		case 3:
 			fragment = new HistoryFragment();
-			fragmentManager = this.getFragmentManager();
+			fragmentManager = this.getSupportFragmentManager();
 			fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 			break;
 		default:
