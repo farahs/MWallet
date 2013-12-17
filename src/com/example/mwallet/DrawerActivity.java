@@ -1,5 +1,7 @@
 package com.example.mwallet;
 
+import com.example.pengguna.PenggunaController;
+
 import android.os.Bundle;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -18,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class DrawerActivity extends FragmentActivity implements OnClickListener {
 
@@ -30,12 +33,17 @@ public class DrawerActivity extends FragmentActivity implements OnClickListener 
 	private CharSequence mTitle;
 	private RelativeLayout mDrawerLeftPanel;
 	
+	private PenggunaController penggunaController;
+	
+	private TextView logout;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_drawer);
 
 		this.mTitle = this.mDrawerTitle = this.getTitle();
+		this.penggunaController = new PenggunaController();
 		this.setupView();
 		this.setupEvent();
 		this.setupData();
@@ -44,6 +52,16 @@ public class DrawerActivity extends FragmentActivity implements OnClickListener 
 	private void setupView() {
 		this.mDrawerLayout = (DrawerLayout) this.findViewById(R.id.drawer_layout);
 		this.mDrawerLeftPanel = (RelativeLayout) this.findViewById(R.id.left_panel);
+		this.logout = (TextView) this.findViewById(R.id.logout);
+		
+		logout.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				logoutUser();
+			}
+		});
 		
 		this.setupMainFragment();
 		this.setupActionToggleButton();
@@ -227,5 +245,11 @@ public class DrawerActivity extends FragmentActivity implements OnClickListener 
 		return super.onCreateOptionsMenu(menu);
 		
 	}
-
+	
+	public void logoutUser(){
+		penggunaController.logoutUser(getApplicationContext());
+		Intent intent = new Intent(this, LoginActivity.class);
+		startActivity(intent);
+		finish();
+	}
 }

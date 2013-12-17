@@ -8,6 +8,8 @@ import com.example.pengguna.PenggunaController;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.Menu;
@@ -21,36 +23,39 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 public class RegisterActivity extends Activity implements OnClickListener{
-	private EditText 	username;
-	private ImageView 	usernameClear;
-	private EditText 	password;
-	private ImageView 	passwordClear;
-	private EditText 	name;
-	private ImageView 	nameClear;
-	private EditText 	email;
-	private ImageView 	emailClear;
-	private EditText 	pin;
-	private ImageView 	pinClear;
-	private EditText 	verifyPassword;
-	private ImageView 	verifyPasswordClear;
-	private EditText 	age;
-	private ImageView 	ageClear;
-	private RadioGroup 	sex;
-	private RadioButton male;
-	private RadioButton female;
-	private RadioButton other;
-	private Button 		registerBtn;
+	private EditText 			username;
+	private ImageView 			usernameClear;
+	private EditText 			password;
+	private ImageView 			passwordClear;
+	private EditText 			name;
+	private ImageView 			nameClear;
+	private EditText 			email;
+	private ImageView 			emailClear;
+	private EditText 			pin;
+	private ImageView 			pinClear;
+	private EditText 			verifyPassword;
+	private ImageView 			verifyPasswordClear;
+	private EditText 			age;
+	private ImageView 			ageClear;
+	private RadioGroup 			sex;
+	private RadioButton 		male;
+	private RadioButton 		female;
+	private RadioButton 		other;
+	private Button 				registerBtn;
 	
-	private String 		usernameText;
-	private String 		passwordText;
-	private String 		nameText;
-	private String 		pinText;
-	private String 		verifyPasswordText;
-	private String 		ageText;
-	private String 		emailText;
-	private String 		sexText;
+	private String 				usernameText;
+	private String 				passwordText;
+	private String 				nameText;
+	private String 				pinText;
+	private String 				verifyPasswordText;
+	private String 				ageText;
+	private String 				emailText;
+	private String 				sexText;
 	
-	private PenggunaController penggunaController;
+	private ProgressDialog 	pDialog;
+	
+	private PenggunaController 	penggunaController;
+	private Context				context;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,7 @@ public class RegisterActivity extends Activity implements OnClickListener{
 		this.setView();
 		this.setEvent();
 		penggunaController = new PenggunaController();
+		context = this;
 	}
 
 	@Override
@@ -91,7 +97,7 @@ public class RegisterActivity extends Activity implements OnClickListener{
 		this.male = (RadioButton) findViewById(R.id.radioMale);
 		this.female = (RadioButton) findViewById(R.id.radioFemale);
 		this.other = (RadioButton) findViewById(R.id.radioOther);
-		this.other.setSelected(true);
+		other.setChecked(true);
 	}
 
 	private void setEvent() {
@@ -161,76 +167,7 @@ public class RegisterActivity extends Activity implements OnClickListener{
 		if(!passwordText.equals(verifyPasswordText)){
 			Toast.makeText(this, "Your password doesn't match", Toast.LENGTH_LONG).show();
 		}else{
-			ArrayList<String> result = new RegisteringUser().execute().get();
-			for(int i = 0; i < result.size(); i++){
-				if(result.get(i).equals("success")){
-					Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show();
-					Intent intent = new Intent(this,LoginActivity.class);
-					startActivity(intent);
-					finish();
-				}else if(result.get(i).equals("existed")){
-					Toast.makeText(this, "Username or email already exists", Toast.LENGTH_SHORT).show();
-				}else if(result.get(i).equals("error")){
-					Toast.makeText(this, "Sorry, an error occured.\n Please try again.", Toast.LENGTH_SHORT).show();
-				}else{
-					if(result.get(i).equals("empty username")){
-						username.setTextColor(Color.RED);
-						Toast.makeText(this, "Username cannot be blank", Toast.LENGTH_SHORT).show();
-					}
-					if(result.get(i).equals("empty email")){
-						email.setTextColor(Color.RED);
-						Toast.makeText(this, "Email cannot be blank", Toast.LENGTH_SHORT).show();
-					}
-					if(result.get(i).equals("empty name")){
-						name.setTextColor(Color.RED);
-						Toast.makeText(this, "Name cannot be blank", Toast.LENGTH_SHORT).show();
-					}
-					if(result.get(i).equals("empty password")){
-						password.setTextColor(Color.RED);
-						Toast.makeText(this, "Password cannot be blank", Toast.LENGTH_SHORT).show();
-					}
-					if(result.get(i).equals("empty age")){
-						age.setTextColor(Color.RED);
-						Toast.makeText(this, "Age cannot be blank", Toast.LENGTH_SHORT).show();
-					}
-					if(result.get(i).equals("empty pin")){
-						pin.setTextColor(Color.RED);
-						Toast.makeText(this, "Pin cannot be blank", Toast.LENGTH_SHORT).show();
-					}
-					if(result.get(i).equals("length username")){
-						username.setTextColor(Color.RED);
-						Toast.makeText(this, "Username must be between 6 until 20 characters", Toast.LENGTH_SHORT).show();
-					}
-					if(result.get(i).equals("pattern username")){
-						username.setTextColor(Color.RED);
-						Toast.makeText(this, "Username only consists of alfanumeric character", Toast.LENGTH_SHORT).show();
-					}
-					if(result.get(i).equals("pattern email")){
-						email.setTextColor(Color.RED);
-						Toast.makeText(this, "Your email does not valid", Toast.LENGTH_SHORT).show();
-					}
-					if(result.get(i).equals("length password")){
-						password.setTextColor(Color.RED);
-						Toast.makeText(this, "Password must be 6 or more character", Toast.LENGTH_SHORT).show();
-					}
-					if(result.get(i).equals("length pin")){
-						pin.setTextColor(Color.RED);
-						Toast.makeText(this, "Pin must be 6 characters", Toast.LENGTH_SHORT).show();
-					}
-					if(result.get(i).equals("pattern pin")){
-						pin.setTextColor(Color.RED);
-						Toast.makeText(this, "Pin must be numeric", Toast.LENGTH_SHORT).show();
-					}
-					if(result.get(i).equals("pattern age")){
-						age.setTextColor(Color.RED);
-						Toast.makeText(this, "Age must be numeric", Toast.LENGTH_SHORT).show();
-					}
-					if(result.get(i).equals("limit age")){
-						age.setTextColor(Color.RED);
-						Toast.makeText(this, "you must be 17 years old above to use this app", Toast.LENGTH_SHORT).show();
-					}
-				}
-			}
+			new RegisteringUser().execute();
 		}
 	}
 	
@@ -267,11 +204,102 @@ public class RegisterActivity extends Activity implements OnClickListener{
 	 * */
 	class RegisteringUser extends AsyncTask<String, String, ArrayList<String>> {
 
+		/**
+		 * Before starting background thread Show Progress Dialog
+		 * */
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			pDialog = ProgressDialog.show(context,"","Registering user.... Please wait...",false);
+			pDialog.setCancelable(false);
+			pDialog.show();
+		}
 		@Override
 		protected ArrayList<String> doInBackground(String... arg0) {
 			// TODO Auto-generated method stub
 			return penggunaController.registerUser(nameText, usernameText, emailText, passwordText, pinText, sexText, ageText);
 		}
+		
+		/**
+		 * After completing background task Dismiss the progress dialog
+		 * **/
+		protected void onPostExecute(ArrayList<String> result1) {
+			// dismiss the dialog after getting all products
+			pDialog.dismiss();
+			processResult(result1);
+		}
 
 	}
+	
+	public void processResult(ArrayList<String> result){
+		for(int i = 0; i < result.size(); i++){
+			if(result.get(i).equals("success")){
+				Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(this,LoginActivity.class);
+				startActivity(intent);
+				finish();
+			}else if(result.get(i).equals("existed")){
+				Toast.makeText(this, "Username or email already exists", Toast.LENGTH_SHORT).show();
+			}else if(result.get(i).equals("error")){
+				Toast.makeText(this, "Sorry, an error occured.\n Please try again.", Toast.LENGTH_SHORT).show();
+			}else{
+				if(result.get(i).equals("empty username")){
+					username.setTextColor(Color.RED);
+					Toast.makeText(this, "Username cannot be blank", Toast.LENGTH_SHORT).show();
+				}
+				if(result.get(i).equals("empty email")){
+					email.setTextColor(Color.RED);
+					Toast.makeText(this, "Email cannot be blank", Toast.LENGTH_SHORT).show();
+				}
+				if(result.get(i).equals("empty name")){
+					name.setTextColor(Color.RED);
+					Toast.makeText(this, "Name cannot be blank", Toast.LENGTH_SHORT).show();
+				}
+				if(result.get(i).equals("empty password")){
+					password.setTextColor(Color.RED);
+					Toast.makeText(this, "Password cannot be blank", Toast.LENGTH_SHORT).show();
+				}
+				if(result.get(i).equals("empty age")){
+					age.setTextColor(Color.RED);
+					Toast.makeText(this, "Age cannot be blank", Toast.LENGTH_SHORT).show();
+				}
+				if(result.get(i).equals("empty pin")){
+					pin.setTextColor(Color.RED);
+					Toast.makeText(this, "Pin cannot be blank", Toast.LENGTH_SHORT).show();
+				}
+				if(result.get(i).equals("length username")){
+					username.setTextColor(Color.RED);
+					Toast.makeText(this, "Username must be between 6 until 20 characters", Toast.LENGTH_SHORT).show();
+				}
+				if(result.get(i).equals("pattern username")){
+					username.setTextColor(Color.RED);
+					Toast.makeText(this, "Username only consists of alfanumeric character", Toast.LENGTH_SHORT).show();
+				}
+				if(result.get(i).equals("pattern email")){
+					email.setTextColor(Color.RED);
+					Toast.makeText(this, "Your email does not valid", Toast.LENGTH_SHORT).show();
+				}
+				if(result.get(i).equals("length password")){
+					password.setTextColor(Color.RED);
+					Toast.makeText(this, "Password must be 6 or more character", Toast.LENGTH_SHORT).show();
+				}
+				if(result.get(i).equals("length pin")){
+					pin.setTextColor(Color.RED);
+					Toast.makeText(this, "Pin must be 6 characters", Toast.LENGTH_SHORT).show();
+				}
+				if(result.get(i).equals("pattern pin")){
+					pin.setTextColor(Color.RED);
+					Toast.makeText(this, "Pin must be numeric", Toast.LENGTH_SHORT).show();
+				}
+				if(result.get(i).equals("pattern age")){
+					age.setTextColor(Color.RED);
+					Toast.makeText(this, "Age must be numeric", Toast.LENGTH_SHORT).show();
+				}
+				if(result.get(i).equals("limit age")){
+					age.setTextColor(Color.RED);
+					Toast.makeText(this, "you must be 17 years old above to use this app", Toast.LENGTH_SHORT).show();
+				}
+			}
+		}
+		}
 }

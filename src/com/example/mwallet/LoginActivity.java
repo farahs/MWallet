@@ -8,6 +8,7 @@ import com.example.pengguna.PenggunaController;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -34,6 +35,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 	private Context context;
 
 	private PenggunaController penggunaController;
+	
+	private ProgressDialog pDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +123,44 @@ public class LoginActivity extends Activity implements OnClickListener {
 		usernameText = usernameInput.getText().toString();
 		passwordText = passwordInput.getText().toString();
 
-		ArrayList<String> result = new LoginUser().execute().get();
+		new LoginUser().execute();
+		
+	}
+
+	/**
+	 * Background Async Task to Load all data by making HTTP Request
+	 * */
+	class LoginUser extends AsyncTask<String, String, ArrayList<String>> {
+
+		/**
+		 * Before starting background thread Show Progress Dialog
+		 * */
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			pDialog = ProgressDialog.show(context,"","Login.... Please wait...",false);
+			pDialog.setCancelable(false);
+			pDialog.show();
+		}
+		@Override
+		protected ArrayList<String> doInBackground(String... arg0) {
+			// TODO Auto-generated method stub
+			return penggunaController.loginUser(usernameText, passwordText,
+					context);
+		}
+		
+		/**
+		 * After completing background task Dismiss the progress dialog
+		 * **/
+		protected void onPostExecute(ArrayList<String> result1) {
+			// dismiss the dialog after getting all products
+			pDialog.dismiss();
+			processResult(result1);
+		}
+
+	}
+	
+	public void processResult(ArrayList<String> result){
 		for (int i = 0; i < result.size(); i++) {
 			if (result.get(i).equals("success")) {
 				Toast.makeText(this, "Login successful",
@@ -166,19 +206,5 @@ public class LoginActivity extends Activity implements OnClickListener {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Background Async Task to Load all data by making HTTP Request
-	 * */
-	class LoginUser extends AsyncTask<String, String, ArrayList<String>> {
-
-		@Override
-		protected ArrayList<String> doInBackground(String... arg0) {
-			// TODO Auto-generated method stub
-			return penggunaController.loginUser(usernameText, passwordText,
-					context);
-		}
-
 	}
 }
