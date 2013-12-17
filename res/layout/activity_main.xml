@@ -13,7 +13,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="wrap_content" >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:layout_margin="0dp"
             android:padding="0dp"
             tools:context=".MainFragment" >
-
+			
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -38,15 +38,54 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_centerVertical="true"
+                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal" >
+					 
+                    <ImageView
+                        android:id="@+id/iconUsername"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/username" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/name"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="annisaprida"
+                            android:textColor="@color/our_blue"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/nameCaption"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Username" />
+                    </LinearLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="#000000" />
+				<LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal" 
+                    >
 					 
                     <ImageView
                         android:id="@+id/iconPeople"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_centerVertical="true"
                         android:layout_gravity="center"
                         android:src="@drawable/user" />
 
@@ -60,13 +99,12 @@
                             android:id="@+id/name"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_centerVertical="true"
                             android:text="Annisa Prida R"
                             android:textColor="@color/our_blue"
-                            android:textSize="20dp" />
+                            android:textSize="20sp" />
 
                         <TextView
-                            android:id="@+id/emailCaption"
+                            android:id="@+id/nameCaption"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="Profile Name" />
@@ -81,7 +119,6 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_centerVertical="true"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal" >
@@ -90,7 +127,6 @@
                         android:id="@+id/iconMail"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_centerVertical="true"
                         android:layout_gravity="center"
                         android:src="@drawable/mail" />
 
@@ -107,7 +143,7 @@
                             android:layout_height="match_parent"
                             android:text="abc@gmail.com"
                             android:textColor="@color/our_blue"
-                            android:textSize="20dp" />
+                            android:textSize="20sp" />
 
                         <TextView
                             android:id="@+id/emailCaption"
@@ -133,14 +169,12 @@
                         android:id="@+id/iconMail"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_centerVertical="true"
                         android:layout_gravity="center"
                         android:src="@drawable/money" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
                         android:orientation="vertical" >
 
@@ -150,7 +184,7 @@
                             android:layout_height="match_parent"
                             android:text="Rp100,000"
                             android:textColor="@color/our_blue"
-                            android:textSize="20dp" />
+                            android:textSize="20sp" />
 
                         <TextView
                             android:id="@+id/balanceCaption"
@@ -173,7 +207,7 @@
                     android:orientation="horizontal" >
 
                     <ImageView
-                        android:id="@+id/iconPass"
+                        android:id="@+id/iconSex"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_centerVertical="true"
@@ -188,18 +222,18 @@
                         android:orientation="vertical" >
 
                         <TextView
-                            android:id="@+id/password"
+                            android:id="@+id/sex"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:inputType="textPassword"
                             android:textColor="@color/our_blue"
-                            android:textSize="20dp" />
+                            android:textSize="20sp" 
+                            android:text="Female"/>
 
                         <TextView
                             android:id="@+id/passwordCaption"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="Password" />
+                            android:text="Sex" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -216,33 +250,31 @@
                     android:orientation="horizontal" >
 
                     <ImageView
-                        android:id="@+id/iconMail"
+                        android:id="@+id/iconAge"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_centerVertical="true"
                         android:layout_gravity="center"
-                        android:src="@drawable/pass" />
+                        android:src="@drawable/age" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
                         android:orientation="vertical" >
 
                         <TextView
-                            android:id="@+id/pin"
+                            android:id="@+id/age"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:inputType="textPassword"
                             android:textColor="@color/our_blue"
-                            android:textSize="20dp" />
+                            android:textSize="20sp" 
+                            android:text="20 years old"/>
 
                         <TextView
-                            android:id="@+id/pinCaption"
+                            android:id="@+id/ageCaption"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="Pin" />
+                            android:text="Years old" />
                     </LinearLayout>
                 </LinearLayout>
 
