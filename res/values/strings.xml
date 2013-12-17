@@ -43,7 +43,7 @@
     <string name="departure">DEPARTURE</string>
     <string name="destination">DESTINATION</string>
     <string name="airplane">AIRPLANE</string>
-    <string name="airplane_company">COMPANY / AIRLINE</string>
+    <string name="airplane_company">COMPANY / AIRLINES</string>
     <string name="other_payments">OTHER PAYMENTS</string>
     <string name="categories">CATEGORIES</string>
     <string name="paycode_title">PAYCODE</string>

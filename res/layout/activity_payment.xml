@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
             <TextView
                 android:layout_width="match_parent"
@@ -787,52 +787,6 @@
                     android:textAlignment="center"
                     android:textColor="@color/default_input_gray"
                     android:textSize="15sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/others_amount_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@+id/others_amount_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="left"
-                    android:text="@string/amount_title"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="5dp" >
-
-                    <EditText
-                        android:id="@+id/others_amount_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="50dp"
-                        android:background="@color/white"
-                        android:gravity="center"
-                        android:hint="@string/amount"
-                        android:inputType="number"
-                        android:maxLines="1"
-                        android:textAlignment="center"
-                        android:textColor="@color/default_input_gray"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:layout_width="50dp"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentLeft="true"
-                        android:background="@color/default_bg"
-                        android:gravity="center"
-                        android:text="@string/rp"
-                        android:textSize="16sp" />
-                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
 

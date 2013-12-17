@@ -24,21 +24,36 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class PaymentFragment extends Fragment implements OnClickListener {
 
 	private DrawerActivity activity;
 	View rootView;
+	View layout;
 
 	Spinner paymentMenus;
 
+	LinearLayout content;
 	LinearLayout cinemaPaymentLayout;
 	LinearLayout trainPaymentLayout;
 	LinearLayout airplanePaymentLayout;
 	LinearLayout otherPaymentLayout;
 
+	int CINEMA_TYPE = 1;
+	int TRAIN_TYPE = 2;
+	int AIRPLANE_TYPE = 3;
+	int OTHERS_TYPE = 4;
+
+	int paymentType;
+
 	Button processPaymentBtn;
+	Dialog processOtherPaymentDialog;
+	Dialog processAirplanePaymentDialog;
+	Dialog processTrainPaymentDialog;
+	Dialog processCinemaPaymentDialog;
+
+	Button okBtn;
+	Button cancelBtn;
 
 	/*
 	 * CINEMA
@@ -77,7 +92,6 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 	 */
 	Button otherCategoriesBtn;
 	EditText paycodeEt;
-	EditText amountEt;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,6 +99,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 		this.rootView = inflater.inflate(R.layout.activity_payment, container,
 				false);
+
 		this.activity = (DrawerActivity) this.getActivity();
 
 		setupView();
@@ -121,9 +136,11 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 				case 0:
 					// pilih salah satu
 					setupGoneView();
+					paymentType = position;
 					break;
 				case 1:
 					// cinema
+					paymentType = position;
 					setupGoneView();
 					cinemaPaymentLayout.setVisibility(View.VISIBLE);
 					processPaymentBtn.setVisibility(View.VISIBLE);
@@ -132,6 +149,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 					break;
 				case 2:
 					// train
+					paymentType = position;
 					setupGoneView();
 					trainPaymentLayout.setVisibility(View.VISIBLE);
 					processPaymentBtn.setVisibility(View.VISIBLE);
@@ -140,6 +158,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 					break;
 				case 3:
 					// airplane
+					paymentType = position;
 					setupGoneView();
 					airplanePaymentLayout.setVisibility(View.VISIBLE);
 					processPaymentBtn.setVisibility(View.VISIBLE);
@@ -148,6 +167,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 					break;
 				case 4:
 					// others
+					paymentType = position;
 					setupGoneView();
 					otherPaymentLayout.setVisibility(View.VISIBLE);
 					processPaymentBtn.setVisibility(View.VISIBLE);
@@ -212,8 +232,6 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 		otherCategoriesBtn = (Button) this.rootView
 				.findViewById(R.id.payment_categories_button);
 		paycodeEt = (EditText) this.rootView.findViewById(R.id.paycode_input);
-		amountEt = (EditText) this.rootView
-				.findViewById(R.id.others_amount_input);
 	}
 
 	private void setupAirplaneEvent() {
@@ -632,12 +650,129 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 		switch (v.getId()) {
 		case R.id.payment_process_button:
-			Toast.makeText(activity.getApplicationContext(),
-					"READY TO PROCESSING PAYMENT", Toast.LENGTH_SHORT).show();
+
+			if (paymentType == CINEMA_TYPE) {
+				setupCinemaDialog();
+				this.processCinemaPaymentDialog.show();
+			} else if (paymentType == TRAIN_TYPE) {
+				setupTrainDialog();
+				this.processTrainPaymentDialog.show();
+			} else if (paymentType == AIRPLANE_TYPE) {
+				setupAirplaneDialog();
+				this.processAirplanePaymentDialog.show();
+			} else if (paymentType == OTHERS_TYPE) {
+				setupOthersDialog();
+				this.processOtherPaymentDialog.show();
+			}
+			break;
+		case R.id.cancel_process:
+
+			if (paymentType == CINEMA_TYPE) {
+				this.processCinemaPaymentDialog.hide();
+			} else if (paymentType == TRAIN_TYPE) {
+				this.processTrainPaymentDialog.hide();
+			} else if (paymentType == AIRPLANE_TYPE) {
+				this.processAirplanePaymentDialog.hide();
+			} else if (paymentType == OTHERS_TYPE) {
+				this.processOtherPaymentDialog.hide();
+			}
 			break;
 		default:
 			break;
 		}
+
+	}
+
+	private void setupCinemaDialog() {
+		this.processCinemaPaymentDialog = new Dialog(this.activity);
+		this.processCinemaPaymentDialog
+				.setContentView(R.layout.payment_process_dialog);
+		this.processCinemaPaymentDialog.setTitle("YOUR PAYMENT");
+		
+		this.layout = LayoutInflater
+				.from(getActivity().getApplicationContext()).inflate(
+						R.layout.cinema_layout_dialog, null);
+
+		this.okBtn = (Button) this.processCinemaPaymentDialog
+				.findViewById(R.id.ok_process);
+		this.cancelBtn = (Button) this.processCinemaPaymentDialog
+				.findViewById(R.id.cancel_process);
+		this.okBtn.setOnClickListener(this);
+		this.cancelBtn.setOnClickListener(this);
+
+		this.content = (LinearLayout) this.processCinemaPaymentDialog
+				.findViewById(R.id.dialog_content);
+		content.addView(layout);
+		
+	}
+
+	private void setupTrainDialog() {
+		this.processTrainPaymentDialog = new Dialog(this.activity);
+		this.processTrainPaymentDialog
+				.setContentView(R.layout.payment_process_dialog);
+		this.processTrainPaymentDialog.setTitle("YOUR PAYMENT");
+		
+		this.layout = LayoutInflater
+				.from(getActivity().getApplicationContext()).inflate(
+						R.layout.train_layout_dialog, null);
+
+		this.okBtn = (Button) this.processTrainPaymentDialog
+				.findViewById(R.id.ok_process);
+		this.cancelBtn = (Button) this.processTrainPaymentDialog
+				.findViewById(R.id.cancel_process);
+		this.okBtn.setOnClickListener(this);
+		this.cancelBtn.setOnClickListener(this);
+
+		this.content = (LinearLayout) this.processTrainPaymentDialog
+				.findViewById(R.id.dialog_content);
+		content.addView(layout);
+		
+	}
+
+	private void setupAirplaneDialog() {
+		this.processAirplanePaymentDialog = new Dialog(this.activity);
+		this.processAirplanePaymentDialog
+				.setContentView(R.layout.payment_process_dialog);
+		this.processAirplanePaymentDialog.setTitle("YOUR PAYMENT");
+
+		this.layout = LayoutInflater
+				.from(getActivity().getApplicationContext()).inflate(
+						R.layout.airplane_layout_dialog, null);
+
+		this.okBtn = (Button) this.processAirplanePaymentDialog
+				.findViewById(R.id.ok_process);
+		this.cancelBtn = (Button) this.processAirplanePaymentDialog
+				.findViewById(R.id.cancel_process);
+		this.okBtn.setOnClickListener(this);
+		this.cancelBtn.setOnClickListener(this);
+
+		this.content = (LinearLayout) this.processAirplanePaymentDialog
+				.findViewById(R.id.dialog_content);
+		content.addView(layout);
+
+	}
+
+	private void setupOthersDialog() {
+
+		this.processOtherPaymentDialog = new Dialog(this.activity);
+		this.processOtherPaymentDialog
+				.setContentView(R.layout.payment_process_dialog);
+		this.processOtherPaymentDialog.setTitle("YOUR PAYMENT");
+
+		this.layout = LayoutInflater
+				.from(getActivity().getApplicationContext()).inflate(
+						R.layout.others_layout_dialog, null);
+
+		this.okBtn = (Button) this.processOtherPaymentDialog
+				.findViewById(R.id.ok_process);
+		this.cancelBtn = (Button) this.processOtherPaymentDialog
+				.findViewById(R.id.cancel_process);
+		this.okBtn.setOnClickListener(this);
+		this.cancelBtn.setOnClickListener(this);
+
+		this.content = (LinearLayout) this.processOtherPaymentDialog
+				.findViewById(R.id.dialog_content);
+		content.addView(layout);
 
 	}
 
