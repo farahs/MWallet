@@ -12,7 +12,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,6 +24,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PaymentFragment extends Fragment implements OnClickListener {
 
@@ -166,6 +166,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			}
 		});
 
+		processPaymentBtn.setOnClickListener(this);
 	}
 
 	private void setupGoneView() {
@@ -182,36 +183,37 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 
-				final String[] cinemas = new String[4];
-				cinemas[0] = "Margo City";
-				cinemas[1] = "Detos";
-				cinemas[2] = "PIM";
-				cinemas[3] = "Senayan City";
+				final String[] categories = new String[3];
+				categories[0] = "VENDING MACHINE";
+				categories[1] = "BILL";
+				categories[2] = "ELECTRIC PULSE";
 
-				AlertDialog.Builder cinemaBuilder = new AlertDialog.Builder(
+				AlertDialog.Builder othersBuilder = new AlertDialog.Builder(
 						activity);
-				cinemaBuilder.setTitle("CINEMA LOCATION").setItems(cinemas,
+				othersBuilder.setTitle("CATEGORIES").setItems(categories,
 						new DialogInterface.OnClickListener() {
 
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
 
-								cinemaNameBtn.setText(cinemas[which]);
+								otherCategoriesBtn.setText(categories[which]);
 
 							}
 						});
 
-				cinemaBuilder.show();
+				othersBuilder.show();
 
 			}
 		});
 	}
 
 	private void setupOthersView() {
-		otherCategoriesBtn = (Button) this.rootView.findViewById(R.id.payment_categories_button);
+		otherCategoriesBtn = (Button) this.rootView
+				.findViewById(R.id.payment_categories_button);
 		paycodeEt = (EditText) this.rootView.findViewById(R.id.paycode_input);
-		amountEt = (EditText) this.rootView.findViewById(R.id.others_amount_input);
+		amountEt = (EditText) this.rootView
+				.findViewById(R.id.others_amount_input);
 	}
 
 	private void setupAirplaneEvent() {
@@ -220,143 +222,123 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 
-				final String[] cinemas = new String[4];
-				cinemas[0] = "Margo City";
-				cinemas[1] = "Detos";
-				cinemas[2] = "PIM";
-				cinemas[3] = "Senayan City";
+				final String[] airlines = new String[2];
+				airlines[0] = "Lion Air";
+				airlines[1] = "Garuda Indonesia";
 
-				AlertDialog.Builder cinemaBuilder = new AlertDialog.Builder(
+				AlertDialog.Builder airplaneBuilder = new AlertDialog.Builder(
 						activity);
-				cinemaBuilder.setTitle("CINEMA LOCATION").setItems(cinemas,
+				airplaneBuilder.setTitle("AIRLINES").setItems(airlines,
 						new DialogInterface.OnClickListener() {
 
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
 
-								cinemaNameBtn.setText(cinemas[which]);
+								airlineNameBtn.setText(airlines[which]);
 
 							}
 						});
 
-				cinemaBuilder.show();
+				airplaneBuilder.show();
 
 			}
 		});
+
 		airplaneDepartureBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 
-				final String[] cinemas = new String[4];
-				cinemas[0] = "Margo City";
-				cinemas[1] = "Detos";
-				cinemas[2] = "PIM";
-				cinemas[3] = "Senayan City";
+				final String[] airplaneDept = new String[2];
+				airplaneDept[0] = "Cengkareng";
+				airplaneDept[1] = "Kualanamu";
 
-				AlertDialog.Builder cinemaBuilder = new AlertDialog.Builder(
+				AlertDialog.Builder airplaneBuilder = new AlertDialog.Builder(
 						activity);
-				cinemaBuilder.setTitle("CINEMA LOCATION").setItems(cinemas,
+				airplaneBuilder.setTitle("DEPARTURE").setItems(airplaneDept,
 						new DialogInterface.OnClickListener() {
 
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
 
-								cinemaNameBtn.setText(cinemas[which]);
+								airplaneDepartureBtn
+										.setText(airplaneDept[which]);
 
 							}
 						});
 
-				cinemaBuilder.show();
+				airplaneBuilder.show();
 
 			}
 		});
+
 		airplaneDestinationBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 
-				final String[] cinemas = new String[4];
-				cinemas[0] = "Margo City";
-				cinemas[1] = "Detos";
-				cinemas[2] = "PIM";
-				cinemas[3] = "Senayan City";
+				final String[] airplaneDest = new String[2];
+				airplaneDest[0] = "Cengkareng";
+				airplaneDest[1] = "Kualanamu";
 
-				AlertDialog.Builder cinemaBuilder = new AlertDialog.Builder(
+				AlertDialog.Builder airplaneBuilder = new AlertDialog.Builder(
 						activity);
-				cinemaBuilder.setTitle("CINEMA LOCATION").setItems(cinemas,
+				airplaneBuilder.setTitle("DESTINATION").setItems(airplaneDest,
 						new DialogInterface.OnClickListener() {
 
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
 
-								cinemaNameBtn.setText(cinemas[which]);
+								airplaneDestinationBtn
+										.setText(airplaneDest[which]);
 
 							}
 						});
 
-				cinemaBuilder.show();
+				airplaneBuilder.show();
 
 			}
 		});
+
 		airplaneDateBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 
-				final String[] cinemas = new String[4];
-				cinemas[0] = "Margo City";
-				cinemas[1] = "Detos";
-				cinemas[2] = "PIM";
-				cinemas[3] = "Senayan City";
-
-				AlertDialog.Builder cinemaBuilder = new AlertDialog.Builder(
-						activity);
-				cinemaBuilder.setTitle("CINEMA LOCATION").setItems(cinemas,
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-
-								cinemaNameBtn.setText(cinemas[which]);
-
-							}
-						});
-
-				cinemaBuilder.show();
+				DialogFragment newFragment = new DatePickerFragment(
+						airplaneDateBtn);
+				newFragment.show(getFragmentManager(), "datePicker");
 
 			}
 		});
-		airplaneTimeBtn.setOnClickListener(new OnClickListener() {
 
-			@Override
+		airplaneTimeBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 
-				final String[] cinemas = new String[4];
-				cinemas[0] = "Margo City";
-				cinemas[1] = "Detos";
-				cinemas[2] = "PIM";
-				cinemas[3] = "Senayan City";
+				final String[] schedules = new String[4];
+				schedules[0] = "Margo City";
+				schedules[1] = "Detos";
+				schedules[2] = "PIM";
+				schedules[3] = "Senayan City";
 
-				AlertDialog.Builder cinemaBuilder = new AlertDialog.Builder(
+				AlertDialog.Builder airplaneBuilder = new AlertDialog.Builder(
 						activity);
-				cinemaBuilder.setTitle("CINEMA LOCATION").setItems(cinemas,
-						new DialogInterface.OnClickListener() {
+				airplaneBuilder.setTitle("AIRPLANE SCHEDULE").setItems(
+						schedules, new DialogInterface.OnClickListener() {
 
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
 
-								cinemaNameBtn.setText(cinemas[which]);
+								airplaneTimeBtn.setText(schedules[which]);
 
 							}
 						});
 
-				cinemaBuilder.show();
+				airplaneBuilder.show();
 
 			}
 		});
@@ -364,13 +346,20 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 	}
 
 	private void setupAirplaneView() {
-		airlineNameBtn = (Button) this.rootView.findViewById(R.id.airline_name_button);
-		airplaneDepartureBtn = (Button) this.rootView.findViewById(R.id.airplane_departure_button);
-		airplaneDestinationBtn = (Button) this.rootView.findViewById(R.id.airplane_destination_button);
-		airplaneDateBtn = (Button) this.rootView.findViewById(R.id.airplane_date_button);
-		airplaneTimeBtn = (Button) this.rootView.findViewById(R.id.airplane_time_button);
-		airplaneNumOfTicketEt = (EditText) this.rootView.findViewById(R.id.airplane_sum_ticket);
-		airplaneAmountTv = (TextView) this.rootView.findViewById(R.id.airplane_amount_input);
+		airlineNameBtn = (Button) this.rootView
+				.findViewById(R.id.airline_name_button);
+		airplaneDepartureBtn = (Button) this.rootView
+				.findViewById(R.id.airplane_departure_button);
+		airplaneDestinationBtn = (Button) this.rootView
+				.findViewById(R.id.airplane_destination_button);
+		airplaneDateBtn = (Button) this.rootView
+				.findViewById(R.id.airplane_date_button);
+		airplaneTimeBtn = (Button) this.rootView
+				.findViewById(R.id.airplane_time_button);
+		airplaneNumOfTicketEt = (EditText) this.rootView
+				.findViewById(R.id.airplane_sum_ticket);
+		airplaneAmountTv = (TextView) this.rootView
+				.findViewById(R.id.airplane_amount_input);
 	}
 
 	private void setupTrainEvent() {
@@ -379,157 +368,144 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 
-				final String[] cinemas = new String[4];
-				cinemas[0] = "Margo City";
-				cinemas[1] = "Detos";
-				cinemas[2] = "PIM";
-				cinemas[3] = "Senayan City";
+				final String[] trains = new String[2];
+				trains[0] = "Argo Anggrek";
+				trains[1] = "Argo Lawu";
 
-				AlertDialog.Builder cinemaBuilder = new AlertDialog.Builder(
+				AlertDialog.Builder trainBuilder = new AlertDialog.Builder(
 						activity);
-				cinemaBuilder.setTitle("CINEMA LOCATION").setItems(cinemas,
+				trainBuilder.setTitle("TRAIN NAME").setItems(trains,
 						new DialogInterface.OnClickListener() {
 
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
 
-								cinemaNameBtn.setText(cinemas[which]);
+								trainNameBtn.setText(trains[which]);
 
 							}
 						});
 
-				cinemaBuilder.show();
+				trainBuilder.show();
 
 			}
 		});
+
 		trainDepartureBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 
-				final String[] cinemas = new String[4];
-				cinemas[0] = "Margo City";
-				cinemas[1] = "Detos";
-				cinemas[2] = "PIM";
-				cinemas[3] = "Senayan City";
+				final String[] trainDept = new String[2];
+				trainDept[0] = "Gambir";
+				trainDept[1] = "Manggarai";
 
-				AlertDialog.Builder cinemaBuilder = new AlertDialog.Builder(
+				AlertDialog.Builder trainBuilder = new AlertDialog.Builder(
 						activity);
-				cinemaBuilder.setTitle("CINEMA LOCATION").setItems(cinemas,
+				trainBuilder.setTitle("DEPARTURE").setItems(trainDept,
 						new DialogInterface.OnClickListener() {
 
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
 
-								cinemaNameBtn.setText(cinemas[which]);
+								trainDepartureBtn.setText(trainDept[which]);
 
 							}
 						});
 
-				cinemaBuilder.show();
+				trainBuilder.show();
 
 			}
 		});
+
 		trainDestinationBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 
-				final String[] cinemas = new String[4];
-				cinemas[0] = "Margo City";
-				cinemas[1] = "Detos";
-				cinemas[2] = "PIM";
-				cinemas[3] = "Senayan City";
+				final String[] trainDest = new String[2];
+				trainDest[0] = "Bandung";
+				trainDest[1] = "Surabaya";
 
-				AlertDialog.Builder cinemaBuilder = new AlertDialog.Builder(
+				AlertDialog.Builder trainBuilder = new AlertDialog.Builder(
 						activity);
-				cinemaBuilder.setTitle("CINEMA LOCATION").setItems(cinemas,
+				trainBuilder.setTitle("DESTINATION").setItems(trainDest,
 						new DialogInterface.OnClickListener() {
 
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
 
-								cinemaNameBtn.setText(cinemas[which]);
+								trainDestinationBtn.setText(trainDest[which]);
 
 							}
 						});
 
-				cinemaBuilder.show();
+				trainBuilder.show();
 
 			}
 		});
+
 		trainDateBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 
-				final String[] cinemas = new String[4];
-				cinemas[0] = "Margo City";
-				cinemas[1] = "Detos";
-				cinemas[2] = "PIM";
-				cinemas[3] = "Senayan City";
-
-				AlertDialog.Builder cinemaBuilder = new AlertDialog.Builder(
-						activity);
-				cinemaBuilder.setTitle("CINEMA LOCATION").setItems(cinemas,
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-
-								cinemaNameBtn.setText(cinemas[which]);
-
-							}
-						});
-
-				cinemaBuilder.show();
+				DialogFragment newFragment = new DatePickerFragment(
+						trainDateBtn);
+				newFragment.show(getFragmentManager(), "datePicker");
 
 			}
 		});
+
 		trainTimeBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 
-				final String[] cinemas = new String[4];
-				cinemas[0] = "Margo City";
-				cinemas[1] = "Detos";
-				cinemas[2] = "PIM";
-				cinemas[3] = "Senayan City";
+				final String[] schedules = new String[4];
+				schedules[0] = "Margo City";
+				schedules[1] = "Detos";
+				schedules[2] = "PIM";
+				schedules[3] = "Senayan City";
 
-				AlertDialog.Builder cinemaBuilder = new AlertDialog.Builder(
+				AlertDialog.Builder trainBuilder = new AlertDialog.Builder(
 						activity);
-				cinemaBuilder.setTitle("CINEMA LOCATION").setItems(cinemas,
+				trainBuilder.setTitle("TRAIN SCHEDULE").setItems(schedules,
 						new DialogInterface.OnClickListener() {
 
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
 
-								cinemaNameBtn.setText(cinemas[which]);
+								trainTimeBtn.setText(schedules[which]);
 
 							}
 						});
 
-				cinemaBuilder.show();
+				trainBuilder.show();
 
 			}
 		});
-		
+
 	}
 
 	private void setupTrainView() {
-		trainNameBtn = (Button) this.rootView.findViewById(R.id.train_name_button);
-		trainDepartureBtn = (Button) this.rootView.findViewById(R.id.train_departure_button);
-		trainDestinationBtn = (Button) this.rootView.findViewById(R.id.train_destination_button);
-		trainDateBtn = (Button) this.rootView.findViewById(R.id.train_date_button);
-		trainTimeBtn = (Button) this.rootView.findViewById(R.id.train_time_button);
-		trainNumOfTicketEt = (EditText) this.rootView.findViewById(R.id.train_sum_ticket);
-		trainAmountTv = (TextView) this.rootView.findViewById(R.id.train_amount_input);
+		trainNameBtn = (Button) this.rootView
+				.findViewById(R.id.train_name_button);
+		trainDepartureBtn = (Button) this.rootView
+				.findViewById(R.id.train_departure_button);
+		trainDestinationBtn = (Button) this.rootView
+				.findViewById(R.id.train_destination_button);
+		trainDateBtn = (Button) this.rootView
+				.findViewById(R.id.train_date_button);
+		trainTimeBtn = (Button) this.rootView
+				.findViewById(R.id.train_time_button);
+		trainNumOfTicketEt = (EditText) this.rootView
+				.findViewById(R.id.train_sum_ticket);
+		trainAmountTv = (TextView) this.rootView
+				.findViewById(R.id.train_amount_input);
 	}
 
 	private void setupCinemaEvent() {
@@ -547,7 +523,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 				AlertDialog.Builder cinemaBuilder = new AlertDialog.Builder(
 						activity);
-				cinemaBuilder.setTitle("CINEMA LOCATION").setItems(cinemas,
+				cinemaBuilder.setTitle("CINEMA NAME").setItems(cinemas,
 						new DialogInterface.OnClickListener() {
 
 							@Override
@@ -577,7 +553,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 				AlertDialog.Builder movieBuilder = new AlertDialog.Builder(
 						activity);
-				movieBuilder.setTitle("CINEMA LOCATION").setItems(movies,
+				movieBuilder.setTitle("MOVIE TITLE").setItems(movies,
 						new DialogInterface.OnClickListener() {
 
 							@Override
@@ -597,10 +573,10 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 			@Override
 			public void onClick(View v) {
-				
-				 DialogFragment newFragment = new
-				 DatePickerFragment(movieDateBtn);
-				 newFragment.show(getFragmentManager(), "datePicker");
+
+				DialogFragment newFragment = new DatePickerFragment(
+						movieDateBtn);
+				newFragment.show(getFragmentManager(), "datePicker");
 
 			}
 		});
@@ -609,11 +585,27 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 			@Override
 			public void onClick(View v) {
-				//
-				// DialogFragment newFragment = new
-				// DatePickerFragment(movieDate);
-				// newFragment.show(getFragmentManager(), "datePicker");
+				final String[] movies = new String[4];
+				movies[0] = "Insidious";
+				movies[1] = "Jurrasic Park";
+				movies[2] = "Petualangan Sherina";
+				movies[3] = "Tusuk Jelangkung";
 
+				AlertDialog.Builder movieBuilder = new AlertDialog.Builder(
+						activity);
+				movieBuilder.setTitle("MOVIE SCHEDULE").setItems(movies,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+
+								movieTimeBtn.setText(movies[which]);
+
+							}
+						});
+
+				movieBuilder.show();
 			}
 		});
 	}
@@ -639,15 +631,9 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 	public void onClick(View v) {
 
 		switch (v.getId()) {
-		case R.id.cinema_name_button:
-
-			break;
-
-		case R.id.movie_title_button:
-
-			break;
-		case R.id.movie_date_button:
-
+		case R.id.payment_process_button:
+			Toast.makeText(activity.getApplicationContext(),
+					"READY TO PROCESSING PAYMENT", Toast.LENGTH_SHORT).show();
 			break;
 		default:
 			break;

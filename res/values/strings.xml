@@ -12,6 +12,8 @@
     <string name="title_activity_payment">PaymentActivity</string>
     <string name="title_activity_top_up">TopUpActivity</string>
     <string name="title_activity_drawer">DrawerActivity</string>
+    <string name="logout">Logout</string>
+    
     
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>

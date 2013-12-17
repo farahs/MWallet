@@ -8,7 +8,7 @@
     </string-array>
     
     <string-array name="payment_array">
-        <item>Pilih Salah Satu</item>
+        <item>CHOOSE ONE</item>
         <item>CINEMA</item>
         <item>TRAIN</item>
         <item>AIRPLANE</item>

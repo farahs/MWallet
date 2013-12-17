@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/choose_payment"
                 android:textColor="@color/our_blue"
-                android:textSize="20sp" />
+                android:textSize="30sp" />
 
             <Spinner
                 android:id="@+id/payment_spinner"
@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"

@@ -18,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 public class DrawerActivity extends FragmentActivity implements OnClickListener {
 
@@ -30,8 +29,6 @@ public class DrawerActivity extends FragmentActivity implements OnClickListener 
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
 	private RelativeLayout mDrawerLeftPanel;
-
-	private TextView username;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +44,6 @@ public class DrawerActivity extends FragmentActivity implements OnClickListener 
 	private void setupView() {
 		this.mDrawerLayout = (DrawerLayout) this.findViewById(R.id.drawer_layout);
 		this.mDrawerLeftPanel = (RelativeLayout) this.findViewById(R.id.left_panel);
-
-		this.username = (TextView) this.findViewById(R.id.drawer_username);
 		
 		this.setupMainFragment();
 		this.setupActionToggleButton();
