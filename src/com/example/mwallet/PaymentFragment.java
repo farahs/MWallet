@@ -1,15 +1,21 @@
 package com.example.mwallet;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
-import android.os.Bundle;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -25,8 +31,13 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.pengguna.TransactionController;
+
 public class PaymentFragment extends Fragment implements OnClickListener {
 
+	private Context context;
+	private ProgressDialog pDialog;
+	private TransactionController tController;
 	private DrawerActivity activity;
 	View rootView;
 	View layout;
@@ -101,7 +112,9 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 				false);
 
 		this.activity = (DrawerActivity) this.getActivity();
+		this.context = this.getActivity();
 
+		this.tController = new TransactionController();
 		setupView();
 		setupEvent();
 		setupGoneView();
@@ -122,6 +135,9 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 		processPaymentBtn = (Button) rootView
 				.findViewById(R.id.payment_process_button);
+
+		processPaymentBtn.setEnabled(false);
+		processPaymentBtn.setBackgroundColor(Color.GRAY);
 	}
 
 	private void setupEvent() {
@@ -239,26 +255,15 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 			@Override
 			public void onClick(View v) {
-
-				final String[] airlines = new String[2];
-				airlines[0] = "Lion Air";
-				airlines[1] = "Garuda Indonesia";
-
-				AlertDialog.Builder airplaneBuilder = new AlertDialog.Builder(
-						activity);
-				airplaneBuilder.setTitle("AIRLINES").setItems(airlines,
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-
-								airlineNameBtn.setText(airlines[which]);
-
-							}
-						});
-
-				airplaneBuilder.show();
+				
+				ArrayList<View> views = new ArrayList<View>();
+				views.add(airplaneDepartureBtn);
+				views.add(airplaneDestinationBtn);
+				views.add(airplaneDateBtn);
+				views.add(airplaneTimeBtn);
+				views.add(airplaneNumOfTicketEt);
+				deactivateButton(views);
+				new GetData().execute("get_company");
 
 			}
 		});
@@ -268,26 +273,13 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 
-				final String[] airplaneDept = new String[2];
-				airplaneDept[0] = "Cengkareng";
-				airplaneDept[1] = "Kualanamu";
-
-				AlertDialog.Builder airplaneBuilder = new AlertDialog.Builder(
-						activity);
-				airplaneBuilder.setTitle("DEPARTURE").setItems(airplaneDept,
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-
-								airplaneDepartureBtn
-										.setText(airplaneDept[which]);
-
-							}
-						});
-
-				airplaneBuilder.show();
+				ArrayList<View> views = new ArrayList<View>();
+				views.add(airplaneDestinationBtn);
+				views.add(airplaneDateBtn);
+				views.add(airplaneTimeBtn);
+				views.add(airplaneNumOfTicketEt);
+				deactivateButton(views);
+				new GetData().execute("get_depart",airlineNameBtn.getText().toString());
 
 			}
 		});
@@ -297,26 +289,12 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 
-				final String[] airplaneDest = new String[2];
-				airplaneDest[0] = "Cengkareng";
-				airplaneDest[1] = "Kualanamu";
-
-				AlertDialog.Builder airplaneBuilder = new AlertDialog.Builder(
-						activity);
-				airplaneBuilder.setTitle("DESTINATION").setItems(airplaneDest,
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-
-								airplaneDestinationBtn
-										.setText(airplaneDest[which]);
-
-							}
-						});
-
-				airplaneBuilder.show();
+				ArrayList<View> views = new ArrayList<View>();
+				views.add(airplaneDateBtn);
+				views.add(airplaneTimeBtn);
+				views.add(airplaneNumOfTicketEt);
+				deactivateButton(views);
+				new GetData().execute("get_dest",airlineNameBtn.getText().toString(), airplaneDepartureBtn.getText().toString());
 
 			}
 		});
@@ -368,14 +346,23 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 				.findViewById(R.id.airline_name_button);
 		airplaneDepartureBtn = (Button) this.rootView
 				.findViewById(R.id.airplane_departure_button);
+		airplaneDepartureBtn.setEnabled(false);
+		airplaneDepartureBtn.setBackgroundColor(Color.GRAY);
 		airplaneDestinationBtn = (Button) this.rootView
 				.findViewById(R.id.airplane_destination_button);
+		airplaneDestinationBtn.setEnabled(false);
+		airplaneDestinationBtn.setBackgroundColor(Color.GRAY);
 		airplaneDateBtn = (Button) this.rootView
 				.findViewById(R.id.airplane_date_button);
+		airplaneDateBtn.setEnabled(false);
+		airplaneDateBtn.setBackgroundColor(Color.GRAY);
 		airplaneTimeBtn = (Button) this.rootView
 				.findViewById(R.id.airplane_time_button);
+		airplaneTimeBtn.setEnabled(false);
+		airplaneTimeBtn.setBackgroundColor(Color.GRAY);
 		airplaneNumOfTicketEt = (EditText) this.rootView
 				.findViewById(R.id.airplane_sum_ticket);
+		airplaneNumOfTicketEt.setEnabled(false);
 		airplaneAmountTv = (TextView) this.rootView
 				.findViewById(R.id.airplane_amount_input);
 	}
@@ -775,7 +762,98 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 		content.addView(layout);
 
 	}
+	
+	public void activateButton(ArrayList<View> views){
+		for(int i = 0; i < views.size(); i++){
+			views.get(i).setEnabled(true);
+			views.get(i).setBackgroundColor(getResources().getColor(R.color.our_blue));
+		}
+	}
+	
+	public void deactivateButton(ArrayList<View> views){
+		for(int i = 0; i < views.size(); i++){
+			views.get(i).setEnabled(false);
+			if(views.get(i) instanceof Button){
+				Button temp = (Button) views.get(i);
+				temp.setText("CHOOSE");
+				views.get(i).setBackgroundColor(Color.GRAY);
+			}else if(views.get(i) instanceof EditText){
+				EditText temp = (EditText) views.get(i);
+				temp.setText("");
+			}
+		}
+	}
 
+	
+	/**
+	 * Background Async Task to Load all data by making HTTP Request
+	 * */
+	class GetData extends AsyncTask<String, String, ArrayList<String>> {
+
+		/**
+		 * Before starting background thread Show Progress Dialog
+		 * */
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			pDialog = ProgressDialog.show(context,"","Getting data....",false);
+			pDialog.setCancelable(false);
+			pDialog.show();
+		}
+		@Override
+		protected ArrayList<String> doInBackground(String... arg0) {
+			// TODO Auto-generated method stub
+			return tController.driverMethod(arg0);
+		}
+		
+		/**
+		 * After completing background task Dismiss the progress dialog
+		 * **/
+		protected void onPostExecute(ArrayList<String> result1) {
+			// dismiss the dialog after getting all products
+			pDialog.dismiss();
+			processResult(result1);
+		}
+
+	}
+	
+	public void processResult(ArrayList<String> result){
+		final String title = result.get(result.size()-1);
+		result.remove(result.size()-1);
+		String[] listOfResult = new String[result.size()];
+		listOfResult = result.toArray(listOfResult);
+		
+		final String[] finalResult = listOfResult;
+		
+		AlertDialog.Builder airplaneBuilder = new AlertDialog.Builder(
+				activity);
+		airplaneBuilder.setTitle(title).setItems(listOfResult,
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog,
+							int position) {
+						if(title.equals("AIRLINES")){
+							airlineNameBtn.setText(finalResult[position]);
+							ArrayList<View> views = new ArrayList<View>();
+							views.add(airplaneDepartureBtn);
+							activateButton(views);
+						}else if(title.equals("DEPARTURE")){
+							airplaneDepartureBtn.setText(finalResult[position]);
+							ArrayList<View> views = new ArrayList<View>();
+							views.add(airplaneDestinationBtn);
+							activateButton(views);
+						}else if(title.equals("DESTINATION")){
+							airplaneDestinationBtn.setText(finalResult[position]);
+							ArrayList<View> views = new ArrayList<View>();
+							views.add(airplaneDateBtn);
+							activateButton(views);
+						}
+					}
+				});
+
+		airplaneBuilder.show();
+	}
 }
 
 class DatePickerFragment extends DialogFragment implements

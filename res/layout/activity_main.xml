@@ -56,7 +56,7 @@
                         android:orientation="vertical" >
 
                         <TextView
-                            android:id="@+id/name"
+                            android:id="@+id/username"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="annisaprida"
@@ -64,7 +64,7 @@
                             android:textSize="20sp" />
 
                         <TextView
-                            android:id="@+id/nameCaption"
+                            android:id="@+id/usernameCaption"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="Username" />
@@ -230,7 +230,7 @@
                             android:text="Female"/>
 
                         <TextView
-                            android:id="@+id/passwordCaption"
+                            android:id="@+id/sexCaption"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="Sex" />

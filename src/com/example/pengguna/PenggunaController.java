@@ -26,7 +26,7 @@ public class PenggunaController {
 	private static String register_tag = "register";
 
 	public static Pengguna getUser() {
-		return PenggunaController.user;
+		return user;
 	}
 
 	public static void setUser(Pengguna user) {
