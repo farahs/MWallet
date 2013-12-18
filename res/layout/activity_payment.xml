@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
             <TextView
                 android:layout_width="match_parent"
@@ -773,66 +773,41 @@
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
-                <EditText
-                    android:id="@+id/paycode_input"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="5dp"
-                    android:background="@color/white"
                     android:gravity="center"
-                    android:hint="@string/paycode"
-                    android:inputType="number"
-                    android:maxLength="10"
-                    android:maxLines="1"
-                    android:textAlignment="center"
-                    android:textColor="@color/default_input_gray"
-                    android:textSize="15sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/others_amount_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@+id/others_amount_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="left"
-                    android:text="@string/amount_title"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="5dp" >
+                    android:orientation="horizontal"
+                    android:weightSum="100" >
 
                     <EditText
-                        android:id="@+id/others_amount_input"
-                        android:layout_width="match_parent"
+                        android:id="@+id/paycode_input"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="50dp"
+                        android:layout_weight="80"
                         android:background="@color/white"
                         android:gravity="center"
-                        android:hint="@string/amount"
+                        android:hint="@string/paycode"
                         android:inputType="number"
+                        android:maxLength="10"
                         android:maxLines="1"
                         android:textAlignment="center"
                         android:textColor="@color/default_input_gray"
                         android:textSize="15sp" />
 
                     <TextView
-                        android:layout_width="50dp"
+                        android:id="@+id/paycode_info"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_alignParentLeft="true"
-                        android:background="@color/default_bg"
+                        android:layout_marginLeft="3dp"
+                        android:layout_weight="20"
+                        android:background="@color/luminate_sun"
                         android:gravity="center"
-                        android:text="@string/rp"
-                        android:textSize="16sp" />
-                </RelativeLayout>
+                        android:text="i"
+                        android:textAlignment="center"
+                        android:textSize="20sp" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 

@@ -26,7 +26,7 @@ public class PenggunaController {
 	private static String register_tag = "register";
 
 	public static Pengguna getUser() {
-		return PenggunaController.user;
+		return user;
 	}
 
 	public static void setUser(Pengguna user) {
@@ -55,7 +55,7 @@ public class PenggunaController {
 	/**
 	 * Function to logout user Reset Database
 	 * */
-	public static boolean logoutUser(Context context) {
+	public boolean logoutUser(Context context) {
 		DatabaseHandler db = new DatabaseHandler(context);
 		db.resetTables();
 		setUser(null);
@@ -123,49 +123,57 @@ public class PenggunaController {
 		ArrayList<String> mistakes = new ArrayList<String>();
 		String pattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 				+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+		boolean empty = false;
 		if (name.equals("")) {
 			mistakes.add("empty name");
+			empty = true;
 		}
 		if (username.equals("")) {
 			mistakes.add("empty username");
+			empty = true;
 		}
 		if (email.equals("")) {
 			mistakes.add("empty email");
+			empty = true;
 		}
 		if (password.equals("")) {
 			mistakes.add("empty password");
+			empty = true;
 		}
 		if (pin.equals("")) {
 			mistakes.add("empty pin");
+			empty = true;
 		}
 		if (sex.equals("")) {
 			mistakes.add("empty sex");
+			empty = true;
 		}
 		if (age.equals("")) {
 			mistakes.add("empty age");
+			empty = true;
 		}
-		if (username.length() < 6 || username.length() >= 20) {
+		if ((username.length() < 6 || username.length() >= 20) && !empty) {
 			mistakes.add("length username");
 		}
-		if (!username.matches("[A-Za-z0-9]+")) {
+		if (!username.matches("[A-Za-z0-9]+") && !empty) {
 			mistakes.add("pattern username");
 		}
-		if (!email.contains("@") || !email.matches(pattern)) {
+		if ((!email.contains("@") || !email.matches(pattern)) && !empty) {
 			mistakes.add("pattern email");
 		}
-		if (password.length() < 6) {
+		if (password.length() < 6 && !empty) {
 			mistakes.add("length password");
 		}
-		if (pin.length() != 6) {
+		if (pin.length() != 6 && !empty) {
 			mistakes.add("length pin");
 		}
-		if (!pin.matches("[0-9]+")) {
+		if (!pin.matches("[0-9]+") && !empty) {
 			mistakes.add("pattern pin");
 		}
-		if (!age.matches("[0-9]+")) {
+		if (!age.matches("[0-9]+") && !empty) {
 			mistakes.add("pattern age");
 		}else{
-			if (Integer.parseInt(age) < 18) {
+			if (Integer.parseInt(age) < 18 && !empty) {
 				mistakes.add("limit age");
 			}
 		}
@@ -220,23 +228,27 @@ public class PenggunaController {
 	}
 	
 	public ArrayList<String> validateSignIn(String username, String password) {
+		boolean empty = false;
 		ArrayList<String> mistakes = new ArrayList<String>();
 		
 		if (username.equals("")) {
 			mistakes.add("empty username");
+			empty = true;
 		}
 		if(password.equals("")){
 			mistakes.add("empty password");
+			empty = true;
 		}
-		if (username.length() < 6 || username.length() > 20) {
+		if ((username.length() < 6 || username.length() > 200 ) && !empty) {
 			mistakes.add("length username");
 		}
-		if (!username.matches("[A-Za-z0-9]+")) {
+		if (!username.matches("[A-Za-z0-9]+") && !empty) {
 			mistakes.add("pattern username");
 		}
-		if(password.length() < 6){
+		if(password.length() < 6 && !empty){
 			mistakes.add("length password");
 		}
 		return mistakes;
 	}
+	
 }

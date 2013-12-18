@@ -1,17 +1,18 @@
 package com.example.mwallet;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
 import android.os.Bundle;
+import java.util.ArrayList;
+
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v4.app.DialogFragment;
+
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,26 +20,47 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
+
+import com.example.pengguna.TransactionController;
 
 public class PaymentFragment extends Fragment implements OnClickListener {
 
+	private Context context;
+	private ProgressDialog pDialog;
+	private TransactionController tController;
 	private DrawerActivity activity;
 	View rootView;
+	View layout;
 
 	Spinner paymentMenus;
 
+	LinearLayout content;
 	LinearLayout cinemaPaymentLayout;
 	LinearLayout trainPaymentLayout;
 	LinearLayout airplanePaymentLayout;
 	LinearLayout otherPaymentLayout;
 
+	int CINEMA_TYPE = 1;
+	int TRAIN_TYPE = 2;
+	int AIRPLANE_TYPE = 3;
+	int OTHERS_TYPE = 4;
+
+	int paymentType;
+
 	Button processPaymentBtn;
+	Dialog processOtherPaymentDialog;
+	Dialog processAirplanePaymentDialog;
+	Dialog processTrainPaymentDialog;
+	Dialog processCinemaPaymentDialog;
+
+	Button okBtn;
+	Button cancelBtn;
 
 	/*
 	 * CINEMA
@@ -49,6 +71,13 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 	Button movieTimeBtn;
 	EditText movieNumOfTicketEt;
 	TextView movieAmountTv;
+
+	TextView dialogCinemaName;
+	TextView dialogMovieTitle;
+	TextView dialogMovieDate;
+	TextView dialogMovieTime;
+	TextView dialogMovieTicket;
+	TextView dialogMovieAmount;
 
 	/*
 	 * TRAIN
@@ -61,6 +90,14 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 	EditText trainNumOfTicketEt;
 	TextView trainAmountTv;
 
+	TextView dialogTrainName;
+	TextView dialogTrainFrom;
+	TextView dialogTrainTo;
+	TextView dialogTrainDate;
+	TextView dialogTrainTime;
+	TextView dialogTrainTicket;
+	TextView dialogTrainAmount;
+
 	/*
 	 * AIRPLANE
 	 */
@@ -72,12 +109,20 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 	EditText airplaneNumOfTicketEt;
 	TextView airplaneAmountTv;
 
+	TextView dialogAirlineName;
+	TextView dialogAirplaneFrom;
+	TextView dialogAirplaneTo;
+	TextView dialogAirplaneDate;
+	TextView dialogAirplaneTime;
+	TextView dialogAirplaneTicket;
+	TextView dialogAirplaneAmount;
+
 	/*
 	 * OTHERS
 	 */
 	Button otherCategoriesBtn;
 	EditText paycodeEt;
-	EditText amountEt;
+	TextView paycodeInfoTv;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,8 +130,11 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 		this.rootView = inflater.inflate(R.layout.activity_payment, container,
 				false);
-		this.activity = (DrawerActivity) this.getActivity();
 
+		this.activity = (DrawerActivity) this.getActivity();
+		this.context = this.getActivity();
+
+		this.tController = new TransactionController();
 		setupView();
 		setupEvent();
 		setupGoneView();
@@ -107,6 +155,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 		processPaymentBtn = (Button) rootView
 				.findViewById(R.id.payment_process_button);
+
 	}
 
 	private void setupEvent() {
@@ -121,9 +170,11 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 				case 0:
 					// pilih salah satu
 					setupGoneView();
+					paymentType = position;
 					break;
 				case 1:
 					// cinema
+					paymentType = position;
 					setupGoneView();
 					cinemaPaymentLayout.setVisibility(View.VISIBLE);
 					processPaymentBtn.setVisibility(View.VISIBLE);
@@ -132,6 +183,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 					break;
 				case 2:
 					// train
+					paymentType = position;
 					setupGoneView();
 					trainPaymentLayout.setVisibility(View.VISIBLE);
 					processPaymentBtn.setVisibility(View.VISIBLE);
@@ -140,6 +192,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 					break;
 				case 3:
 					// airplane
+					paymentType = position;
 					setupGoneView();
 					airplanePaymentLayout.setVisibility(View.VISIBLE);
 					processPaymentBtn.setVisibility(View.VISIBLE);
@@ -148,6 +201,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 					break;
 				case 4:
 					// others
+					paymentType = position;
 					setupGoneView();
 					otherPaymentLayout.setVisibility(View.VISIBLE);
 					processPaymentBtn.setVisibility(View.VISIBLE);
@@ -178,6 +232,14 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 	}
 
 	private void setupOthersEvent() {
+
+		paycodeEt.setClickable(false);
+		paycodeEt.setEnabled(false);
+		paycodeInfoTv.setClickable(false);
+
+		processPaymentBtn.setEnabled(false);
+		processPaymentBtn.setBackgroundColor(Color.GRAY);
+
 		otherCategoriesBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -199,11 +261,38 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 								otherCategoriesBtn.setText(categories[which]);
 
+								paycodeEt.setClickable(true);
+								paycodeEt.setEnabled(true);
+								paycodeInfoTv.setClickable(true);
 							}
 						});
 
 				othersBuilder.show();
 
+			}
+		});
+
+		paycodeInfoTv.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(activity.getApplicationContext(),
+						"PAYCODE INFO", Toast.LENGTH_SHORT).show();
+			}
+		});
+
+		paycodeEt.setOnEditorActionListener(new OnEditorActionListener() {
+
+			@Override
+			public boolean onEditorAction(TextView v, int actionId,
+					KeyEvent event) {
+
+				processPaymentBtn.setBackgroundColor(getResources().getColor(
+						R.color.default_red));
+				processPaymentBtn.setClickable(true);
+				processPaymentBtn.setEnabled(true);
+
+				return false;
 			}
 		});
 	}
@@ -212,35 +301,29 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 		otherCategoriesBtn = (Button) this.rootView
 				.findViewById(R.id.payment_categories_button);
 		paycodeEt = (EditText) this.rootView.findViewById(R.id.paycode_input);
-		amountEt = (EditText) this.rootView
-				.findViewById(R.id.others_amount_input);
+		paycodeInfoTv = (TextView) this.rootView
+				.findViewById(R.id.paycode_info);
 	}
 
 	private void setupAirplaneEvent() {
+
+		disableAirplaneButton();
+		processPaymentBtn.setEnabled(false);
+		processPaymentBtn.setBackgroundColor(Color.GRAY);
+
 		airlineNameBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 
-				final String[] airlines = new String[2];
-				airlines[0] = "Lion Air";
-				airlines[1] = "Garuda Indonesia";
-
-				AlertDialog.Builder airplaneBuilder = new AlertDialog.Builder(
-						activity);
-				airplaneBuilder.setTitle("AIRLINES").setItems(airlines,
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-
-								airlineNameBtn.setText(airlines[which]);
-
-							}
-						});
-
-				airplaneBuilder.show();
+				ArrayList<View> views = new ArrayList<View>();
+				views.add(airplaneDepartureBtn);
+				views.add(airplaneDestinationBtn);
+				views.add(airplaneDateBtn);
+				views.add(airplaneTimeBtn);
+				views.add(airplaneNumOfTicketEt);
+				deactivateButton(views);
+				new GetData().execute("get_company");
 
 			}
 		});
@@ -250,26 +333,14 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 
-				final String[] airplaneDept = new String[2];
-				airplaneDept[0] = "Cengkareng";
-				airplaneDept[1] = "Kualanamu";
-
-				AlertDialog.Builder airplaneBuilder = new AlertDialog.Builder(
-						activity);
-				airplaneBuilder.setTitle("DEPARTURE").setItems(airplaneDept,
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-
-								airplaneDepartureBtn
-										.setText(airplaneDept[which]);
-
-							}
-						});
-
-				airplaneBuilder.show();
+				ArrayList<View> views = new ArrayList<View>();
+				views.add(airplaneDestinationBtn);
+				views.add(airplaneDateBtn);
+				views.add(airplaneTimeBtn);
+				views.add(airplaneNumOfTicketEt);
+				deactivateButton(views);
+				new GetData().execute("get_depart", airlineNameBtn.getText()
+						.toString());
 
 			}
 		});
@@ -279,26 +350,13 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 
-				final String[] airplaneDest = new String[2];
-				airplaneDest[0] = "Cengkareng";
-				airplaneDest[1] = "Kualanamu";
-
-				AlertDialog.Builder airplaneBuilder = new AlertDialog.Builder(
-						activity);
-				airplaneBuilder.setTitle("DESTINATION").setItems(airplaneDest,
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-
-								airplaneDestinationBtn
-										.setText(airplaneDest[which]);
-
-							}
-						});
-
-				airplaneBuilder.show();
+				ArrayList<View> views = new ArrayList<View>();
+				views.add(airplaneDateBtn);
+				views.add(airplaneTimeBtn);
+				views.add(airplaneNumOfTicketEt);
+				deactivateButton(views);
+				new GetData().execute("get_dest", airlineNameBtn.getText()
+						.toString(), airplaneDepartureBtn.getText().toString());
 
 			}
 		});
@@ -308,10 +366,32 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 
-				DialogFragment newFragment = new DatePickerFragment(
-						airplaneDateBtn);
-				newFragment.show(getFragmentManager(), "datePicker");
+				final String[] dates = new String[4];
+				dates[0] = "Margo City";
+				dates[1] = "Detos";
+				dates[2] = "PIM";
+				dates[3] = "Senayan City";
 
+				AlertDialog.Builder airplaneBuilder = new AlertDialog.Builder(
+						activity);
+				airplaneBuilder.setTitle("AIRPLANE SCHEDULE").setItems(dates,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+
+								airplaneDateBtn.setText(dates[which]);
+
+								airplaneTimeBtn.setEnabled(true);
+								airplaneTimeBtn.setClickable(true);
+								airplaneTimeBtn
+										.setBackgroundColor(getResources()
+												.getColor(R.color.our_blue));
+							}
+						});
+
+				airplaneBuilder.show();
 			}
 		});
 
@@ -335,6 +415,8 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 								airplaneTimeBtn.setText(schedules[which]);
 
+								airplaneNumOfTicketEt.setEnabled(true);
+								airplaneNumOfTicketEt.setClickable(true);
 							}
 						});
 
@@ -343,6 +425,55 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			}
 		});
 
+		airplaneNumOfTicketEt
+				.setOnEditorActionListener(new OnEditorActionListener() {
+
+					@Override
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
+
+						int BASE_PRICE = 50000;
+						int count = Integer.parseInt(v.getText().toString());
+						int price = BASE_PRICE * count;
+
+						airplaneAmountTv.setText(price + "");
+
+						processPaymentBtn.setBackgroundColor(getResources()
+								.getColor(R.color.default_red));
+						processPaymentBtn.setClickable(true);
+						processPaymentBtn.setEnabled(true);
+
+						return false;
+					}
+				});
+
+	}
+
+	private void disableAirplaneButton() {
+
+		airplaneDepartureBtn.setEnabled(false);
+		airplaneDepartureBtn.setClickable(false);
+		airplaneDepartureBtn.setBackgroundColor(getResources().getColor(
+				R.color.default_input_gray));
+
+		airplaneDestinationBtn.setEnabled(false);
+		airplaneDestinationBtn.setClickable(false);
+		airplaneDestinationBtn.setBackgroundColor(getResources().getColor(
+				R.color.default_input_gray));
+
+		airplaneDateBtn.setEnabled(false);
+		airplaneDateBtn.setClickable(false);
+		airplaneDateBtn.setBackgroundColor(getResources().getColor(
+				R.color.default_input_gray));
+
+		airplaneTimeBtn.setEnabled(false);
+		airplaneTimeBtn.setClickable(false);
+		airplaneTimeBtn.setBackgroundColor(getResources().getColor(
+				R.color.default_input_gray));
+
+		airplaneNumOfTicketEt.setEnabled(false);
+		airplaneNumOfTicketEt.setClickable(false);
+
 	}
 
 	private void setupAirplaneView() {
@@ -350,19 +481,34 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 				.findViewById(R.id.airline_name_button);
 		airplaneDepartureBtn = (Button) this.rootView
 				.findViewById(R.id.airplane_departure_button);
+		airplaneDepartureBtn.setEnabled(false);
+		airplaneDepartureBtn.setBackgroundColor(Color.GRAY);
 		airplaneDestinationBtn = (Button) this.rootView
 				.findViewById(R.id.airplane_destination_button);
+		airplaneDestinationBtn.setEnabled(false);
+		airplaneDestinationBtn.setBackgroundColor(Color.GRAY);
 		airplaneDateBtn = (Button) this.rootView
 				.findViewById(R.id.airplane_date_button);
+		airplaneDateBtn.setEnabled(false);
+		airplaneDateBtn.setBackgroundColor(Color.GRAY);
 		airplaneTimeBtn = (Button) this.rootView
 				.findViewById(R.id.airplane_time_button);
+		airplaneTimeBtn.setEnabled(false);
+		airplaneTimeBtn.setBackgroundColor(Color.GRAY);
 		airplaneNumOfTicketEt = (EditText) this.rootView
 				.findViewById(R.id.airplane_sum_ticket);
+		airplaneNumOfTicketEt.setEnabled(false);
 		airplaneAmountTv = (TextView) this.rootView
 				.findViewById(R.id.airplane_amount_input);
 	}
 
 	private void setupTrainEvent() {
+
+		disableTrainButton();
+
+		processPaymentBtn.setEnabled(false);
+		processPaymentBtn.setBackgroundColor(Color.GRAY);
+
 		trainNameBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -383,6 +529,11 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 								trainNameBtn.setText(trains[which]);
 
+								trainDepartureBtn.setEnabled(true);
+								trainDepartureBtn.setClickable(true);
+								trainDepartureBtn
+										.setBackgroundColor(getResources()
+												.getColor(R.color.our_blue));
 							}
 						});
 
@@ -411,6 +562,11 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 								trainDepartureBtn.setText(trainDept[which]);
 
+								trainDestinationBtn.setEnabled(true);
+								trainDestinationBtn.setClickable(true);
+								trainDestinationBtn
+										.setBackgroundColor(getResources()
+												.getColor(R.color.our_blue));
 							}
 						});
 
@@ -439,6 +595,10 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 								trainDestinationBtn.setText(trainDest[which]);
 
+								trainDateBtn.setEnabled(true);
+								trainDateBtn.setClickable(true);
+								trainDateBtn.setBackgroundColor(getResources()
+										.getColor(R.color.our_blue));
 							}
 						});
 
@@ -452,10 +612,31 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 
-				DialogFragment newFragment = new DatePickerFragment(
-						trainDateBtn);
-				newFragment.show(getFragmentManager(), "datePicker");
+				final String[] dates = new String[4];
+				dates[0] = "Margo City";
+				dates[1] = "Detos";
+				dates[2] = "PIM";
+				dates[3] = "Senayan City";
 
+				AlertDialog.Builder trainBuilder = new AlertDialog.Builder(
+						activity);
+				trainBuilder.setTitle("TRAIN SCHEDULE").setItems(dates,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+
+								trainDateBtn.setText(dates[which]);
+
+								trainTimeBtn.setEnabled(true);
+								trainTimeBtn.setClickable(true);
+								trainTimeBtn.setBackgroundColor(getResources()
+										.getColor(R.color.our_blue));
+							}
+						});
+
+				trainBuilder.show();
 			}
 		});
 
@@ -481,6 +662,8 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 								trainTimeBtn.setText(schedules[which]);
 
+								trainNumOfTicketEt.setEnabled(true);
+								trainNumOfTicketEt.setClickable(true);
 							}
 						});
 
@@ -488,6 +671,55 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 			}
 		});
+
+		trainNumOfTicketEt
+				.setOnEditorActionListener(new OnEditorActionListener() {
+
+					@Override
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
+
+						int BASE_PRICE = 50000;
+						int count = Integer.parseInt(v.getText().toString());
+						int price = BASE_PRICE * count;
+
+						trainAmountTv.setText(price + "");
+
+						processPaymentBtn.setBackgroundColor(getResources()
+								.getColor(R.color.default_red));
+						processPaymentBtn.setClickable(true);
+						processPaymentBtn.setEnabled(true);
+
+						return false;
+					}
+				});
+
+	}
+
+	private void disableTrainButton() {
+
+		trainDepartureBtn.setEnabled(false);
+		trainDepartureBtn.setClickable(false);
+		trainDepartureBtn.setBackgroundColor(getResources().getColor(
+				R.color.default_input_gray));
+
+		trainDestinationBtn.setEnabled(false);
+		trainDestinationBtn.setClickable(false);
+		trainDestinationBtn.setBackgroundColor(getResources().getColor(
+				R.color.default_input_gray));
+
+		trainDateBtn.setEnabled(false);
+		trainDateBtn.setClickable(false);
+		trainDateBtn.setBackgroundColor(getResources().getColor(
+				R.color.default_input_gray));
+
+		trainTimeBtn.setEnabled(false);
+		trainTimeBtn.setClickable(false);
+		trainTimeBtn.setBackgroundColor(getResources().getColor(
+				R.color.default_input_gray));
+
+		trainNumOfTicketEt.setEnabled(false);
+		trainNumOfTicketEt.setClickable(false);
 
 	}
 
@@ -509,6 +741,11 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 	}
 
 	private void setupCinemaEvent() {
+
+		disableCinemaButton();
+
+		processPaymentBtn.setEnabled(false);
+		processPaymentBtn.setBackgroundColor(Color.GRAY);
 
 		cinemaNameBtn.setOnClickListener(new OnClickListener() {
 
@@ -532,7 +769,13 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 								cinemaNameBtn.setText(cinemas[which]);
 
+								movieTitleBtn.setBackgroundColor(getResources()
+										.getColor(R.color.our_blue));
+								movieTitleBtn.setEnabled(true);
+								movieTitleBtn.setClickable(true);
+
 							}
+
 						});
 
 				cinemaBuilder.show();
@@ -562,6 +805,11 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 								movieTitleBtn.setText(movies[which]);
 
+								movieDateBtn.setEnabled(true);
+								movieDateBtn.setClickable(true);
+								movieDateBtn.setBackgroundColor(getResources()
+										.getColor(R.color.our_blue));
+
 							}
 						});
 
@@ -574,10 +822,31 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 
-				DialogFragment newFragment = new DatePickerFragment(
-						movieDateBtn);
-				newFragment.show(getFragmentManager(), "datePicker");
+				final String[] dates = new String[4];
+				dates[0] = "Insidious";
+				dates[1] = "Jurrasic Park";
+				dates[2] = "Petualangan Sherina";
+				dates[3] = "Tusuk Jelangkung";
 
+				AlertDialog.Builder movieBuilder = new AlertDialog.Builder(
+						activity);
+				movieBuilder.setTitle("MOVIE SCHEDULE").setItems(dates,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+
+								movieDateBtn.setText(dates[which]);
+
+								movieTimeBtn.setEnabled(true);
+								movieTimeBtn.setClickable(true);
+								movieTimeBtn.setBackgroundColor(getResources()
+										.getColor(R.color.our_blue));
+							}
+						});
+
+				movieBuilder.show();
 			}
 		});
 
@@ -585,29 +854,74 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 			@Override
 			public void onClick(View v) {
-				final String[] movies = new String[4];
-				movies[0] = "Insidious";
-				movies[1] = "Jurrasic Park";
-				movies[2] = "Petualangan Sherina";
-				movies[3] = "Tusuk Jelangkung";
+				final String[] scheds = new String[4];
+				scheds[0] = "Insidious";
+				scheds[1] = "Jurrasic Park";
+				scheds[2] = "Petualangan Sherina";
+				scheds[3] = "Tusuk Jelangkung";
 
 				AlertDialog.Builder movieBuilder = new AlertDialog.Builder(
 						activity);
-				movieBuilder.setTitle("MOVIE SCHEDULE").setItems(movies,
+				movieBuilder.setTitle("MOVIE SCHEDULE").setItems(scheds,
 						new DialogInterface.OnClickListener() {
 
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
 
-								movieTimeBtn.setText(movies[which]);
+								movieTimeBtn.setText(scheds[which]);
 
+								movieNumOfTicketEt.setEnabled(true);
+								movieNumOfTicketEt.setClickable(true);
 							}
 						});
 
 				movieBuilder.show();
 			}
 		});
+
+		movieNumOfTicketEt
+				.setOnEditorActionListener(new OnEditorActionListener() {
+
+					@Override
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
+
+						int BASE_PRICE = 50000;
+						int count = Integer.parseInt(v.getText().toString());
+						int price = BASE_PRICE * count;
+
+						movieAmountTv.setText(price + "");
+
+						processPaymentBtn.setBackgroundColor(getResources()
+								.getColor(R.color.default_red));
+						processPaymentBtn.setClickable(true);
+						processPaymentBtn.setEnabled(true);
+
+						return false;
+					}
+				});
+
+	}
+
+	private void disableCinemaButton() {
+		movieTitleBtn.setEnabled(false);
+		movieTitleBtn.setClickable(false);
+		movieTitleBtn.setBackgroundColor(getResources().getColor(
+				R.color.default_input_gray));
+
+		movieDateBtn.setEnabled(false);
+		movieDateBtn.setClickable(false);
+		movieDateBtn.setBackgroundColor(getResources().getColor(
+				R.color.default_input_gray));
+
+		movieTimeBtn.setEnabled(false);
+		movieTimeBtn.setClickable(false);
+		movieTimeBtn.setBackgroundColor(getResources().getColor(
+				R.color.default_input_gray));
+
+		movieNumOfTicketEt.setEnabled(false);
+		movieNumOfTicketEt.setClickable(false);
 	}
 
 	private void setupCinemaView() {
@@ -632,8 +946,32 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 		switch (v.getId()) {
 		case R.id.payment_process_button:
-			Toast.makeText(activity.getApplicationContext(),
-					"READY TO PROCESSING PAYMENT", Toast.LENGTH_SHORT).show();
+
+			if (paymentType == CINEMA_TYPE) {
+				setupCinemaDialog();
+				this.processCinemaPaymentDialog.show();
+			} else if (paymentType == TRAIN_TYPE) {
+				setupTrainDialog();
+				this.processTrainPaymentDialog.show();
+			} else if (paymentType == AIRPLANE_TYPE) {
+				setupAirplaneDialog();
+				this.processAirplanePaymentDialog.show();
+			} else if (paymentType == OTHERS_TYPE) {
+				setupOthersDialog();
+				this.processOtherPaymentDialog.show();
+			}
+			break;
+		case R.id.cancel_process:
+
+			if (paymentType == CINEMA_TYPE) {
+				this.processCinemaPaymentDialog.hide();
+			} else if (paymentType == TRAIN_TYPE) {
+				this.processTrainPaymentDialog.hide();
+			} else if (paymentType == AIRPLANE_TYPE) {
+				this.processAirplanePaymentDialog.hide();
+			} else if (paymentType == OTHERS_TYPE) {
+				this.processOtherPaymentDialog.hide();
+			}
 			break;
 		default:
 			break;
@@ -641,41 +979,265 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 	}
 
-}
+	private void setupCinemaDialog() {
+		this.processCinemaPaymentDialog = new Dialog(this.activity);
+		this.processCinemaPaymentDialog
+				.setContentView(R.layout.payment_process_dialog);
+		this.processCinemaPaymentDialog.setTitle("YOUR PAYMENT");
 
-class DatePickerFragment extends DialogFragment implements
-		DatePickerDialog.OnDateSetListener {
+		this.layout = LayoutInflater
+				.from(getActivity().getApplicationContext()).inflate(
+						R.layout.cinema_layout_dialog, null);
 
-	Button bt;
+		this.content = (LinearLayout) this.processCinemaPaymentDialog
+				.findViewById(R.id.dialog_content);
+		content.addView(layout);
 
-	public DatePickerFragment(Button et) {
-		this.bt = et;
+		this.dialogCinemaName = (TextView) this.processCinemaPaymentDialog
+				.findViewById(R.id.dialog_cinema_name);
+		this.dialogMovieTitle = (TextView) this.processCinemaPaymentDialog
+				.findViewById(R.id.dialog_movie_title);
+		this.dialogMovieDate = (TextView) this.processCinemaPaymentDialog
+				.findViewById(R.id.dialog_movie_date);
+		this.dialogMovieTime = (TextView) this.processCinemaPaymentDialog
+				.findViewById(R.id.dialog_movie_time);
+		this.dialogMovieTicket = (TextView) this.processCinemaPaymentDialog
+				.findViewById(R.id.dialog_movie_ticket);
+		this.dialogMovieAmount = (TextView) this.processCinemaPaymentDialog
+				.findViewById(R.id.dialog_movie_amount);
+
+		// setup data dialog
+
+		this.dialogCinemaName.setText(cinemaNameBtn.getText().toString());
+		this.dialogMovieTitle.setText(movieTitleBtn.getText().toString());
+		this.dialogMovieDate.setText(movieDateBtn.getText().toString());
+		this.dialogMovieTime.setText(movieTimeBtn.getText().toString());
+		this.dialogMovieTicket.setText(movieNumOfTicketEt.getText().toString());
+		this.dialogMovieAmount.setText(movieAmountTv.getText().toString());
+
+		this.okBtn = (Button) this.processCinemaPaymentDialog
+				.findViewById(R.id.ok_process);
+		this.cancelBtn = (Button) this.processCinemaPaymentDialog
+				.findViewById(R.id.cancel_process);
+		this.okBtn.setOnClickListener(this);
+		this.cancelBtn.setOnClickListener(this);
+
 	}
 
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		// Use the current date as the default date in the picker
-		final Calendar c = Calendar.getInstance();
-		int year = c.get(Calendar.YEAR);
-		int month = c.get(Calendar.MONTH);
-		int day = c.get(Calendar.DAY_OF_MONTH);
+	private void setupTrainDialog() {
+		this.processTrainPaymentDialog = new Dialog(this.activity);
+		this.processTrainPaymentDialog
+				.setContentView(R.layout.payment_process_dialog);
+		this.processTrainPaymentDialog.setTitle("YOUR PAYMENT");
 
-		// Create a new instance of DatePickerDialog and return it
-		return new DatePickerDialog(this.getActivity(), this, year, month, day);
+		this.layout = LayoutInflater
+				.from(getActivity().getApplicationContext()).inflate(
+						R.layout.train_layout_dialog, null);
+
+		this.content = (LinearLayout) this.processTrainPaymentDialog
+				.findViewById(R.id.dialog_content);
+		content.addView(layout);
+
+		this.dialogTrainName = (TextView) this.processTrainPaymentDialog
+				.findViewById(R.id.dialog_train_name);
+		this.dialogTrainFrom = (TextView) this.processTrainPaymentDialog
+				.findViewById(R.id.dialog_train_from);
+		this.dialogTrainTo = (TextView) this.processTrainPaymentDialog
+				.findViewById(R.id.dialog_train_to);
+		this.dialogTrainDate = (TextView) this.processTrainPaymentDialog
+				.findViewById(R.id.dialog_train_date);
+		this.dialogTrainTime = (TextView) this.processTrainPaymentDialog
+				.findViewById(R.id.dialog_train_time);
+		this.dialogTrainTicket = (TextView) this.processTrainPaymentDialog
+				.findViewById(R.id.dialog_train_ticket);
+		this.dialogTrainAmount = (TextView) this.processTrainPaymentDialog
+				.findViewById(R.id.dialog_train_amount);
+
+		// setup data
+
+		this.dialogTrainName.setText(trainNameBtn.getText().toString());
+		this.dialogTrainFrom.setText(trainDepartureBtn.getText().toString());
+		this.dialogTrainTo.setText(trainDestinationBtn.getText().toString());
+		this.dialogTrainDate.setText(trainDateBtn.getText().toString());
+		this.dialogTrainTime.setText(trainTimeBtn.getText().toString());
+		this.dialogTrainTicket.setText(trainNumOfTicketEt.getText().toString());
+		this.dialogTrainAmount.setText(trainAmountTv.getText().toString());
+
+		this.okBtn = (Button) this.processTrainPaymentDialog
+				.findViewById(R.id.ok_process);
+		this.cancelBtn = (Button) this.processTrainPaymentDialog
+				.findViewById(R.id.cancel_process);
+		this.okBtn.setOnClickListener(this);
+		this.cancelBtn.setOnClickListener(this);
+
 	}
 
-	@Override
-	public void onDateSet(DatePicker view, int year, int month, int day) {
-		// Do something with the date chosen by the user
+	private void setupAirplaneDialog() {
+		this.processAirplanePaymentDialog = new Dialog(this.activity);
+		this.processAirplanePaymentDialog
+				.setContentView(R.layout.payment_process_dialog);
+		this.processAirplanePaymentDialog.setTitle("YOUR PAYMENT");
 
-		final Calendar c = Calendar.getInstance();
-		c.set(year, month, day);
+		this.layout = LayoutInflater
+				.from(getActivity().getApplicationContext()).inflate(
+						R.layout.airplane_layout_dialog, null);
 
-		Date date = c.getTime();
+		this.content = (LinearLayout) this.processAirplanePaymentDialog
+				.findViewById(R.id.dialog_content);
+		content.addView(layout);
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMM yyyy",
-				Locale.ENGLISH);
+		this.dialogAirlineName = (TextView) this.processAirplanePaymentDialog
+				.findViewById(R.id.dialog_airplane_name);
+		this.dialogAirplaneFrom = (TextView) this.processAirplanePaymentDialog
+				.findViewById(R.id.dialog_airplane_from);
+		this.dialogAirplaneTo = (TextView) this.processAirplanePaymentDialog
+				.findViewById(R.id.dialog_airplane_to);
+		this.dialogAirplaneDate = (TextView) this.processAirplanePaymentDialog
+				.findViewById(R.id.dialog_airplane_date);
+		this.dialogAirplaneTime = (TextView) this.processAirplanePaymentDialog
+				.findViewById(R.id.dialog_airplane_time);
+		this.dialogAirplaneTicket = (TextView) this.processAirplanePaymentDialog
+				.findViewById(R.id.dialog_airplane_ticket);
+		this.dialogAirplaneAmount = (TextView) this.processAirplanePaymentDialog
+				.findViewById(R.id.dialog_airplane_amount);
 
-		bt.setText(dateFormat.format(date));
+		// setup data
+
+		this.dialogAirlineName.setText(airlineNameBtn.getText().toString());
+		this.dialogAirplaneFrom.setText(airplaneDepartureBtn.getText()
+				.toString());
+		this.dialogAirplaneTo.setText(airplaneDestinationBtn.getText()
+				.toString());
+		this.dialogAirplaneDate.setText(airplaneDateBtn.getText().toString());
+		this.dialogAirplaneTime.setText(airplaneTimeBtn.getText().toString());
+		this.dialogAirplaneTicket.setText(airplaneNumOfTicketEt.getText()
+				.toString());
+		this.dialogAirplaneAmount
+				.setText(airplaneAmountTv.getText().toString());
+
+		this.okBtn = (Button) this.processAirplanePaymentDialog
+				.findViewById(R.id.ok_process);
+		this.cancelBtn = (Button) this.processAirplanePaymentDialog
+				.findViewById(R.id.cancel_process);
+		this.okBtn.setOnClickListener(this);
+		this.cancelBtn.setOnClickListener(this);
+
+	}
+
+	private void setupOthersDialog() {
+
+		this.processOtherPaymentDialog = new Dialog(this.activity);
+		this.processOtherPaymentDialog
+				.setContentView(R.layout.payment_process_dialog);
+		this.processOtherPaymentDialog.setTitle("YOUR PAYMENT");
+
+		this.layout = LayoutInflater
+				.from(getActivity().getApplicationContext()).inflate(
+						R.layout.others_layout_dialog, null);
+
+		this.content = (LinearLayout) this.processOtherPaymentDialog
+				.findViewById(R.id.dialog_content);
+		content.addView(layout);
+
+		this.okBtn = (Button) this.processOtherPaymentDialog
+				.findViewById(R.id.ok_process);
+		this.cancelBtn = (Button) this.processOtherPaymentDialog
+				.findViewById(R.id.cancel_process);
+		this.okBtn.setOnClickListener(this);
+		this.cancelBtn.setOnClickListener(this);
+
+	}
+
+	public void activateButton(ArrayList<View> views) {
+		for (int i = 0; i < views.size(); i++) {
+			views.get(i).setEnabled(true);
+			views.get(i).setBackgroundColor(
+					getResources().getColor(R.color.our_blue));
+		}
+	}
+
+	public void deactivateButton(ArrayList<View> views) {
+		for (int i = 0; i < views.size(); i++) {
+			views.get(i).setEnabled(false);
+			if (views.get(i) instanceof Button) {
+				Button temp = (Button) views.get(i);
+				temp.setText("CHOOSE");
+				views.get(i).setBackgroundColor(Color.GRAY);
+			} else if (views.get(i) instanceof EditText) {
+				EditText temp = (EditText) views.get(i);
+				temp.setText("");
+			}
+		}
+	}
+
+	/**
+	 * Background Async Task to Load all data by making HTTP Request
+	 * */
+	class GetData extends AsyncTask<String, String, ArrayList<String>> {
+
+		/**
+		 * Before starting background thread Show Progress Dialog
+		 * */
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			pDialog = ProgressDialog.show(context, "", "Getting data....",
+					false);
+			pDialog.setCancelable(false);
+			pDialog.show();
+		}
+
+		@Override
+		protected ArrayList<String> doInBackground(String... arg0) {
+			// TODO Auto-generated method stub
+			return tController.driverMethod(arg0);
+		}
+
+		/**
+		 * After completing background task Dismiss the progress dialog
+		 * **/
+		protected void onPostExecute(ArrayList<String> result1) {
+			// dismiss the dialog after getting all products
+			pDialog.dismiss();
+			processResult(result1);
+		}
+
+	}
+
+	public void processResult(ArrayList<String> result) {
+		final String title = result.get(result.size() - 1);
+		result.remove(result.size() - 1);
+		String[] listOfResult = new String[result.size()];
+		listOfResult = result.toArray(listOfResult);
+
+		final String[] finalResult = listOfResult;
+
+		AlertDialog.Builder airplaneBuilder = new AlertDialog.Builder(activity);
+		airplaneBuilder.setTitle(title).setItems(listOfResult,
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int position) {
+						if (title.equals("AIRLINES")) {
+							airlineNameBtn.setText(finalResult[position]);
+							ArrayList<View> views = new ArrayList<View>();
+							views.add(airplaneDepartureBtn);
+							activateButton(views);
+						} else if (title.equals("DEPARTURE")) {
+							airplaneDepartureBtn.setText(finalResult[position]);
+							ArrayList<View> views = new ArrayList<View>();
+							views.add(airplaneDestinationBtn);
+							activateButton(views);
+						} else if (title.equals("DESTINATION")) {
+							airplaneDestinationBtn
+									.setText(finalResult[position]);
+							ArrayList<View> views = new ArrayList<View>();
+							views.add(airplaneDateBtn);
+							activateButton(views);
+						}
+					}
+				});
+
+		airplaneBuilder.show();
 	}
 }

@@ -13,7 +13,7 @@
 
     <!-- Network State Permissions -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
@@ -24,6 +24,7 @@
             android:theme="@android:style/Theme.Holo.Light" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -33,18 +34,22 @@
         </activity>
         <activity
             android:name="com.example.mwallet.LoginActivity"
-            android:theme="@style/MyTheme"
-            android:label="@string/title_activity_login" >
+            android:label="@string/title_activity_login"
+            android:theme="@style/MyTheme" >
         </activity>
         <activity
             android:name="com.example.mwallet.SettingActivity"
-            android:theme="@style/MyTheme"
-            android:label="@string/title_activity_setting" >
+            android:label="@string/title_activity_setting"
+            android:theme="@style/MyTheme" >
         </activity>
         <activity
             android:name="com.example.mwallet.DrawerActivity"
             android:label="@string/app_name"
-            android:theme="@style/MyTheme">
+            android:theme="@style/MyTheme" >
+        </activity>
+        <activity
+            android:name="com.example.mwallet.Forgot_Pasword"
+            android:label="@string/title_activity_forgot__pasword" >
         </activity>
     </application>
 
