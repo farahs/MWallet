@@ -8,9 +8,177 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".TopUpFragment" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/title_activity_top_up" />
+        android:layout_gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Top Up"
+            android:textColor="@color/our_blue"
+            android:textSize="35sp"
+            android:paddingBottom="10dp" />
+
+        
+        
+        
+        <!-- name -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            >
+
+                       
+            <EditText
+                android:id="@+id/nameIn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:hint="Amount"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:paddingLeft="15dp"
+                android:textColor="@color/default_input_gray" />
+
+            <ImageView
+                android:id="@+id/nameIn_clear"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_clear_idle" />
+
+            
+
+        </RelativeLayout>
+        <!-- email -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/emailIn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:hint="Account's password"
+                android:maxLength="100"
+                android:maxLines="1"
+                android:paddingLeft="15dp"
+                android:textAlignment="center"
+                android:textColor="@color/default_input_gray" >
+
+                
+            </EditText>
+
+            <ImageView
+                android:id="@+id/emailIn_clear"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_clear_idle" />
+        </RelativeLayout>
+
+        
+        <!-- verify password -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/verifyPassIn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:hint="Account's number"
+                android:maxLength="100"
+                android:maxLines="1"
+                android:paddingLeft="15dp"
+                android:textColor="@color/default_input_gray" />
+
+            <ImageView
+                android:id="@+id/verifyPassIn_clear"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_clear_idle" />
+        </RelativeLayout>
+        
+        
+        <!-- pin -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/pinNumIn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:hint="Pin number"
+                android:inputType="textPassword"
+                android:maxLength="6"
+                android:maxLines="1"
+                android:paddingLeft="15dp"
+                android:textColor="@color/default_input_gray" />
+
+            <ImageView
+                android:id="@+id/pinNumIn_clear"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_clear_idle" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/signUpBtn "
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/our_blue"
+            android:paddingBottom="5dp"
+            android:text="Top Up"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+        
+           
+    </LinearLayout>
+
+    
 
 </RelativeLayout>
