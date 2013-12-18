@@ -47,7 +47,7 @@
                 android:maxLines="1"
                 android:paddingLeft="15dp"
                 android:textColor="@color/default_input_gray" />
-
+			<requestFocus />
             <ImageView
                 android:id="@+id/usernameIn_clear"
                 android:layout_width="25dp"
@@ -111,7 +111,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/default_input_gray" >
 
-                <requestFocus />
+                
             </EditText>
 
             <ImageView

@@ -53,5 +53,6 @@
     <string name="rp">Rp</string>
     <string name="process_payment">PROCESS PAYMENT</string>
     <string name="title_activity_forgot__pasword">Forgot_Pasword</string>
+    <string name="title_activity_invoice">Invoice</string>
 
 </resources>
