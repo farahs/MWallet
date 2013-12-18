@@ -1,9 +1,16 @@
 package com.example.mwallet;
 
 import android.os.Bundle;
+import java.util.ArrayList;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +25,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.pengguna.TransactionController;
+
 public class PaymentFragment extends Fragment implements OnClickListener {
 
+	private Context context;
+	private ProgressDialog pDialog;
+	private TransactionController tController;
 	private DrawerActivity activity;
 	View rootView;
 	View layout;
@@ -95,7 +107,9 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 				false);
 
 		this.activity = (DrawerActivity) this.getActivity();
+		this.context = this.getActivity();
 
+		this.tController = new TransactionController();
 		setupView();
 		setupEvent();
 		setupGoneView();
@@ -116,6 +130,9 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 		processPaymentBtn = (Button) rootView
 				.findViewById(R.id.payment_process_button);
+
+		processPaymentBtn.setEnabled(false);
+		processPaymentBtn.setBackgroundColor(Color.GRAY);
 	}
 
 	private void setupEvent() {
@@ -192,11 +209,11 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 	}
 
 	private void setupOthersEvent() {
-		
+
 		paycodeEt.setClickable(false);
 		paycodeEt.setEnabled(false);
 		paycodeInfoTv.setClickable(false);
-		
+
 		otherCategoriesBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -228,12 +245,13 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 			}
 		});
-		
+
 		paycodeInfoTv.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(activity.getApplicationContext(), "PAYCODE INFO", Toast.LENGTH_SHORT).show();
+				Toast.makeText(activity.getApplicationContext(),
+						"PAYCODE INFO", Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
@@ -242,40 +260,50 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 		otherCategoriesBtn = (Button) this.rootView
 				.findViewById(R.id.payment_categories_button);
 		paycodeEt = (EditText) this.rootView.findViewById(R.id.paycode_input);
-		paycodeInfoTv = (TextView) this.rootView.findViewById(R.id.paycode_info);
+		paycodeInfoTv = (TextView) this.rootView
+				.findViewById(R.id.paycode_info);
 	}
 
 	private void setupAirplaneEvent() {
-		
+
 		disableAirplaneButton();
-		
+
 		airlineNameBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
+				/*
+				 * 
+				 * final String[] airlines = new String[2]; airlines[0] =
+				 * "Lion Air"; airlines[1] = "Garuda Indonesia";
+				 * 
+				 * AlertDialog.Builder airplaneBuilder = new
+				 * AlertDialog.Builder( activity);
+				 * airplaneBuilder.setTitle("AIRLINES").setItems(airlines, new
+				 * DialogInterface.OnClickListener() {
+				 * 
+				 * @Override public void onClick(DialogInterface dialog, int
+				 * which) {
+				 * 
+				 * airlineNameBtn.setText(airlines[which]);
+				 * 
+				 * airplaneDepartureBtn.setEnabled(true);
+				 * airplaneDepartureBtn.setClickable(true);
+				 * airplaneDepartureBtn.
+				 * setBackgroundColor(getResources().getColor
+				 * (R.color.our_blue)); } });
+				 * 
+				 * airplaneBuilder.show();
+				 */
 
-				final String[] airlines = new String[2];
-				airlines[0] = "Lion Air";
-				airlines[1] = "Garuda Indonesia";
-
-				AlertDialog.Builder airplaneBuilder = new AlertDialog.Builder(
-						activity);
-				airplaneBuilder.setTitle("AIRLINES").setItems(airlines,
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-
-								airlineNameBtn.setText(airlines[which]);
-
-								airplaneDepartureBtn.setEnabled(true);
-								airplaneDepartureBtn.setClickable(true);
-								airplaneDepartureBtn.setBackgroundColor(getResources().getColor(R.color.our_blue));
-							}
-						});
-
-				airplaneBuilder.show();
+				ArrayList<View> views = new ArrayList<View>();
+				views.add(airplaneDepartureBtn);
+				views.add(airplaneDestinationBtn);
+				views.add(airplaneDateBtn);
+				views.add(airplaneTimeBtn);
+				views.add(airplaneNumOfTicketEt);
+				deactivateButton(views);
+				new GetData().execute("get_company");
 
 			}
 		});
@@ -284,30 +312,36 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 			@Override
 			public void onClick(View v) {
-
-				final String[] airplaneDept = new String[2];
-				airplaneDept[0] = "Cengkareng";
-				airplaneDept[1] = "Kualanamu";
-
-				AlertDialog.Builder airplaneBuilder = new AlertDialog.Builder(
-						activity);
-				airplaneBuilder.setTitle("DEPARTURE").setItems(airplaneDept,
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-
-								airplaneDepartureBtn
-										.setText(airplaneDept[which]);
-
-								airplaneDestinationBtn.setEnabled(true);
-								airplaneDestinationBtn.setClickable(true);
-								airplaneDestinationBtn.setBackgroundColor(getResources().getColor(R.color.our_blue));
-							}
-						});
-
-				airplaneBuilder.show();
+				/*
+				 * final String[] airplaneDept = new String[2]; airplaneDept[0]
+				 * = "Cengkareng"; airplaneDept[1] = "Kualanamu";
+				 * 
+				 * AlertDialog.Builder airplaneBuilder = new
+				 * AlertDialog.Builder( activity);
+				 * airplaneBuilder.setTitle("DEPARTURE").setItems(airplaneDept,
+				 * new DialogInterface.OnClickListener() {
+				 * 
+				 * @Override public void onClick(DialogInterface dialog, int
+				 * which) {
+				 * 
+				 * airplaneDepartureBtn .setText(airplaneDept[which]);
+				 * 
+				 * airplaneDestinationBtn.setEnabled(true);
+				 * airplaneDestinationBtn.setClickable(true);
+				 * airplaneDestinationBtn
+				 * .setBackgroundColor(getResources().getColor
+				 * (R.color.our_blue)); } });
+				 * 
+				 * airplaneBuilder.show();
+				 */
+				ArrayList<View> views = new ArrayList<View>();
+				views.add(airplaneDestinationBtn);
+				views.add(airplaneDateBtn);
+				views.add(airplaneTimeBtn);
+				views.add(airplaneNumOfTicketEt);
+				deactivateButton(views);
+				new GetData().execute("get_depart", airlineNameBtn.getText()
+						.toString());
 
 			}
 		});
@@ -316,30 +350,35 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 			@Override
 			public void onClick(View v) {
-
-				final String[] airplaneDest = new String[2];
-				airplaneDest[0] = "Cengkareng";
-				airplaneDest[1] = "Kualanamu";
-
-				AlertDialog.Builder airplaneBuilder = new AlertDialog.Builder(
-						activity);
-				airplaneBuilder.setTitle("DESTINATION").setItems(airplaneDest,
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-
-								airplaneDestinationBtn
-										.setText(airplaneDest[which]);
-
-								airplaneDateBtn.setEnabled(true);
-								airplaneDateBtn.setClickable(true);
-								airplaneDateBtn.setBackgroundColor(getResources().getColor(R.color.our_blue));
-							}
-						});
-
-				airplaneBuilder.show();
+				/*
+				 * final String[] airplaneDest = new String[2]; airplaneDest[0]
+				 * = "Cengkareng"; airplaneDest[1] = "Kualanamu";
+				 * 
+				 * AlertDialog.Builder airplaneBuilder = new
+				 * AlertDialog.Builder( activity);
+				 * airplaneBuilder.setTitle("DESTINATION"
+				 * ).setItems(airplaneDest, new
+				 * DialogInterface.OnClickListener() {
+				 * 
+				 * @Override public void onClick(DialogInterface dialog, int
+				 * which) {
+				 * 
+				 * airplaneDestinationBtn .setText(airplaneDest[which]);
+				 * 
+				 * airplaneDateBtn.setEnabled(true);
+				 * airplaneDateBtn.setClickable(true);
+				 * airplaneDateBtn.setBackgroundColor
+				 * (getResources().getColor(R.color.our_blue)); } });
+				 * 
+				 * airplaneBuilder.show();
+				 */
+				ArrayList<View> views = new ArrayList<View>();
+				views.add(airplaneDateBtn);
+				views.add(airplaneTimeBtn);
+				views.add(airplaneNumOfTicketEt);
+				deactivateButton(views);
+				new GetData().execute("get_dest", airlineNameBtn.getText()
+						.toString(), airplaneDepartureBtn.getText().toString());
 
 			}
 		});
@@ -368,7 +407,9 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 								airplaneTimeBtn.setEnabled(true);
 								airplaneTimeBtn.setClickable(true);
-								airplaneTimeBtn.setBackgroundColor(getResources().getColor(R.color.our_blue));
+								airplaneTimeBtn
+										.setBackgroundColor(getResources()
+												.getColor(R.color.our_blue));
 							}
 						});
 
@@ -412,46 +453,59 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 		airplaneDepartureBtn.setEnabled(false);
 		airplaneDepartureBtn.setClickable(false);
-		airplaneDepartureBtn.setBackgroundColor(getResources().getColor(R.color.default_input_gray));
+		airplaneDepartureBtn.setBackgroundColor(getResources().getColor(
+				R.color.default_input_gray));
 
 		airplaneDestinationBtn.setEnabled(false);
 		airplaneDestinationBtn.setClickable(false);
-		airplaneDestinationBtn.setBackgroundColor(getResources().getColor(R.color.default_input_gray));
+		airplaneDestinationBtn.setBackgroundColor(getResources().getColor(
+				R.color.default_input_gray));
 
 		airplaneDateBtn.setEnabled(false);
 		airplaneDateBtn.setClickable(false);
-		airplaneDateBtn.setBackgroundColor(getResources().getColor(R.color.default_input_gray));
+		airplaneDateBtn.setBackgroundColor(getResources().getColor(
+				R.color.default_input_gray));
 
 		airplaneTimeBtn.setEnabled(false);
 		airplaneTimeBtn.setClickable(false);
-		airplaneTimeBtn.setBackgroundColor(getResources().getColor(R.color.default_input_gray));
+		airplaneTimeBtn.setBackgroundColor(getResources().getColor(
+				R.color.default_input_gray));
 
 		airplaneNumOfTicketEt.setEnabled(false);
 		airplaneNumOfTicketEt.setClickable(false);
 
 	}
-	
+
 	private void setupAirplaneView() {
 		airlineNameBtn = (Button) this.rootView
 				.findViewById(R.id.airline_name_button);
 		airplaneDepartureBtn = (Button) this.rootView
 				.findViewById(R.id.airplane_departure_button);
+		airplaneDepartureBtn.setEnabled(false);
+		airplaneDepartureBtn.setBackgroundColor(Color.GRAY);
 		airplaneDestinationBtn = (Button) this.rootView
 				.findViewById(R.id.airplane_destination_button);
+		airplaneDestinationBtn.setEnabled(false);
+		airplaneDestinationBtn.setBackgroundColor(Color.GRAY);
 		airplaneDateBtn = (Button) this.rootView
 				.findViewById(R.id.airplane_date_button);
+		airplaneDateBtn.setEnabled(false);
+		airplaneDateBtn.setBackgroundColor(Color.GRAY);
 		airplaneTimeBtn = (Button) this.rootView
 				.findViewById(R.id.airplane_time_button);
+		airplaneTimeBtn.setEnabled(false);
+		airplaneTimeBtn.setBackgroundColor(Color.GRAY);
 		airplaneNumOfTicketEt = (EditText) this.rootView
 				.findViewById(R.id.airplane_sum_ticket);
+		airplaneNumOfTicketEt.setEnabled(false);
 		airplaneAmountTv = (TextView) this.rootView
 				.findViewById(R.id.airplane_amount_input);
 	}
 
 	private void setupTrainEvent() {
-		
+
 		disableTrainButton();
-		
+
 		trainNameBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -474,7 +528,9 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 								trainDepartureBtn.setEnabled(true);
 								trainDepartureBtn.setClickable(true);
-								trainDepartureBtn.setBackgroundColor(getResources().getColor(R.color.our_blue));
+								trainDepartureBtn
+										.setBackgroundColor(getResources()
+												.getColor(R.color.our_blue));
 							}
 						});
 
@@ -502,10 +558,12 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 									int which) {
 
 								trainDepartureBtn.setText(trainDept[which]);
-								
+
 								trainDestinationBtn.setEnabled(true);
 								trainDestinationBtn.setClickable(true);
-								trainDestinationBtn.setBackgroundColor(getResources().getColor(R.color.our_blue));
+								trainDestinationBtn
+										.setBackgroundColor(getResources()
+												.getColor(R.color.our_blue));
 							}
 						});
 
@@ -536,7 +594,8 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 								trainDateBtn.setEnabled(true);
 								trainDateBtn.setClickable(true);
-								trainDateBtn.setBackgroundColor(getResources().getColor(R.color.our_blue));
+								trainDateBtn.setBackgroundColor(getResources()
+										.getColor(R.color.our_blue));
 							}
 						});
 
@@ -569,7 +628,8 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 								trainTimeBtn.setEnabled(true);
 								trainTimeBtn.setClickable(true);
-								trainTimeBtn.setBackgroundColor(getResources().getColor(R.color.our_blue));
+								trainTimeBtn.setBackgroundColor(getResources()
+										.getColor(R.color.our_blue));
 							}
 						});
 
@@ -598,7 +658,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 									int which) {
 
 								trainTimeBtn.setText(schedules[which]);
-								
+
 								trainNumOfTicketEt.setEnabled(true);
 								trainNumOfTicketEt.setClickable(true);
 							}
@@ -615,19 +675,23 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 		trainDepartureBtn.setEnabled(false);
 		trainDepartureBtn.setClickable(false);
-		trainDepartureBtn.setBackgroundColor(getResources().getColor(R.color.default_input_gray));
+		trainDepartureBtn.setBackgroundColor(getResources().getColor(
+				R.color.default_input_gray));
 
 		trainDestinationBtn.setEnabled(false);
 		trainDestinationBtn.setClickable(false);
-		trainDestinationBtn.setBackgroundColor(getResources().getColor(R.color.default_input_gray));
+		trainDestinationBtn.setBackgroundColor(getResources().getColor(
+				R.color.default_input_gray));
 
 		trainDateBtn.setEnabled(false);
 		trainDateBtn.setClickable(false);
-		trainDateBtn.setBackgroundColor(getResources().getColor(R.color.default_input_gray));
+		trainDateBtn.setBackgroundColor(getResources().getColor(
+				R.color.default_input_gray));
 
 		trainTimeBtn.setEnabled(false);
 		trainTimeBtn.setClickable(false);
-		trainTimeBtn.setBackgroundColor(getResources().getColor(R.color.default_input_gray));
+		trainTimeBtn.setBackgroundColor(getResources().getColor(
+				R.color.default_input_gray));
 
 		trainNumOfTicketEt.setEnabled(false);
 		trainNumOfTicketEt.setClickable(false);
@@ -958,4 +1022,96 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 	}
 
+	public void activateButton(ArrayList<View> views) {
+		for (int i = 0; i < views.size(); i++) {
+			views.get(i).setEnabled(true);
+			views.get(i).setBackgroundColor(
+					getResources().getColor(R.color.our_blue));
+		}
+	}
+
+	public void deactivateButton(ArrayList<View> views) {
+		for (int i = 0; i < views.size(); i++) {
+			views.get(i).setEnabled(false);
+			if (views.get(i) instanceof Button) {
+				Button temp = (Button) views.get(i);
+				temp.setText("CHOOSE");
+				views.get(i).setBackgroundColor(Color.GRAY);
+			} else if (views.get(i) instanceof EditText) {
+				EditText temp = (EditText) views.get(i);
+				temp.setText("");
+			}
+		}
+	}
+
+	/**
+	 * Background Async Task to Load all data by making HTTP Request
+	 * */
+	class GetData extends AsyncTask<String, String, ArrayList<String>> {
+
+		/**
+		 * Before starting background thread Show Progress Dialog
+		 * */
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			pDialog = ProgressDialog.show(context, "", "Getting data....",
+					false);
+			pDialog.setCancelable(false);
+			pDialog.show();
+		}
+
+		@Override
+		protected ArrayList<String> doInBackground(String... arg0) {
+			// TODO Auto-generated method stub
+			return tController.driverMethod(arg0);
+		}
+
+		/**
+		 * After completing background task Dismiss the progress dialog
+		 * **/
+		protected void onPostExecute(ArrayList<String> result1) {
+			// dismiss the dialog after getting all products
+			pDialog.dismiss();
+			processResult(result1);
+		}
+
+	}
+
+	public void processResult(ArrayList<String> result) {
+		final String title = result.get(result.size() - 1);
+		result.remove(result.size() - 1);
+		String[] listOfResult = new String[result.size()];
+		listOfResult = result.toArray(listOfResult);
+
+		final String[] finalResult = listOfResult;
+
+		AlertDialog.Builder airplaneBuilder = new AlertDialog.Builder(activity);
+		airplaneBuilder.setTitle(title).setItems(listOfResult,
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int position) {
+						if (title.equals("AIRLINES")) {
+							airlineNameBtn.setText(finalResult[position]);
+							ArrayList<View> views = new ArrayList<View>();
+							views.add(airplaneDepartureBtn);
+							activateButton(views);
+						} else if (title.equals("DEPARTURE")) {
+							airplaneDepartureBtn.setText(finalResult[position]);
+							ArrayList<View> views = new ArrayList<View>();
+							views.add(airplaneDestinationBtn);
+							activateButton(views);
+						} else if (title.equals("DESTINATION")) {
+							airplaneDestinationBtn
+									.setText(finalResult[position]);
+							ArrayList<View> views = new ArrayList<View>();
+							views.add(airplaneDateBtn);
+							activateButton(views);
+						}
+					}
+				});
+
+		airplaneBuilder.show();
+	}
 }
