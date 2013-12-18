@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +24,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.example.pengguna.TransactionController;
@@ -69,14 +71,14 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 	Button movieTimeBtn;
 	EditText movieNumOfTicketEt;
 	TextView movieAmountTv;
-	
+
 	TextView dialogCinemaName;
 	TextView dialogMovieTitle;
 	TextView dialogMovieDate;
 	TextView dialogMovieTime;
 	TextView dialogMovieTicket;
 	TextView dialogMovieAmount;
- 
+
 	/*
 	 * TRAIN
 	 */
@@ -87,7 +89,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 	Button trainTimeBtn;
 	EditText trainNumOfTicketEt;
 	TextView trainAmountTv;
-	
+
 	TextView dialogTrainName;
 	TextView dialogTrainFrom;
 	TextView dialogTrainTo;
@@ -114,7 +116,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 	TextView dialogAirplaneTime;
 	TextView dialogAirplaneTicket;
 	TextView dialogAirplaneAmount;
-	
+
 	/*
 	 * OTHERS
 	 */
@@ -154,8 +156,6 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 		processPaymentBtn = (Button) rootView
 				.findViewById(R.id.payment_process_button);
 
-		processPaymentBtn.setEnabled(false);
-		processPaymentBtn.setBackgroundColor(Color.GRAY);
 	}
 
 	private void setupEvent() {
@@ -237,6 +237,9 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 		paycodeEt.setEnabled(false);
 		paycodeInfoTv.setClickable(false);
 
+		processPaymentBtn.setEnabled(false);
+		processPaymentBtn.setBackgroundColor(Color.GRAY);
+
 		otherCategoriesBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -277,6 +280,21 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 						"PAYCODE INFO", Toast.LENGTH_SHORT).show();
 			}
 		});
+
+		paycodeEt.setOnEditorActionListener(new OnEditorActionListener() {
+
+			@Override
+			public boolean onEditorAction(TextView v, int actionId,
+					KeyEvent event) {
+
+				processPaymentBtn.setBackgroundColor(getResources().getColor(
+						R.color.default_red));
+				processPaymentBtn.setClickable(true);
+				processPaymentBtn.setEnabled(true);
+
+				return false;
+			}
+		});
 	}
 
 	private void setupOthersView() {
@@ -290,12 +308,14 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 	private void setupAirplaneEvent() {
 
 		disableAirplaneButton();
+		processPaymentBtn.setEnabled(false);
+		processPaymentBtn.setBackgroundColor(Color.GRAY);
 
 		airlineNameBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-			
+
 				ArrayList<View> views = new ArrayList<View>();
 				views.add(airplaneDepartureBtn);
 				views.add(airplaneDestinationBtn);
@@ -312,7 +332,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 			@Override
 			public void onClick(View v) {
-			
+
 				ArrayList<View> views = new ArrayList<View>();
 				views.add(airplaneDestinationBtn);
 				views.add(airplaneDateBtn);
@@ -329,7 +349,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 			@Override
 			public void onClick(View v) {
-		
+
 				ArrayList<View> views = new ArrayList<View>();
 				views.add(airplaneDateBtn);
 				views.add(airplaneTimeBtn);
@@ -405,6 +425,28 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			}
 		});
 
+		airplaneNumOfTicketEt
+				.setOnEditorActionListener(new OnEditorActionListener() {
+
+					@Override
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
+
+						int BASE_PRICE = 50000;
+						int count = Integer.parseInt(v.getText().toString());
+						int price = BASE_PRICE * count;
+
+						airplaneAmountTv.setText(price + "");
+
+						processPaymentBtn.setBackgroundColor(getResources()
+								.getColor(R.color.default_red));
+						processPaymentBtn.setClickable(true);
+						processPaymentBtn.setEnabled(true);
+
+						return false;
+					}
+				});
+
 	}
 
 	private void disableAirplaneButton() {
@@ -463,6 +505,9 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 	private void setupTrainEvent() {
 
 		disableTrainButton();
+
+		processPaymentBtn.setEnabled(false);
+		processPaymentBtn.setBackgroundColor(Color.GRAY);
 
 		trainNameBtn.setOnClickListener(new OnClickListener() {
 
@@ -627,6 +672,28 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			}
 		});
 
+		trainNumOfTicketEt
+				.setOnEditorActionListener(new OnEditorActionListener() {
+
+					@Override
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
+
+						int BASE_PRICE = 50000;
+						int count = Integer.parseInt(v.getText().toString());
+						int price = BASE_PRICE * count;
+
+						trainAmountTv.setText(price + "");
+
+						processPaymentBtn.setBackgroundColor(getResources()
+								.getColor(R.color.default_red));
+						processPaymentBtn.setClickable(true);
+						processPaymentBtn.setEnabled(true);
+
+						return false;
+					}
+				});
+
 	}
 
 	private void disableTrainButton() {
@@ -676,6 +743,9 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 	private void setupCinemaEvent() {
 
 		disableCinemaButton();
+
+		processPaymentBtn.setEnabled(false);
+		processPaymentBtn.setBackgroundColor(Color.GRAY);
 
 		cinemaNameBtn.setOnClickListener(new OnClickListener() {
 
@@ -810,6 +880,28 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			}
 		});
 
+		movieNumOfTicketEt
+				.setOnEditorActionListener(new OnEditorActionListener() {
+
+					@Override
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
+
+						int BASE_PRICE = 50000;
+						int count = Integer.parseInt(v.getText().toString());
+						int price = BASE_PRICE * count;
+
+						movieAmountTv.setText(price + "");
+
+						processPaymentBtn.setBackgroundColor(getResources()
+								.getColor(R.color.default_red));
+						processPaymentBtn.setClickable(true);
+						processPaymentBtn.setEnabled(true);
+
+						return false;
+					}
+				});
+
 	}
 
 	private void disableCinemaButton() {
@@ -896,16 +988,26 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 		this.layout = LayoutInflater
 				.from(getActivity().getApplicationContext()).inflate(
 						R.layout.cinema_layout_dialog, null);
-		
-		this.dialogCinemaName = (TextView) this.processCinemaPaymentDialog.findViewById(R.id.dialog_cinema_name);
-		this.dialogMovieTitle = (TextView) this.processCinemaPaymentDialog.findViewById(R.id.dialog_movie_title);
-		this.dialogMovieDate = (TextView) this.processCinemaPaymentDialog.findViewById(R.id.dialog_movie_date);
-		this.dialogMovieTime = (TextView) this.processCinemaPaymentDialog.findViewById(R.id.dialog_movie_time);
-		this.dialogMovieTicket = (TextView) this.processCinemaPaymentDialog.findViewById(R.id.dialog_movie_ticket);
-		this.dialogMovieAmount = (TextView) this.processCinemaPaymentDialog.findViewById(R.id.dialog_movie_amount);
+
+		this.content = (LinearLayout) this.processCinemaPaymentDialog
+				.findViewById(R.id.dialog_content);
+		content.addView(layout);
+
+		this.dialogCinemaName = (TextView) this.processCinemaPaymentDialog
+				.findViewById(R.id.dialog_cinema_name);
+		this.dialogMovieTitle = (TextView) this.processCinemaPaymentDialog
+				.findViewById(R.id.dialog_movie_title);
+		this.dialogMovieDate = (TextView) this.processCinemaPaymentDialog
+				.findViewById(R.id.dialog_movie_date);
+		this.dialogMovieTime = (TextView) this.processCinemaPaymentDialog
+				.findViewById(R.id.dialog_movie_time);
+		this.dialogMovieTicket = (TextView) this.processCinemaPaymentDialog
+				.findViewById(R.id.dialog_movie_ticket);
+		this.dialogMovieAmount = (TextView) this.processCinemaPaymentDialog
+				.findViewById(R.id.dialog_movie_amount);
 
 		// setup data dialog
-		
+
 		this.dialogCinemaName.setText(cinemaNameBtn.getText().toString());
 		this.dialogMovieTitle.setText(movieTitleBtn.getText().toString());
 		this.dialogMovieDate.setText(movieDateBtn.getText().toString());
@@ -920,10 +1022,6 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 		this.okBtn.setOnClickListener(this);
 		this.cancelBtn.setOnClickListener(this);
 
-		this.content = (LinearLayout) this.processCinemaPaymentDialog
-				.findViewById(R.id.dialog_content);
-		content.addView(layout);
-
 	}
 
 	private void setupTrainDialog() {
@@ -936,16 +1034,27 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 				.from(getActivity().getApplicationContext()).inflate(
 						R.layout.train_layout_dialog, null);
 
-		this.dialogTrainName = (TextView) this.processTrainPaymentDialog.findViewById(R.id.dialog_train_name);
-		this.dialogTrainFrom = (TextView) this.processTrainPaymentDialog.findViewById(R.id.dialog_train_from);
-		this.dialogTrainTo = (TextView) this.processTrainPaymentDialog.findViewById(R.id.dialog_train_to);
-		this.dialogTrainDate = (TextView) this.processTrainPaymentDialog.findViewById(R.id.dialog_train_date);
-		this.dialogTrainTime = (TextView) this.processTrainPaymentDialog.findViewById(R.id.dialog_train_time);
-		this.dialogTrainTicket = (TextView) this.processTrainPaymentDialog.findViewById(R.id.dialog_train_ticket);
-		this.dialogTrainAmount = (TextView) this.processTrainPaymentDialog.findViewById(R.id.dialog_train_amount);
-	
+		this.content = (LinearLayout) this.processTrainPaymentDialog
+				.findViewById(R.id.dialog_content);
+		content.addView(layout);
+
+		this.dialogTrainName = (TextView) this.processTrainPaymentDialog
+				.findViewById(R.id.dialog_train_name);
+		this.dialogTrainFrom = (TextView) this.processTrainPaymentDialog
+				.findViewById(R.id.dialog_train_from);
+		this.dialogTrainTo = (TextView) this.processTrainPaymentDialog
+				.findViewById(R.id.dialog_train_to);
+		this.dialogTrainDate = (TextView) this.processTrainPaymentDialog
+				.findViewById(R.id.dialog_train_date);
+		this.dialogTrainTime = (TextView) this.processTrainPaymentDialog
+				.findViewById(R.id.dialog_train_time);
+		this.dialogTrainTicket = (TextView) this.processTrainPaymentDialog
+				.findViewById(R.id.dialog_train_ticket);
+		this.dialogTrainAmount = (TextView) this.processTrainPaymentDialog
+				.findViewById(R.id.dialog_train_amount);
+
 		// setup data
-		
+
 		this.dialogTrainName.setText(trainNameBtn.getText().toString());
 		this.dialogTrainFrom.setText(trainDepartureBtn.getText().toString());
 		this.dialogTrainTo.setText(trainDestinationBtn.getText().toString());
@@ -961,10 +1070,6 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 		this.okBtn.setOnClickListener(this);
 		this.cancelBtn.setOnClickListener(this);
 
-		this.content = (LinearLayout) this.processTrainPaymentDialog
-				.findViewById(R.id.dialog_content);
-		content.addView(layout);
-
 	}
 
 	private void setupAirplaneDialog() {
@@ -977,34 +1082,45 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 				.from(getActivity().getApplicationContext()).inflate(
 						R.layout.airplane_layout_dialog, null);
 
-		this.dialogAirlineName = (TextView) this.processAirplanePaymentDialog.findViewById(R.id.dialog_airplane_name);
-		this.dialogAirplaneFrom = (TextView) this.processAirplanePaymentDialog.findViewById(R.id.dialog_airplane_from);
-		this.dialogAirplaneTo = (TextView) this.processAirplanePaymentDialog.findViewById(R.id.dialog_airplane_to);
-		this.dialogAirplaneDate = (TextView) this.processAirplanePaymentDialog.findViewById(R.id.dialog_airplane_date);
-		this.dialogAirplaneTime = (TextView) this.processAirplanePaymentDialog.findViewById(R.id.dialog_airplane_time);
-		this.dialogAirplaneTicket = (TextView) this.processAirplanePaymentDialog.findViewById(R.id.dialog_airplane_ticket);
-		this.dialogAirplaneAmount = (TextView) this.processAirplanePaymentDialog.findViewById(R.id.dialog_airplane_amount);
-	
+		this.content = (LinearLayout) this.processAirplanePaymentDialog
+				.findViewById(R.id.dialog_content);
+		content.addView(layout);
+
+		this.dialogAirlineName = (TextView) this.processAirplanePaymentDialog
+				.findViewById(R.id.dialog_airplane_name);
+		this.dialogAirplaneFrom = (TextView) this.processAirplanePaymentDialog
+				.findViewById(R.id.dialog_airplane_from);
+		this.dialogAirplaneTo = (TextView) this.processAirplanePaymentDialog
+				.findViewById(R.id.dialog_airplane_to);
+		this.dialogAirplaneDate = (TextView) this.processAirplanePaymentDialog
+				.findViewById(R.id.dialog_airplane_date);
+		this.dialogAirplaneTime = (TextView) this.processAirplanePaymentDialog
+				.findViewById(R.id.dialog_airplane_time);
+		this.dialogAirplaneTicket = (TextView) this.processAirplanePaymentDialog
+				.findViewById(R.id.dialog_airplane_ticket);
+		this.dialogAirplaneAmount = (TextView) this.processAirplanePaymentDialog
+				.findViewById(R.id.dialog_airplane_amount);
+
 		// setup data
-		
+
 		this.dialogAirlineName.setText(airlineNameBtn.getText().toString());
-		this.dialogAirplaneFrom.setText(airplaneDepartureBtn.getText().toString());
-		this.dialogAirplaneTo.setText(airplaneDestinationBtn.getText().toString());
+		this.dialogAirplaneFrom.setText(airplaneDepartureBtn.getText()
+				.toString());
+		this.dialogAirplaneTo.setText(airplaneDestinationBtn.getText()
+				.toString());
 		this.dialogAirplaneDate.setText(airplaneDateBtn.getText().toString());
 		this.dialogAirplaneTime.setText(airplaneTimeBtn.getText().toString());
-		this.dialogAirplaneTicket.setText(airplaneNumOfTicketEt.getText().toString());
-		this.dialogAirplaneAmount.setText(airplaneAmountTv.getText().toString());
-		
+		this.dialogAirplaneTicket.setText(airplaneNumOfTicketEt.getText()
+				.toString());
+		this.dialogAirplaneAmount
+				.setText(airplaneAmountTv.getText().toString());
+
 		this.okBtn = (Button) this.processAirplanePaymentDialog
 				.findViewById(R.id.ok_process);
 		this.cancelBtn = (Button) this.processAirplanePaymentDialog
 				.findViewById(R.id.cancel_process);
 		this.okBtn.setOnClickListener(this);
 		this.cancelBtn.setOnClickListener(this);
-
-		this.content = (LinearLayout) this.processAirplanePaymentDialog
-				.findViewById(R.id.dialog_content);
-		content.addView(layout);
 
 	}
 
@@ -1019,16 +1135,16 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 				.from(getActivity().getApplicationContext()).inflate(
 						R.layout.others_layout_dialog, null);
 
+		this.content = (LinearLayout) this.processOtherPaymentDialog
+				.findViewById(R.id.dialog_content);
+		content.addView(layout);
+
 		this.okBtn = (Button) this.processOtherPaymentDialog
 				.findViewById(R.id.ok_process);
 		this.cancelBtn = (Button) this.processOtherPaymentDialog
 				.findViewById(R.id.cancel_process);
 		this.okBtn.setOnClickListener(this);
 		this.cancelBtn.setOnClickListener(this);
-
-		this.content = (LinearLayout) this.processOtherPaymentDialog
-				.findViewById(R.id.dialog_content);
-		content.addView(layout);
 
 	}
 
