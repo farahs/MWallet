@@ -52,7 +52,7 @@
             android:label="@string/title_activity_forgot__pasword" >
         </activity>
         <activity
-            android:name="com.example.mwallet.Invoice"
+            android:name="com.example.mwallet.InvoiceActivity"
             android:label="@string/title_activity_invoice" >
         </activity>
     </application>
