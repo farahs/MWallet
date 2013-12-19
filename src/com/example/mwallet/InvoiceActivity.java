@@ -3,6 +3,7 @@ package com.example.mwallet;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.view.Menu;
 import android.widget.TextView;
 
@@ -66,8 +67,11 @@ public class InvoiceActivity extends Activity {
 
 	public void setupView(){
 		tag = (TextView) this.findViewById(R.id.transactKind);
+		
 		t_code = (TextView) this.findViewById(R.id.t_code);
+	
 		transaction = (TextView) this.findViewById(R.id.transactName);
+		
 		price = (TextView) this.findViewById(R.id.amount);
 		date = (TextView) this.findViewById(R.id.dateOfTransact);
 	}

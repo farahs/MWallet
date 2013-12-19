@@ -65,8 +65,10 @@ public class LoginActivity extends Activity implements OnClickListener {
 		this.submitBtn = (Button) this.findViewById(R.id.login_submitBtn);
 
 		this.registerTV = (TextView) this.findViewById(R.id.login_register);
+		
 		this.forgotPasswordTV = (TextView) this
 				.findViewById(R.id.login_forgot_password);
+		
 	}
 
 	private void setEvent() {
@@ -110,8 +112,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 			this.startActivity(i);
 			break;
 		case R.id.login_forgot_password:
-			Toast.makeText(this.getApplicationContext(), "Forgot Password",
-					Toast.LENGTH_SHORT).show();
+			Intent a = new Intent(this, ForgotPasswordActivity.class);
+			this.startActivity(a);
 			break;
 		default:
 			break;

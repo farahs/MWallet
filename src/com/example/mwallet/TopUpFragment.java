@@ -1,12 +1,21 @@
 package com.example.mwallet;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import org.json.JSONException;
+
+import com.example.pengguna.PenggunaController;
+import com.example.pengguna.TopUpController;
+
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -19,12 +28,17 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TopUpFragment extends Fragment implements OnClickListener {
 
 	DrawerActivity activity;
 	View rootView;
 	View layout;
+
+	ProgressDialog pDialog;
+	TopUpController tuController;
+	Context context;
 
 	EditText amount;
 	EditText accountNumber;
@@ -46,6 +60,8 @@ public class TopUpFragment extends Fragment implements OnClickListener {
 		this.rootView = inflater.inflate(R.layout.activity_top_up, container,
 				false);
 		this.activity = (DrawerActivity) this.getActivity();
+		this.context = activity.getApplicationContext();
+		this.tuController = new TopUpController();
 
 		setupView();
 		setupEvent();
@@ -55,10 +71,13 @@ public class TopUpFragment extends Fragment implements OnClickListener {
 	private void setupView() {
 
 		amount = (EditText) rootView.findViewById(R.id.topUp_amount_input);
+	
 		accountNumber = (EditText) rootView
 				.findViewById(R.id.topUp_accountNumber_input);
+	
 		accountName = (EditText) rootView
 				.findViewById(R.id.topUp_accountName_input);
+		
 		date = (TextView) rootView.findViewById(R.id.topUp_date);
 
 		processTopUp = (Button) rootView.findViewById(R.id.topUpBtn);
@@ -94,8 +113,7 @@ public class TopUpFragment extends Fragment implements OnClickListener {
 
 			@Override
 			public void onClick(View v) {
-				DialogFragment newFragment = new DatePickerFragment(
-						date);
+				DialogFragment newFragment = new DatePickerFragment(date);
 				newFragment.show(getFragmentManager(), "datePicker");
 			}
 		});
@@ -108,6 +126,16 @@ public class TopUpFragment extends Fragment implements OnClickListener {
 			pinTopUpDialog.show();
 			break;
 		case R.id.ok_process:
+			String dateAfterFormat = processDate(date.getText().toString());
+			if (cekPIN()) {
+				new ProcessTopUp().execute(amount.getText().toString(),
+						accountNumber.getText().toString(), accountName
+								.getText().toString(), dateAfterFormat);
+			} else {
+				Toast.makeText(activity.getApplicationContext(),
+						"PIN INCORRECT", Toast.LENGTH_SHORT).show();
+			}
+
 			break;
 		case R.id.cancel_process:
 			pinTopUpDialog.hide();
@@ -115,6 +143,114 @@ public class TopUpFragment extends Fragment implements OnClickListener {
 		}
 	}
 
+	public String processDate(String date) {
+
+		String[] dateList = new String[3];
+		dateList = date.split(" ");
+
+		String tgl = dateList[0];
+		String bln = "";
+		String t = dateList[1];
+		if (t.equals("January")) {
+			bln = "01";
+		} else if (t.equals("February")) {
+			bln = "02";
+		} else if (t.equals("March")) {
+			bln = "03";
+		} else if (t.equals("April")) {
+			bln = "04";
+		} else if (t.equals("May")) {
+			bln = "05";
+		} else if (t.equals("June")) {
+			bln = "06";
+		} else if (t.equals("July")) {
+			bln = "07";
+		} else if (t.equals("August")) {
+			bln = "08";
+		} else if (t.equals("September")) {
+			bln = "09";
+		} else if (t.equals("October")) {
+			bln = "10";
+		} else if (t.equals("November")) {
+			bln = "11";
+		} else if (t.equals("December")) {
+			bln = "12";
+		}
+		String thn = dateList[2];
+
+		return tgl + bln + thn;
+	}
+
+	/**
+	 * Background Async Task to Load all data by making HTTP Request
+	 * */
+	class ProcessTopUp extends AsyncTask<String, String, ArrayList<String>> {
+
+		/**
+		 * Before starting background thread Show Progress Dialog
+		 * */
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			pDialog = ProgressDialog.show(activity, "", "Process top up....",
+					false);
+			pDialog.setCancelable(false);
+			pDialog.show();
+		}
+
+		@Override
+		protected ArrayList<String> doInBackground(String... arg0) {
+			// TODO Auto-generated method stub
+			try {
+				return tuController.driverMethodTopUp(
+						activity.getApplicationContext(), arg0);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		/**
+		 * After completing background task Dismiss the progress dialog
+		 * **/
+		protected void onPostExecute(ArrayList<String> result1) {
+			// dismiss the dialog after getting all products
+			pDialog.dismiss();
+			processResult(result1);
+		}
+
+	}
+
+	private boolean cekPIN() {
+
+		String dbPIN = PenggunaController.getUser().getPin();
+		String inputPIN = pin.getText().toString();
+
+		if (inputPIN.equals(dbPIN)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private void processResult(ArrayList<String> result) {
+
+		if (result.size() == 0) {
+			pinTopUpDialog.hide();
+			clearData();
+			Toast.makeText(context, "TOPUP SUCCESSFULL", Toast.LENGTH_SHORT)
+					.show();
+		}
+	}
+	
+	private void clearData(){
+		amount.setText("");
+		accountNumber.setText("");
+		accountName.setText("");
+		date.setText("");
+		pin.setText("");
+	}
 }
 
 class DatePickerFragment extends DialogFragment implements

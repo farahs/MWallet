@@ -23,6 +23,7 @@ public class PenggunaController {
 	private static String URL_LOGIN = "http://www.mwallet.meximas.com/public_html/PHP/login.php";
 	private static String URL_REGISTER = "http://www.mwallet.meximas.com/public_html/PHP/register.php";
 	private static String URL_OTHERS = "http://www.mwallet.meximas.com/public_html/PHP/others.php";
+	private static String URL_FORGOT_PASSWORD = "http://www.mwallet.meximas.com/public_html/PHP/forgot_password.php";
 
 	private static String login_tag = "login";
 	private static String register_tag = "register";
@@ -281,6 +282,28 @@ public class PenggunaController {
 			mistakes.add("length password");
 		}
 		return mistakes;
+	}
+	
+	public ArrayList<String> forgotPassword(Context c, String [] parameter) throws JSONException{
+		
+		ArrayList<String> res = new ArrayList<String>();
+		String email = parameter[0];
+		String pwd = parameter[1];
+		
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("forgot_password", "forgot_password"));
+		params.add(new BasicNameValuePair("email", email));
+		params.add(new BasicNameValuePair("password", pwd));
+		
+		JSONObject json_password = jsonParser.getJSONFromUrl(URL_FORGOT_PASSWORD, params);
+		
+		if (json_password.getString("success").equals("1")) {
+			return res;
+		} else {
+			res.add("unregistered");
+			return res;
+		}
+
 	}
 	
 }
