@@ -21,6 +21,7 @@ public class TransactionController {
 	private JSONParser jsonParser = new JSONParser();
 
 	private static String URL_AIRPLANE = "http://www.mwallet.meximas.com/public_html/PHP/airplane.php";
+	private static String URL_OTHERS = "http://www.mwallet.meximas.com/public_html/PHP/others.php";
 
 	public ArrayList<String> getAirplaneCompany() {
 		// TODO Auto-generated method stub
@@ -129,6 +130,69 @@ public class TransactionController {
 		listOfTime.add("TIME");
 		return listOfTime;
 	}
+	
+	public ArrayList<String> getOthers(String categories, String payCode) {
+		// TODO Auto-generated method stub
+		ArrayList<String> listOfInformation = new ArrayList<String>();
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("get_others", "get_others"));
+		params.add(new BasicNameValuePair(categories.toLowerCase(), categories.toLowerCase()));
+		params.add(new BasicNameValuePair("pay_code", payCode));
+		JSONObject json = jsonParser.getJSONFromUrl(URL_OTHERS, params);
+		try {
+			JSONArray result = json.getJSONArray(categories.toLowerCase());
+			for (int i = 0; i < result.length(); i++) {
+				JSONObject data = result.getJSONObject(i);
+				if(categories.equalsIgnoreCase("vending machine")){
+					listOfInformation.add("vending machine");
+					listOfInformation.add(data.getString("MCH_NAME"));
+					listOfInformation.add(data.getString("MCH_LOC"));
+					listOfInformation.add(data.getString("ITEM"));
+					listOfInformation.add(data.getString("PRICE"));
+					listOfInformation.add(data.getString("PAY_CODE"));
+				}else if(categories.equalsIgnoreCase("bill")){
+					if(data.getString("FLAG_ELECT").equals("1")){
+						listOfInformation.add("bill");
+						listOfInformation.add("Electric Bill");
+						listOfInformation.add(data.getString("ELECT_ACC"));
+						listOfInformation.add(data.getString("ACC_NAME"));
+						listOfInformation.add(data.getString("PAID_AMOUNT"));
+						listOfInformation.add(data.getString("PAY_CODE"));
+					}else if(data.getString("FLAG_WATER").equals("1")){
+						listOfInformation.add("bill");
+						listOfInformation.add("Water Bill");
+						listOfInformation.add(data.getString("WATER_ACC"));
+						listOfInformation.add(data.getString("ACC_NAME"));
+						listOfInformation.add(data.getString("PAID_AMOUNT"));
+						listOfInformation.add(data.getString("PAY_CODE"));
+					}else if(data.getString("FLAG_INT").equals("1")){
+						listOfInformation.add("bill");
+						listOfInformation.add("Internet Bill");
+						listOfInformation.add(data.getString("INT_ACC"));
+						listOfInformation.add(data.getString("ACC_NAME"));
+						listOfInformation.add(data.getString("PAID_AMOUNT"));
+						listOfInformation.add(data.getString("PAY_CODE"));
+					}
+				}else if(categories.equalsIgnoreCase("electric pulse")){
+					listOfInformation.add("electric pulse");
+					if(data.getString("ID_MART").equals("1")){
+						listOfInformation.add("Alfamart");
+					}else if(data.getString("ID_MART").equals("2")){
+						listOfInformation.add("Indomaret");
+					}else if(data.getString("ID_MART").equals("3")){
+						listOfInformation.add("Giant");
+					}
+					listOfInformation.add(data.getString("PHONE_NUMBER"));
+					listOfInformation.add(data.getString("COMPANY"));
+					listOfInformation.add(data.getString("PRICE"));
+					listOfInformation.add(data.getString("PAY_CODE"));
+				}
+			}
+		} catch (JSONException j) {
+
+		}
+		return listOfInformation;
+	}
 
 	public ArrayList<String> driverMethod(String[] params) {
 		if (params[0].equalsIgnoreCase("get_company")) {
@@ -142,6 +206,8 @@ public class TransactionController {
 		} else if (params[0].equalsIgnoreCase("get_plane_time")) {
 			return this.getAirplaneTime(params[1], params[2], params[3],
 					params[4]);
+		} else if(params[0].equalsIgnoreCase("get_others")){
+			return this.getOthers(params[1], params[2]);
 		}
 
 		return null;
