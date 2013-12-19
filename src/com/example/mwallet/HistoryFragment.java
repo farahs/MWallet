@@ -71,7 +71,7 @@ public class HistoryFragment extends Fragment {
 			transaction.add(transaction1);
 			date.add(date1);
 			price.add(price1);
-			tag.add("airplane");
+			tag.add("Airplane");
 			t_code.add(art.getTransaction_code());
 		}
 		
@@ -92,6 +92,7 @@ public class HistoryFragment extends Fragment {
 				intent.putExtra("date", date.getText().toString());
 				intent.putExtra("price",price.getText().toString());
 				intent.putExtra("t_code",t_code.getText().toString());
+				intent.putExtra("from", "history");
 				startActivity(intent);
 			}
 			

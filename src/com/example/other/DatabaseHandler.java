@@ -263,7 +263,37 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.close(); // Closing database connection
 
 	}
+	
+	public void insertAirplaneTransaction1(String transaction_id, String transaction_type,
+			String id_user, String transaction_code, String amount,
+			String id_plane, String company, String total_ticket, String date,
+			String time, String depart, String dest) {
+		SQLiteDatabase db = this.getWritableDatabase();
 
+		ContentValues values = new ContentValues();
+		values.put("ID_TRNSC", transaction_id);
+		values.put("TRNSC_TYPE", transaction_type);
+		values.put("ID_USER", id_user);
+		values.put("TRNSC_CODE",transaction_code);
+		PaymentFragment.t_code = transaction_code;
+		values.put("AMOUNT", amount); 
+		db.insert(TABLE_TRNSC_HSTY, null, values);
+
+		values.put("ID_PLANE", id_plane);
+		values.put("COMPANY", company);
+		values.put("TOTAL_TICKET", total_ticket);
+		values.put("PLANE_DATE", date);
+		values.put("PLANE_TIME", time);
+		values.put("DEPART_PORT", depart);
+		values.put("DEST_PORT", dest);
+		values.remove("ID_USER");
+		values.remove("TRNSC_CODE");
+		values.remove("AMOUNT");
+		// Inserting Row
+		db.insert(TABLE_AIRPLANE_TRNSC, null, values);
+		db.close(); // Closing database connection
+	}
+	
 	public ArrayList<AirplaneTransaction> getAirplaneTransaction() {
 		SQLiteDatabase db = this.getReadableDatabase();
 		ArrayList<AirplaneTransaction> airplaneTransaction = new ArrayList<AirplaneTransaction>();
