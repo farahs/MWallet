@@ -6,112 +6,112 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin" >
-	<RelativeLayout
-	    android:layout_width="match_parent"
-	    android:layout_height="fill_parent"
-	    >
-    <LinearLayout
-        android:id="@+id/invoice"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/receipt2"
-        android:orientation="vertical" >
+        android:layout_height="fill_parent" >
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/invoice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text="Receipt"
-            android:textColor="@color/our_blue"
-            android:textSize="35sp" />
+            android:background="@drawable/receipt2"
+            android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/transactKind"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Kind of transact"
-            android:textColor="@color/our_blue"
-            android:textSize="20sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="Receipt"
+                android:textColor="@color/our_blue"
+                android:textSize="35sp" />
 
-        <TextView
-            android:id="@+id/transactName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Name of Transaction"
-            android:textColor="@color/our_blue"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/transactKind"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Kind of transact"
+                android:textColor="@color/our_blue"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/dateOfTransact"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            android:text="11 Desember 2013"
-            android:textColor="#000000"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/transactName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Name of Transaction"
+                android:textColor="@color/our_blue"
+                android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/amount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Rp100000,00"
-            android:textColor="#000000"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/dateOfTransact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="11 Desember 2013"
+                android:textColor="#000000"
+                android:textSize="18sp" />
 
-        
-        <TextView
-            android:id="@+id/balanceCaption"
+            <TextView
+                android:id="@+id/amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Rp100000,00"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/balanceCaption"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="40dp"
+                android:gravity="center"
+                android:text="Transaction Code"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/t_code"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="12345678910"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="30sp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-             android:layout_alignParentBottom="true"
-            android:layout_marginTop="10dp"
+            android:layout_below="@+id/invoice"
             android:gravity="center"
-            android:text="Transaction Code"
-            android:textAlignment="center"
-            android:textColor="#000000"
-            android:textSize="14sp" />
-		 
-		 <TextView
-            android:id="@+id/t_code"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-             android:layout_alignParentBottom="true"
-            android:layout_marginTop="10dp"
-            android:text="12345678910"
-            android:textAlignment="center"
-            android:textColor="#000000"
-            android:textSize="30sp" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_alignParentBottom="true"
-     	android:orientation="vertical"  
-        >
-	<TextView
-            android:id="@+id/notif"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-     		
-     		android:paddingTop="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="10dp"
-            android:background="#47D5A6"
-            android:gravity="center"
-            android:text="Transaction Success"
-            android:layout_alignParentBottom="true"
-            android:textAlignment="center"
-            android:textColor="#ffffff"
-            android:textSize="18sp" />
-	</LinearLayout>
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/notif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#47D5A6"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:text="Transaction Success"
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+        </LinearLayout>
     </RelativeLayout>
+
 </ScrollView>
