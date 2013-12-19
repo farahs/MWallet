@@ -11,7 +11,7 @@
         android:layout_marginBottom="5dp" >
 
         <TextView
-            android:id="@+id/dialog_others_nama"
+            android:id="@+id/dialog_others_1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="75dp"
@@ -23,6 +23,7 @@
             android:textSize="15sp" />
 
         <TextView
+            android:id="@+id/textView1"
             android:layout_width="75dp"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
@@ -39,7 +40,7 @@
         android:layout_marginBottom="5dp" >
 
         <TextView
-            android:id="@+id/dialog_others_no"
+            android:id="@+id/dialog_others_2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="75dp"
@@ -51,6 +52,7 @@
             android:textSize="15sp" />
 
         <TextView
+            android:id="@+id/textView2"
             android:layout_width="75dp"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
@@ -67,7 +69,7 @@
         android:layout_marginBottom="5dp" >
 
         <TextView
-            android:id="@+id/dialog_others_type"
+            android:id="@+id/dialog_others_3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="75dp"
@@ -79,6 +81,7 @@
             android:textSize="15sp" />
 
         <TextView
+            android:id="@+id/textView3"
             android:layout_width="75dp"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
@@ -95,7 +98,7 @@
         android:layout_marginBottom="5dp" >
 
         <TextView
-            android:id="@+id/dialog_others_amount"
+            android:id="@+id/dialog_others_4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="75dp"
@@ -107,6 +110,36 @@
             android:textSize="15sp" />
 
         <TextView
+            android:id="@+id/textView4"
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:background="@color/default_bg"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:text="AMOUNT"
+            android:textSize="16sp" />
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="5dp" >
+
+        <TextView
+            android:id="@+id/dialog_others_5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="75dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:hint="@string/amount"
+            android:textAlignment="center"
+            android:textColor="@color/default_input_gray"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textView5"
             android:layout_width="75dp"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"

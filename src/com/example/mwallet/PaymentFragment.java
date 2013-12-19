@@ -128,6 +128,17 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 	Button otherCategoriesBtn;
 	EditText paycodeEt;
 	TextView paycodeInfoTv;
+	
+	TextView showText1;
+	TextView showText2;
+	TextView showText3;
+	TextView showText4;
+	TextView showText5;
+	TextView textView1;
+	TextView textView2;
+	TextView textView3;
+	TextView textView4;
+	TextView textView5;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -281,8 +292,19 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(activity.getApplicationContext(),
-						"PAYCODE INFO", Toast.LENGTH_SHORT).show();
+				if (otherCategoriesBtn.getText().toString()
+						.equalsIgnoreCase("vending machine")) {
+					Toast.makeText(activity.getApplicationContext(),
+							"Insert your paycode", Toast.LENGTH_SHORT).show();
+				} else if (otherCategoriesBtn.getText().toString()
+						.equalsIgnoreCase("bill")) {
+					Toast.makeText(activity.getApplicationContext(),
+							"Insert your paycode", Toast.LENGTH_SHORT).show();
+				} else if (otherCategoriesBtn.getText().toString()
+						.equalsIgnoreCase("electric pulse")) {
+					Toast.makeText(activity.getApplicationContext(),
+							"Insert your paycode", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 
@@ -929,8 +951,8 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 				setupAirplaneDialog();
 				this.processAirplanePaymentDialog.show();
 			} else if (paymentType == OTHERS_TYPE) {
-				setupOthersDialog();
-				this.processOtherPaymentDialog.show();
+				new GetData().execute("get_others", otherCategoriesBtn
+						.getText().toString(), paycodeEt.getText().toString());
 			}
 			break;
 		case R.id.cancel_process:
@@ -1114,28 +1136,140 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 	}
 
-	private void setupOthersDialog() {
+	private void setupOthersDialog(ArrayList<String> result) {
+		if (result.get(0).equalsIgnoreCase("vending machine")) {
+			this.processOtherPaymentDialog = new Dialog(this.activity);
+			this.processOtherPaymentDialog
+					.setContentView(R.layout.payment_process_dialog);
+			this.processOtherPaymentDialog.setTitle("YOUR PAYMENT");
 
-		this.processOtherPaymentDialog = new Dialog(this.activity);
-		this.processOtherPaymentDialog
-				.setContentView(R.layout.payment_process_dialog);
-		this.processOtherPaymentDialog.setTitle("YOUR PAYMENT");
+			this.layout = LayoutInflater.from(
+					getActivity().getApplicationContext()).inflate(
+					R.layout.others_layout_dialog, null);
 
-		this.layout = LayoutInflater
-				.from(getActivity().getApplicationContext()).inflate(
-						R.layout.others_layout_dialog, null);
+			this.content = (LinearLayout) this.processOtherPaymentDialog
+					.findViewById(R.id.dialog_content);
+			content.addView(layout);
 
-		this.content = (LinearLayout) this.processOtherPaymentDialog
-				.findViewById(R.id.dialog_content);
-		content.addView(layout);
+			this.okBtn = (Button) this.processOtherPaymentDialog
+					.findViewById(R.id.ok_process);
+			this.cancelBtn = (Button) this.processOtherPaymentDialog
+					.findViewById(R.id.cancel_process);
+			this.okBtn.setOnClickListener(this);
+			this.cancelBtn.setOnClickListener(this);
+			
+			this.showText1 = (TextView) this.layout.findViewById(R.id.dialog_others_1);
+			this.showText2 = (TextView) this.layout.findViewById(R.id.dialog_others_2);
+			this.showText3 = (TextView) this.layout.findViewById(R.id.dialog_others_3);
+			this.showText4 = (TextView) this.layout.findViewById(R.id.dialog_others_4);
+			this.showText5 = (TextView) this.layout.findViewById(R.id.dialog_others_5);
+			
+			this.textView1 = (TextView) this.layout.findViewById(R.id.textView1);
+			this.textView2 = (TextView) this.layout.findViewById(R.id.textView2);
+			this.textView3 = (TextView) this.layout.findViewById(R.id.textView3);
+			this.textView4 = (TextView) this.layout.findViewById(R.id.textView4);
+			this.textView5 = (TextView) this.layout.findViewById(R.id.textView5);
+			
+			this.textView1.setText("Name");
+			this.textView2.setText("Location");
+			this.textView3.setText("Item");
+			this.textView4.setText("Price");
+			this.textView5.setText("Pay Code");
+			
+			this.showText1.setText(result.get(1));
+			this.showText2.setText(result.get(2));
+			this.showText3.setText(result.get(3));
+			this.showText4.setText(result.get(4));
+			this.showText5.setText(result.get(5));
+		}else if (result.get(0).equalsIgnoreCase("bill")) {
+			this.processOtherPaymentDialog = new Dialog(this.activity);
+			this.processOtherPaymentDialog
+					.setContentView(R.layout.payment_process_dialog);
+			this.processOtherPaymentDialog.setTitle("YOUR PAYMENT");
 
-		this.okBtn = (Button) this.processOtherPaymentDialog
-				.findViewById(R.id.ok_process);
-		this.cancelBtn = (Button) this.processOtherPaymentDialog
-				.findViewById(R.id.cancel_process);
-		this.okBtn.setOnClickListener(this);
-		this.cancelBtn.setOnClickListener(this);
+			this.layout = LayoutInflater.from(
+					getActivity().getApplicationContext()).inflate(
+					R.layout.others_layout_dialog, null);
 
+			this.content = (LinearLayout) this.processOtherPaymentDialog
+					.findViewById(R.id.dialog_content);
+			content.addView(layout);
+
+			this.okBtn = (Button) this.processOtherPaymentDialog
+					.findViewById(R.id.ok_process);
+			this.cancelBtn = (Button) this.processOtherPaymentDialog
+					.findViewById(R.id.cancel_process);
+			this.okBtn.setOnClickListener(this);
+			this.cancelBtn.setOnClickListener(this);
+			
+			this.showText1 = (TextView) this.layout.findViewById(R.id.dialog_others_1);
+			this.showText2 = (TextView) this.layout.findViewById(R.id.dialog_others_2);
+			this.showText3 = (TextView) this.layout.findViewById(R.id.dialog_others_3);
+			this.showText4 = (TextView) this.layout.findViewById(R.id.dialog_others_4);
+			this.showText5 = (TextView) this.layout.findViewById(R.id.dialog_others_5);
+			
+			this.textView1 = (TextView) this.layout.findViewById(R.id.textView1);
+			this.textView2 = (TextView) this.layout.findViewById(R.id.textView2);
+			this.textView3 = (TextView) this.layout.findViewById(R.id.textView3);
+			this.textView4 = (TextView) this.layout.findViewById(R.id.textView4);
+			this.textView5 = (TextView) this.layout.findViewById(R.id.textView5);
+			
+			this.textView1.setText("Bill Type");
+			this.textView2.setText("Account Number");
+			this.textView3.setText("Account Name");
+			this.textView4.setText("Price");
+			this.textView5.setText("Pay Code");
+			
+			this.showText1.setText(result.get(1));
+			this.showText2.setText(result.get(2));
+			this.showText3.setText(result.get(3));
+			this.showText4.setText(result.get(4));
+			this.showText5.setText(result.get(5));
+		}else if (result.get(0).equalsIgnoreCase("electric pulse")) {
+			this.processOtherPaymentDialog = new Dialog(this.activity);
+			this.processOtherPaymentDialog
+					.setContentView(R.layout.payment_process_dialog);
+			this.processOtherPaymentDialog.setTitle("YOUR PAYMENT");
+
+			this.layout = LayoutInflater.from(
+					getActivity().getApplicationContext()).inflate(
+					R.layout.others_layout_dialog, null);
+
+			this.content = (LinearLayout) this.processOtherPaymentDialog
+					.findViewById(R.id.dialog_content);
+			content.addView(layout);
+
+			this.okBtn = (Button) this.processOtherPaymentDialog
+					.findViewById(R.id.ok_process);
+			this.cancelBtn = (Button) this.processOtherPaymentDialog
+					.findViewById(R.id.cancel_process);
+			this.okBtn.setOnClickListener(this);
+			this.cancelBtn.setOnClickListener(this);
+			
+			this.showText1 = (TextView) this.layout.findViewById(R.id.dialog_others_1);
+			this.showText2 = (TextView) this.layout.findViewById(R.id.dialog_others_2);
+			this.showText3 = (TextView) this.layout.findViewById(R.id.dialog_others_3);
+			this.showText4 = (TextView) this.layout.findViewById(R.id.dialog_others_4);
+			this.showText5 = (TextView) this.layout.findViewById(R.id.dialog_others_5);
+			
+			this.textView1 = (TextView) this.layout.findViewById(R.id.textView1);
+			this.textView2 = (TextView) this.layout.findViewById(R.id.textView2);
+			this.textView3 = (TextView) this.layout.findViewById(R.id.textView3);
+			this.textView4 = (TextView) this.layout.findViewById(R.id.textView4);
+			this.textView5 = (TextView) this.layout.findViewById(R.id.textView5);
+			
+			this.textView1.setText("Mart Name");
+			this.textView2.setText("Phone Number");
+			this.textView3.setText("Company");
+			this.textView4.setText("Price");
+			this.textView5.setText("Pay Code");
+			
+			this.showText1.setText(result.get(1));
+			this.showText2.setText(result.get(2));
+			this.showText3.setText(result.get(3));
+			this.showText4.setText(result.get(4));
+			this.showText5.setText(result.get(5));
+		}
 	}
 
 	public void activateButton(ArrayList<View> views) {
@@ -1193,7 +1327,11 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 		protected void onPostExecute(ArrayList<String> result1) {
 			// dismiss the dialog after getting all products
 			pDialog.dismiss();
-			processResult(result1);
+			if (paymentType != OTHERS_TYPE) {
+				processResult(result1);
+			} else {
+				processResultOthers(result1);
+			}
 		}
 
 	}
@@ -1219,7 +1357,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 		protected ArrayList<String> doInBackground(String... arg0) {
 			// TODO Auto-generated method stub
 			try {
-				return tController.driverMethodPayment(context,arg0);
+				return tController.driverMethodPayment(context, arg0);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -1236,6 +1374,11 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			processPaymentResult(result1);
 		}
 
+	}
+
+	public void processResultOthers(ArrayList<String> result) {
+		setupOthersDialog(result);
+		this.processOtherPaymentDialog.show();
 	}
 
 	public void processResult(ArrayList<String> result) {
@@ -1288,23 +1431,34 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 
 		airplaneBuilder.show();
 	}
-	
-	public void processPaymentResult(ArrayList<String> result){
-		if(result.size() == 0){
-			Toast.makeText(context, "Payment successful.", Toast.LENGTH_SHORT).show();
+
+	public void processPaymentResult(ArrayList<String> result) {
+		if (result.size() == 0) {
+			Toast.makeText(context, "Payment successful.", Toast.LENGTH_SHORT)
+					.show();
 			Intent intent = new Intent(context, InvoiceActivity.class);
 			intent.putExtra("tag", "Airplane");
-			intent.putExtra("transaction", dialogAirlineName.getText().toString()+"\nFrom: "+dialogAirplaneFrom.getText().toString()+" To: "+dialogAirplaneTo.getText().toString());
-			intent.putExtra("date", dialogAirplaneDate.getText().toString()+" " + dialogAirplaneTime.getText().toString());
-			intent.putExtra("price",dialogAirplaneAmount.getText().toString());
-			intent.putExtra("t_code",t_code);
+			intent.putExtra("transaction", dialogAirlineName.getText()
+					.toString()
+					+ "\nFrom: "
+					+ dialogAirplaneFrom.getText().toString()
+					+ " To: "
+					+ dialogAirplaneTo.getText().toString());
+			intent.putExtra("date", dialogAirplaneDate.getText().toString()
+					+ " " + dialogAirplaneTime.getText().toString());
+			intent.putExtra("price", dialogAirplaneAmount.getText().toString());
+			intent.putExtra("t_code", t_code);
+			intent.putExtra("from", "payment");
 			startActivity(intent);
-		}else{
-			for(int i = 0; i < result.size(); i++){
-				if(result.get(i).equals("insufficient amount")){
-					Toast.makeText(context, "Insufficient balance. Please do top up.", Toast.LENGTH_SHORT).show();
-				}else if(result.get(i).equals("insufficient ticket")){
-					Toast.makeText(context, "Ticket already sold out.", Toast.LENGTH_SHORT).show();
+		} else {
+			for (int i = 0; i < result.size(); i++) {
+				if (result.get(i).equals("insufficient amount")) {
+					Toast.makeText(context,
+							"Insufficient balance. Please do top up.",
+							Toast.LENGTH_SHORT).show();
+				} else if (result.get(i).equals("insufficient ticket")) {
+					Toast.makeText(context, "Ticket already sold out.",
+							Toast.LENGTH_SHORT).show();
 				}
 			}
 		}

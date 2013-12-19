@@ -15,6 +15,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
@@ -28,6 +29,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String TABLE_LOGIN = "login";
 	private static final String TABLE_TRNSC_HSTY = "transaction_history";
 	private static final String TABLE_AIRPLANE_TRNSC = "airplane_transaction";
+	private static final String TABLE_TOPUP_HSTY = "topup_history";
 
 	private static final String KEY_ID = "id";
 	private static final String KEY_IDUSER = "id_user";
@@ -56,6 +58,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.execSQL(CREATE_TRNSC_HSTY_TABLE);
 		String CREATE_AIRPLANE_TRANSACTION_TABLE = "CREATE TABLE " + TABLE_AIRPLANE_TRNSC +"(ID_TRNSC TEXT UNIQUE,ID_PLANE TEXT,COMPANY TEXT,TOTAL_TICKET TEXT,TRNSC_TYPE TEXT,PLANE_DATE TEXT,PLANE_TIME TEXT, DEST_PORT TEXT, DEPART_PORT TEXT)";
 		db.execSQL(CREATE_AIRPLANE_TRANSACTION_TABLE);
+		
+		String CREATE_TOPUP_HISTORY = "CREATE TABLE " + TABLE_TOPUP_HSTY + "(ID TEXT UNIQUE, ID_USER TEXT, TOPUP_DATE TEXT, AMOUNT TEXT, STATUS TEXT, ACC_OWNER TEXT, ACC_NUM TEXT)";
+		db.execSQL(CREATE_TOPUP_HISTORY);
+		
 	}
 
 	// Upgrading database
@@ -69,8 +75,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * Method ini berfungsi untuk melakukan perubahan terhadap data pengguna pada database 
-	 * ketika pengguna mengubah profilnya
+	 * Method ini berfungsi untuk melakukan perubahan terhadap data pengguna
+	 * pada database ketika pengguna mengubah profilnya
+	 * 
 	 * @param id
 	 * @param username
 	 * @param email
@@ -80,8 +87,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	 * @param birthdate
 	 */
 	public void editUser(String id_user, String username, String email,
-			String fullname, String sex,
-			String age) {
+			String fullname, String sex, String age) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
@@ -99,6 +105,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 	/**
 	 * Memasukkan data user yang login ke dalam database
+	 * 
 	 * @param id_user
 	 * @param username
 	 * @param email
@@ -108,14 +115,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	 * @param sex
 	 * @param age
 	 */
-	public void loginUser(String id, String username, String email, String name, String sex, String age, String pin, String balance) {
+	public void loginUser(String id, String username, String email,
+			String name, String sex, String age, String pin, String balance) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
 		values.put(KEY_IDUSER, id); // Id account
 		values.put(KEY_USERNAME, username); // Username
 		values.put(KEY_EMAIL, email); // Email
-		values.put(KEY_NAME,name); // Fullname
+		values.put(KEY_NAME, name); // Fullname
 		values.put(KEY_SEX, sex); // Jenis Kelamin
 		values.put(KEY_AGE, age); // Umur
 		values.put(KEY_BALANCE, balance); // Saldo
@@ -164,9 +172,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.close();
 		cursor.close();
 
-		if(rowCount == 0){
+		if (rowCount == 0) {
 			return false;
-		}else{
+		} else {
 			return true;
 		}
 	}
@@ -182,8 +190,81 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.delete(TABLE_TRNSC_HSTY, null, null);
 		db.close();
 	}
+
+	public void insertAirplaneTransaction(String transaction_id,
+			String transaction_type, String id_user, String transaction_code,
+			String amount, String id_plane, String company,
+			String total_ticket, String date, String time, String depart,
+			String dest) {
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put("ID_TRNSC", transaction_id);
+		values.put("TRNSC_TYPE", transaction_type);
+		values.put("ID_USER", id_user);
+		values.put("TRNSC_CODE", transaction_code);
+		PaymentFragment.t_code = transaction_code;
+		values.put("AMOUNT", amount);
+		db.insert(TABLE_TRNSC_HSTY, null, values);
+
+		values.put("ID_PLANE", id_plane);
+		values.put("COMPANY", company);
+		values.put("TOTAL_TICKET", total_ticket);
+		values.put("PLANE_DATE", date);
+		values.put("PLANE_TIME", time);
+		values.put("DEPART_PORT", depart);
+		values.put("DEST_PORT", dest);
+		values.remove("ID_USER");
+		values.remove("TRNSC_CODE");
+		values.remove("AMOUNT");
+		// Inserting Row
+		db.insert(TABLE_AIRPLANE_TRNSC, null, values);
+
+		values = new ContentValues();
+		values.put(
+				"balance",
+				PenggunaController.getUser().getBalance()
+						- Float.parseFloat(amount));
+		db.update(TABLE_LOGIN, values, "id_user = ?", new String[] { String
+				.valueOf(PenggunaController.getUser().getId()) });
+		PenggunaController.getUser().setBalance(
+				PenggunaController.getUser().getBalance()
+						- Float.parseFloat(amount));
+
+		db.close(); // Closing database connection
+	}
+
+	public void insertTopUp(String topUp_id, String id_user, String topUp_date,
+			String amount, String status, String acc_owner, String acc_number) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		ContentValues values = new ContentValues();
+		values.put("ID", topUp_id);
+		values.put("ID_USER", id_user);
+		values.put("TOPUP_DATE", topUp_date);
+		values.put("AMOUNT", amount);
+		values.put("STATUS", status);
+		values.put("ACC_OWNER", acc_owner);
+		values.put("ACC_NUM", acc_number);
+		
+		db.insert(TABLE_TOPUP_HSTY, null, values);
+		
+		values = new ContentValues();
+		values.put("balance", PenggunaController.getUser().getBalance()
+				+ Float.parseFloat(amount));
+		
+		PenggunaController.getUser().setBalance(PenggunaController.getUser().getBalance() + Float.parseFloat(amount));
+		
+		Log.i("mwallet","" + PenggunaController.getUser().getBalance());
+		
+		db.update(TABLE_LOGIN, values, "id_user = ?", new String[] { String
+				.valueOf(PenggunaController.getUser().getId()) });
+
+		db.close(); // Closing database connection
+
+	}
 	
-	public void insertAirplaneTransaction(String transaction_id, String transaction_type,
+	public void insertAirplaneTransaction1(String transaction_id, String transaction_type,
 			String id_user, String transaction_code, String amount,
 			String id_plane, String company, String total_ticket, String date,
 			String time, String depart, String dest) {
@@ -210,13 +291,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		values.remove("AMOUNT");
 		// Inserting Row
 		db.insert(TABLE_AIRPLANE_TRNSC, null, values);
-		
-		values = new ContentValues();
-		values.put("balance", PenggunaController.getUser().getBalance() - Float.parseFloat(amount));
-		db.update(TABLE_LOGIN, values, "id_user = ?",
-				new String[] { String.valueOf(PenggunaController.getUser().getId()) });
-		PenggunaController.getUser().setBalance(PenggunaController.getUser().getBalance() - Float.parseFloat(amount));
-		
 		db.close(); // Closing database connection
 	}
 	
@@ -224,8 +298,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 		ArrayList<AirplaneTransaction> airplaneTransaction = new ArrayList<AirplaneTransaction>();
 		String selectQuery = "SELECT  * FROM " + TABLE_TRNSC_HSTY;
-		
-		Cursor cursor = db.rawQuery(selectQuery,null);
+
+		Cursor cursor = db.rawQuery(selectQuery, null);
 		// Move to first row
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -235,32 +309,33 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			String trnsc_code = cursor.getString(3);
 			String amount = cursor.getString(4);
 
- 			
- 			selectQuery = "SELECT  * FROM " + TABLE_AIRPLANE_TRNSC + " WHERE ID_TRNSC = ?";
- 			Cursor cursor1 = db.rawQuery(selectQuery,new String[]{id_transaction});
- 			cursor1.moveToFirst();
- 			while(!cursor1.isAfterLast()){
- 				String id_plane = cursor1.getString(1);
- 				String company = cursor1.getString(2);
- 				String total_ticket = cursor1.getString(3);
- 	 			String plane_date = cursor1.getString(5);
- 	 			String plane_time = cursor1.getString(6);
- 	 			String depart_port = cursor1.getString(8);
- 	 			String dest_port = cursor1.getString(7);
- 	 			AirplaneTransaction ar = new AirplaneTransaction(id_transaction, trnsc_type,
- 	 					id_user, trnsc_code, amount,
- 	 					id_plane, company, total_ticket, plane_date,
- 	 					plane_time,depart_port,dest_port);
- 	 			airplaneTransaction.add(ar);
- 	 			cursor1.moveToNext();
- 			}
- 			cursor1.close();
- 			cursor.moveToNext();
+			selectQuery = "SELECT  * FROM " + TABLE_AIRPLANE_TRNSC
+					+ " WHERE ID_TRNSC = ?";
+			Cursor cursor1 = db.rawQuery(selectQuery,
+					new String[] { id_transaction });
+			cursor1.moveToFirst();
+			while (!cursor1.isAfterLast()) {
+				String id_plane = cursor1.getString(1);
+				String company = cursor1.getString(2);
+				String total_ticket = cursor1.getString(3);
+				String plane_date = cursor1.getString(5);
+				String plane_time = cursor1.getString(6);
+				String depart_port = cursor1.getString(8);
+				String dest_port = cursor1.getString(7);
+				AirplaneTransaction ar = new AirplaneTransaction(
+						id_transaction, trnsc_type, id_user, trnsc_code,
+						amount, id_plane, company, total_ticket, plane_date,
+						plane_time, depart_port, dest_port);
+				airplaneTransaction.add(ar);
+				cursor1.moveToNext();
+			}
+			cursor1.close();
+			cursor.moveToNext();
 		}
 		cursor.close();
 		db.close();
 		// return user
 		return airplaneTransaction;
 	}
-	
+
 }

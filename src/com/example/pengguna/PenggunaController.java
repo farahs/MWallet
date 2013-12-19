@@ -221,7 +221,7 @@ public class PenggunaController {
 						JSONArray result = json_transaction.getJSONArray("data_transaction");
 						for (int i = 0; i < result.length(); i++) {
 							JSONObject json1 = result.getJSONObject(i);
-							db.insertAirplaneTransaction(json1.getString("ID_TRNSC"), json1.getString("TRNSC_TYPE"), json1.getString("ID_USER"), json1.getString("TRNSC_CODE"), json1.getString("AMOUNT"), json1.getString("ID_PLANE"), json1.getString("COMPANY"), json1.getString("TOTAL_TICKET"), json1.getString("PLANE_DATE"), json1.getString("PLANE_TIME"), json1.getString("DEPART_PORT"), json1.getString("DEST_PORT"));
+							db.insertAirplaneTransaction1(json1.getString("ID_TRNSC"), json1.getString("TRNSC_TYPE"), json1.getString("ID_USER"), json1.getString("TRNSC_CODE"), json1.getString("AMOUNT"), json1.getString("ID_PLANE"), json1.getString("COMPANY"), json1.getString("TOTAL_TICKET"), json1.getString("PLANE_DATE"), json1.getString("PLANE_TIME"), json1.getString("DEPART_PORT"), json1.getString("DEST_PORT"));
 						}
 					}
 					ArrayList<String> result = new ArrayList<String>();

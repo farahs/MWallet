@@ -19,6 +19,7 @@ public class InvoiceActivity extends Activity {
 	private String priceText;
 	private String dateText;
 	private String tCodeText;
+	private String from;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,10 @@ public class InvoiceActivity extends Activity {
 			transactText = intent.getStringExtra("transaction").toString();
 			transaction.setText(transactText);
 		}
+		
+		if(intent.getStringExtra("from") != null){
+			from = intent.getStringExtra("from").toString();
+		}
 	}
 
 	@Override
@@ -69,5 +74,15 @@ public class InvoiceActivity extends Activity {
 		
 		price = (TextView) this.findViewById(R.id.amount);
 		date = (TextView) this.findViewById(R.id.dateOfTransact);
+	}
+	
+	public void onBackPressed(){
+		if(from.equals("history")){
+			super.onBackPressed();
+		}else{
+			Intent intent = new Intent(this, DrawerActivity.class);
+			startActivity(intent);
+			super.onBackPressed();
+		}
 	}
 }
