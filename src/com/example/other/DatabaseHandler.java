@@ -22,6 +22,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "MWallet";
 
 	private static final String TABLE_LOGIN = "login";
+	private static final String TABLE_TRNSC_HSTY = "transaction_history";
+	private static final String TABLE_AIRPLANE_TRNSC = "airplane_transaction";
 
 	private static final String KEY_ID = "id";
 	private static final String KEY_IDUSER = "id_user";
@@ -46,6 +48,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				+ " TEXT UNIQUE," + KEY_NAME + " TEXT," + KEY_SEX + " TEXT,"
 				+ KEY_AGE + " TEXT,"+ KEY_PIN + " TEXT," + KEY_BALANCE + " TEXT"+")";
 		db.execSQL(CREATE_LOGIN_TABLE);
+		String CREATE_TRNSC_HSTY_TABLE = "CREATE TABLE " + TABLE_TRNSC_HSTY +"(ID_TRNSC TEXT UNIQUE,TRNSC_TYPE TEXT,ID_USER TEXT,TRNSC_CODE TEXT,AMOUNT TEXT)";
+		db.execSQL(CREATE_TRNSC_HSTY_TABLE);
+		String CREATE_AIRPLANE_TRANSACTION_TABLE = "CREATE TABLE " + TABLE_AIRPLANE_TRNSC +"(ID_TRNSC TEXT UNIQUE,ID_PLANE TEXT,COMPANY TEXT,TOTAL_TICKET TEXT,TRNSC_TYPE TEXT,PLANE_DATE TEXT,PLANE_TIME TEXT)";
+		db.execSQL(CREATE_AIRPLANE_TRANSACTION_TABLE);
 	}
 
 	// Upgrading database
@@ -169,5 +175,30 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		// Hapus semua data di tabel login dan check in
 		db.delete(TABLE_LOGIN, null, null);
 		db.close();
+	}
+	
+	public void insertAirplaneTransaction(String transaction_id, String transaction_type,
+			String id_user, String transaction_code, String amount,
+			String id_plane, String company, String total_ticket, String date,
+			String time) {
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put("ID_TRNSC", transaction_id);
+		values.put("TRNSC_TYPE", transaction_type);
+		values.put("ID_USER", id_user);
+		values.put("TRNSC_CODE",transaction_code);
+		values.put("AMOUNT", amount); 
+		db.insert(TABLE_TRNSC_HSTY, null, values);
+
+		values.put("ID_PLANE", id_plane);
+		values.put("COMPANY", company);
+		values.put("TOTAL_TICKET", total_ticket);
+		values.put("PLANE_DATE", date);
+		values.put("PLANE_TIME", time);
+
+		// Inserting Row
+		db.insert(TABLE_AIRPLANE_TRNSC, null, values);
+		db.close(); // Closing database connection
 	}
 }

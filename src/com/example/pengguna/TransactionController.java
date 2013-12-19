@@ -79,6 +79,53 @@ public class TransactionController {
 				listOfDestination.add("DESTINATION");
 				return listOfDestination;
 	}
+	
+	public ArrayList<String> getAirplaneDate(String company, String depart, String dest){
+		// TODO Auto-generated method stub
+				ArrayList<String> listOfDate = new ArrayList<String>();
+				List<NameValuePair> params = new ArrayList<NameValuePair>();
+				params.add(new BasicNameValuePair("get_date", "get_date"));
+				params.add(new BasicNameValuePair("company", company));
+				params.add(new BasicNameValuePair("departure", depart));
+				params.add(new BasicNameValuePair("destination", dest));
+				JSONObject json = jsonParser.getJSONFromUrl(URL_AIRPLANE, params);
+				try {
+					JSONArray result = json.getJSONArray("date");
+					for (int i = 0; i < result.length(); i++) {
+						JSONObject dateList = result.getJSONObject(i);
+						listOfDate.add(dateList.getString("PLANE_DATE"));
+					}
+				} catch (JSONException j) {
+
+				}
+				listOfDate.add("DATE (YYYY-MM-DD)");
+				return listOfDate;
+	}
+	
+	public ArrayList<String> getAirplaneTime(String company, String depart, String dest, String date){
+		// TODO Auto-generated method stub
+				ArrayList<String> listOfTime = new ArrayList<String>();
+				List<NameValuePair> params = new ArrayList<NameValuePair>();
+				params.add(new BasicNameValuePair("get_time", "get_time"));
+				params.add(new BasicNameValuePair("company", company));
+				params.add(new BasicNameValuePair("departure", depart));
+				params.add(new BasicNameValuePair("destination", dest));
+				params.add(new BasicNameValuePair("date", date));
+				JSONObject json = jsonParser.getJSONFromUrl(URL_AIRPLANE, params);
+				try {
+					JSONArray result = json.getJSONArray("time");
+					for (int i = 0; i < result.length(); i++) {
+						JSONObject dateList = result.getJSONObject(i);
+						listOfTime.add(dateList.getString("PLANE_TIME"));
+					}
+					listOfTime.add(result.getJSONObject(0).getString("PRICE"));
+				} catch (JSONException j) {
+
+				}
+				listOfTime.add("TIME");
+				return listOfTime;
+	}
+	
 	public ArrayList<String> driverMethod(String[] params){
 		if(params[0].equalsIgnoreCase("get_company")){
 			return this.getAirplaneCompany();
@@ -86,8 +133,50 @@ public class TransactionController {
 			return this.getDeparturePort(params[1]);
 		}else if(params[0].equalsIgnoreCase("get_dest")){
 			return this.getDestinationPort(params[1], params[2]);
+		}else if(params[0].equalsIgnoreCase("get_plane_date")){
+			return this.getAirplaneDate(params[1], params[2], params[3]);
+		}else if(params[0].equalsIgnoreCase("get_plane_time")){
+			return this.getAirplaneTime(params[1], params[2], params[3], params[4]);
 		}
 		
 		return null;
+	}
+	
+	public ArrayList<String> driverMethodPayment(String[] params){
+		if(params[0].equalsIgnoreCase("process_airplane")){
+			
+		}else if(params[0].equalsIgnoreCase("process_train")){
+			
+		}else if(params[0].equalsIgnoreCase("process_cinema")){
+			
+		}else if(params[0].equalsIgnoreCase("process_others")){
+			
+		}
+		
+		return null;
+	}
+	
+	public ArrayList<String> processAirplanePayment(String company, String depart, String dest, String date){
+		// TODO Auto-generated method stub
+				ArrayList<String> listOfTime = new ArrayList<String>();
+				List<NameValuePair> params = new ArrayList<NameValuePair>();
+				params.add(new BasicNameValuePair("get_time", "get_time"));
+				params.add(new BasicNameValuePair("company", company));
+				params.add(new BasicNameValuePair("departure", depart));
+				params.add(new BasicNameValuePair("destination", dest));
+				params.add(new BasicNameValuePair("date", date));
+				JSONObject json = jsonParser.getJSONFromUrl(URL_AIRPLANE, params);
+				try {
+					JSONArray result = json.getJSONArray("time");
+					for (int i = 0; i < result.length(); i++) {
+						JSONObject dateList = result.getJSONObject(i);
+						listOfTime.add(dateList.getString("PLANE_TIME"));
+					}
+					listOfTime.add(result.getJSONObject(0).getString("PRICE"));
+				} catch (JSONException j) {
+
+				}
+				listOfTime.add("TIME");
+				return listOfTime;
 	}
 }
