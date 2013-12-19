@@ -26,7 +26,8 @@
             android:text="@string/tanggal"
             android:padding="5dp"
             android:layout_alignParentRight="true"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/price"
@@ -36,7 +37,8 @@
             android:padding="5dp"
             android:layout_alignParentRight="true"
             android:layout_below="@id/date"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:textColor="@color/black" />
         
     </RelativeLayout>
 
