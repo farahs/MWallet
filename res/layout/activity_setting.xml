@@ -1,173 +1,262 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:fillViewport="true"
+    android:orientation="horizontal"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".SettingActivity" >
+    tools:context=".RegisterActivity" >
 
-    <TextView
-        android:id="@+id/settingLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/action_settings"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@color/default_bg"
+        android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/nameLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/settingLabel"
-        android:layout_marginTop="70dp"
-        android:layout_marginLeft="50dp"
-        android:text="@string/settings_name" />    
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal" >
 
-    <TextView
-        android:id="@+id/emailLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/nameLabel"
-        android:layout_below="@+id/nameLabel"
-        android:layout_marginTop="40dp"
-        android:text="@string/settings_email" />
-    
-    <TextView
-        android:id="@+id/passwordLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/nameLabel"
-        android:layout_below="@+id/emailLabel"
-        android:layout_marginTop="40dp"
-        android:text="@string/settings_password" />
-    
-    <TextView
-        android:id="@+id/pinLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/nameLabel"
-        android:layout_below="@+id/passwordLabel"
-        android:layout_marginTop="40dp"
-        android:text="@string/settings_pinNumber" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:text="Edit Profile"
+                android:textColor="@color/our_blue"
+                android:textSize="35sp" />
+        </RelativeLayout>
+        <!-- username -->
 
-    <EditText
-        android:id="@+id/editName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/nameLabel"
-        android:layout_alignLeft="@+id/nameLabel"
-        android:layout_alignRight="@+id/settingLabel"
-        android:layout_marginBottom="21dp"
-        android:ems="10" >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
 
-        <requestFocus />
-    </EditText>
+            <EditText
+                android:id="@+id/usernameIn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:ems="10"
+                android:hint="Username"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:paddingLeft="15dp"
+                android:textColor="@color/default_input_gray" />
 
-    <EditText
-        android:id="@+id/editEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/emailLabel"
-        android:layout_alignRight="@+id/editName"
-        android:layout_below="@+id/nameLabel"
-        android:ems="10"
-        android:inputType="textEmailAddress" />
+            <requestFocus />
 
-    <EditText
-        android:id="@+id/editPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/passwordLabel"
-        android:layout_alignRight="@+id/editName"
-        android:layout_below="@+id/emailLabel"
-        android:ems="10"
-        android:inputType="textPassword" />
+            <ImageView
+                android:id="@+id/usernameIn_clear"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_clear_idle" />
+        </RelativeLayout>
 
-    <EditText
-        android:id="@+id/editPinNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/pinLabel"
-        android:layout_alignRight="@+id/editName"
-        android:layout_below="@+id/passwordLabel"
-        android:ems="10"
-        android:inputType="numberPassword" />
+        <!-- name -->
 
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/pinLabel"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="44dp"
-        android:text="@string/settings_saveButton" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
 
-    <ImageView
-        android:id="@+id/saveName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/editName"
-        android:layout_toRightOf="@+id/editName"
-        android:src="@drawable/ic_check_small" />
+            <EditText
+                android:id="@+id/nameIn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:ems="10"
+                android:hint="Name"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:paddingLeft="15dp"
+                android:textColor="@color/default_input_gray" />
 
-    <ImageView
-        android:id="@+id/cancelName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/saveName"
-        android:layout_toRightOf="@+id/saveName"
-        android:src="@drawable/ic_cancel_small" />
+            <ImageView
+                android:id="@+id/nameIn_clear"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_clear_idle" />
+        </RelativeLayout>
+        <!-- email -->
 
-    <ImageView
-        android:id="@+id/saveEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editName"
-        android:layout_toLeftOf="@+id/cancelName"
-        android:src="@drawable/ic_check_small" />
-    
-    <ImageView
-        android:id="@+id/cancelEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/cancelName"
-        android:layout_below="@+id/editName"
-        android:src="@drawable/ic_cancel_small" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
 
-    <ImageView
-        android:id="@+id/savePassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/editPassword"
-        android:layout_toLeftOf="@+id/cancelPassword"
-        android:src="@drawable/ic_check_small" />
+            <EditText
+                android:id="@+id/emailIn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:ems="25"
+                android:hint="Email"
+                android:maxLines="1"
+                android:paddingLeft="15dp"
+                android:textAlignment="center"
+                android:textColor="@color/default_input_gray" >
+            </EditText>
 
-    <ImageView
-        android:id="@+id/cancelPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/savePassword"
-        android:layout_toRightOf="@+id/saveEmail"
-        android:src="@drawable/ic_cancel_small" />
+            <ImageView
+                android:id="@+id/emailIn_clear"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_clear_idle" />
+        </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/savePinNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/editPinNumber"
-        android:layout_toLeftOf="@+id/cancelPinNumber"
-        android:src="@drawable/ic_check_small" />
+        <!-- password -->
 
-    <ImageView
-        android:id="@+id/cancelPinNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/cancelPassword"
-        android:layout_alignTop="@+id/savePinNumber"
-        android:src="@drawable/ic_cancel_small" />
-    
-</RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/passIn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:ems="10"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:maxLength="100"
+                android:maxLines="1"
+                android:paddingLeft="15dp"
+                android:textColor="@color/default_input_gray" />
+
+            <ImageView
+                android:id="@+id/passIn_clear"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_clear_idle" />
+        </RelativeLayout>
+        <!-- verify password -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/verifyPassIn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:ems="10"
+                android:hint="Verify Password"
+                android:inputType="textPassword"
+                android:maxLength="100"
+                android:maxLines="1"
+                android:paddingLeft="15dp"
+                android:textColor="@color/default_input_gray" />
+
+            <ImageView
+                android:id="@+id/verifyPassIn_clear"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_clear_idle" />
+        </RelativeLayout>
+        <!-- pin -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/pinNumIn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:ems="10"
+                android:hint="Pin number"
+                android:inputType="textPassword"
+                android:maxLength="6"
+                android:maxLines="1"
+                android:paddingLeft="15dp"
+                android:textColor="@color/default_input_gray" />
+
+            <ImageView
+                android:id="@+id/pinNumIn_clear"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_clear_idle" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal"
+            android:weightSum="100" >
+
+            <Button
+                android:id="@+id/cancel_process"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="5dp"
+                android:layout_weight="50"
+                android:background="@color/default_red"
+                android:text="CANCEL"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/ok_process"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="50"
+                android:background="@color/our_blue"
+                android:text="OK"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
