@@ -35,7 +35,7 @@ public class HistoryFragment extends Fragment {
 	private int pageCount;
 	private int increment = 0;
 	public int TOTAL_LIST_ITEMS = 8;
-	public int NUM_ITEMS_PAGE = 3;
+	public int NUM_ITEMS_PAGE = 5;
 	
 	String[] transaction = new String[] {
 			"21-Film The Hobbit", "21-Film The Hobbit", "21-Film The Hobbit", "Train-Jakarta Kota to Depok",

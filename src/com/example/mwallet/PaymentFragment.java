@@ -3,6 +3,8 @@ package com.example.mwallet;
 import android.os.Bundle;
 import java.util.ArrayList;
 
+import org.json.JSONException;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -371,9 +373,10 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 				views.add(airplaneTimeBtn);
 				views.add(airplaneNumOfTicketEt);
 				deactivateButton(views);
-				new GetData().execute("get_plane_date", airlineNameBtn.getText()
-						.toString(), airplaneDepartureBtn.getText().toString(),
-						airplaneDestinationBtn.getText().toString());
+				new GetData().execute("get_plane_date", airlineNameBtn
+						.getText().toString(), airplaneDepartureBtn.getText()
+						.toString(), airplaneDestinationBtn.getText()
+						.toString());
 			}
 		});
 
@@ -383,10 +386,10 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 				ArrayList<View> views = new ArrayList<View>();
 				views.add(airplaneNumOfTicketEt);
 				deactivateButton(views);
-				new GetData().execute("get_plane_time", airlineNameBtn.getText()
-						.toString(), airplaneDepartureBtn.getText().toString(),
-						airplaneDestinationBtn.getText().toString(),
-						airplaneDateBtn.getText().toString());
+				new GetData().execute("get_plane_time", airlineNameBtn
+						.getText().toString(), airplaneDepartureBtn.getText()
+						.toString(), airplaneDestinationBtn.getText()
+						.toString(), airplaneDateBtn.getText().toString());
 
 			}
 		});
@@ -940,13 +943,20 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			break;
 		case R.id.ok_process:
 			if (paymentType == CINEMA_TYPE) {
-				
+
 			} else if (paymentType == TRAIN_TYPE) {
-				
+
 			} else if (paymentType == AIRPLANE_TYPE) {
-				
+				new ProcessPayment().execute("process_airplane",
+						dialogAirlineName.getText().toString(),
+						dialogAirplaneFrom.getText().toString(),
+						dialogAirplaneTo.getText().toString(),
+						dialogAirplaneDate.getText().toString(),
+						dialogAirplaneTime.getText().toString(),
+						dialogAirplaneTicket.getText().toString(),
+						dialogAirplaneAmount.getText().toString());
 			} else if (paymentType == OTHERS_TYPE) {
-				
+
 			}
 			break;
 		default:
@@ -1127,10 +1137,10 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 	public void activateButton(ArrayList<View> views) {
 		for (int i = 0; i < views.size(); i++) {
 			views.get(i).setEnabled(true);
-			if(views.get(i) instanceof Button){
+			if (views.get(i) instanceof Button) {
 				views.get(i).setBackgroundColor(
-					getResources().getColor(R.color.our_blue));
-			}else{
+						getResources().getColor(R.color.our_blue));
+			} else {
 				views.get(i).setBackgroundColor(Color.WHITE);
 			}
 		}
@@ -1204,7 +1214,13 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 		@Override
 		protected ArrayList<String> doInBackground(String... arg0) {
 			// TODO Auto-generated method stub
-			return tController.driverMethod(arg0);
+			try {
+				return tController.driverMethodPayment(context,arg0);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
 		}
 
 		/**
@@ -1213,15 +1229,15 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 		protected void onPostExecute(ArrayList<String> result1) {
 			// dismiss the dialog after getting all products
 			pDialog.dismiss();
-			//processResult(result1);
+			processPaymentResult(result1);
 		}
 
 	}
-	
+
 	public void processResult(ArrayList<String> result) {
 		final String title = result.get(result.size() - 1);
 		result.remove(result.size() - 1);
-		if(title.equals("TIME")){
+		if (title.equals("TIME")) {
 			base_price = result.get(result.size() - 1);
 			result.remove(result.size() - 1);
 		}
@@ -1229,7 +1245,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 		listOfResult = result.toArray(listOfResult);
 
 		final String[] finalResult = listOfResult;
-		
+
 		AlertDialog.Builder airplaneBuilder = new AlertDialog.Builder(activity);
 		airplaneBuilder.setTitle(title).setItems(listOfResult,
 				new DialogInterface.OnClickListener() {
@@ -1267,5 +1283,19 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 				});
 
 		airplaneBuilder.show();
+	}
+	
+	public void processPaymentResult(ArrayList<String> result){
+		if(result.size() == 0){
+			Toast.makeText(context, "Payment successful.", Toast.LENGTH_SHORT).show();
+		}else{
+			for(int i = 0; i < result.size(); i++){
+				if(result.get(i).equals("insufficient amount")){
+					Toast.makeText(context, "Insufficient balance. Please do top up.", Toast.LENGTH_SHORT).show();
+				}else if(result.get(i).equals("insufficient ticket")){
+					Toast.makeText(context, "Ticket already sold out.", Toast.LENGTH_SHORT).show();
+				}
+			}
+		}
 	}
 }
