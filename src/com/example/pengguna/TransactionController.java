@@ -3,6 +3,7 @@ package com.example.pengguna;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import org.apache.http.NameValuePair;
@@ -15,6 +16,7 @@ import com.example.jsonparser.JSONParser;
 import com.example.other.DatabaseHandler;
 
 import android.content.Context;
+import android.util.Log;
 
 public class TransactionController {
 
@@ -140,11 +142,13 @@ public class TransactionController {
 		params.add(new BasicNameValuePair("pay_code", payCode));
 		JSONObject json = jsonParser.getJSONFromUrl(URL_OTHERS, params);
 		try {
-			JSONArray result = json.getJSONArray(categories.toLowerCase());
+			System.out.println(json.getString("success"));
+			if(json.getString("success").equals("1")){
+				JSONArray result = json.getJSONArray(categories.toLowerCase());
 			for (int i = 0; i < result.length(); i++) {
 				JSONObject data = result.getJSONObject(i);
-				if(categories.equalsIgnoreCase("vending machine")){
-					listOfInformation.add("vending machine");
+				if(categories.equalsIgnoreCase("vending_machine")){
+					listOfInformation.add("vending_machine");
 					listOfInformation.add(data.getString("MCH_NAME"));
 					listOfInformation.add(data.getString("MCH_LOC"));
 					listOfInformation.add(data.getString("ITEM"));
@@ -173,8 +177,8 @@ public class TransactionController {
 						listOfInformation.add(data.getString("PAID_AMOUNT"));
 						listOfInformation.add(data.getString("PAY_CODE"));
 					}
-				}else if(categories.equalsIgnoreCase("electric pulse")){
-					listOfInformation.add("electric pulse");
+				}else if(categories.equalsIgnoreCase("electric_pulse")){
+					listOfInformation.add("electric_pulse");
 					if(data.getString("ID_MART").equals("1")){
 						listOfInformation.add("Alfamart");
 					}else if(data.getString("ID_MART").equals("2")){
@@ -187,6 +191,7 @@ public class TransactionController {
 					listOfInformation.add(data.getString("PRICE"));
 					listOfInformation.add(data.getString("PAY_CODE"));
 				}
+			}
 			}
 		} catch (JSONException j) {
 
@@ -223,10 +228,12 @@ public class TransactionController {
 		} else if (params[0].equalsIgnoreCase("process_cinema")) {
 
 		} else if (params[0].equalsIgnoreCase("process_others")) {
-
+			if(params[1].equals("bill")){
+				return this.processBillPayment(context, params[2], params[3]);
+			}
 		}
 
-		return null;
+		return new ArrayList<String>();
 	}
 
 	public ArrayList<String> processAirplanePayment(Context c, String company, String depart, String dest, String date, String time, String numOfTicket, String amount) throws JSONException{
@@ -254,6 +261,32 @@ public class TransactionController {
 					}
 				}else{
 					results.add("insufficient ticket");
+				}
+		}else{
+			results.add("insufficient amount");
+		}
+		
+		return results;
+	}
+	
+	public ArrayList<String> processBillPayment(Context c, String amount, String pay_code) throws JSONException{
+		// TODO Auto-generated method stub
+		DatabaseHandler db = new DatabaseHandler(c);
+		ArrayList<String> results = new ArrayList<String>();
+		if(Float.parseFloat(amount) <= PenggunaController.getUser().getBalance()){
+				List<NameValuePair> params = new ArrayList<NameValuePair>();
+				params.add(new BasicNameValuePair("process_bill", "process_bill"));
+				params.add(new BasicNameValuePair("pay_code", pay_code));
+				params.add(new BasicNameValuePair("amount", amount));
+				params.add(new BasicNameValuePair("id_user", PenggunaController.getUser().getId()));
+				params.add(new BasicNameValuePair("t_code", this.makeTransactionCode()));
+				JSONObject json_transaction = jsonParser.getJSONFromUrl(URL_OTHERS, params);
+				if (json_transaction.getString("success").equals("1")) {
+					JSONArray result = json_transaction.getJSONArray("data_transaction");
+					for (int i = 0; i < result.length(); i++) {
+						JSONObject json = result.getJSONObject(i);
+						db.insertBillTransaction1(json.getString("ID_TRNSC"), json.getString("TRNSC_TYPE"), json.getString("ID_USER"), json.getString("TRNSC_CODE"), json.getString("PAID_AMOUNT"), json.getString("ID_BILL"), json.getString("PAY_CODE"), json.getString("FLAG_ELECT"), json.getString("ELECT_ACC"), json.getString("FLAG_WATER"), json.getString("WATER_ACC"), json.getString("FLAG_INT"), json.getString("INT_ACC"), json.getString("ACC_NAME"));
+					}
 				}
 		}else{
 			results.add("insufficient amount");

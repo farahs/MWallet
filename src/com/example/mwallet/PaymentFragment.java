@@ -262,9 +262,9 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			public void onClick(View v) {
 
 				final String[] categories = new String[3];
-				categories[0] = "VENDING MACHINE";
+				categories[0] = "VENDING_MACHINE";
 				categories[1] = "BILL";
-				categories[2] = "ELECTRIC PULSE";
+				categories[2] = "ELECTRIC_PULSE";
 
 				AlertDialog.Builder othersBuilder = new AlertDialog.Builder(
 						activity);
@@ -293,7 +293,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 				if (otherCategoriesBtn.getText().toString()
-						.equalsIgnoreCase("vending machine")) {
+						.equalsIgnoreCase("vending_machine")) {
 					Toast.makeText(activity.getApplicationContext(),
 							"Insert your paycode", Toast.LENGTH_SHORT).show();
 				} else if (otherCategoriesBtn.getText().toString()
@@ -301,7 +301,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 					Toast.makeText(activity.getApplicationContext(),
 							"Insert your paycode", Toast.LENGTH_SHORT).show();
 				} else if (otherCategoriesBtn.getText().toString()
-						.equalsIgnoreCase("electric pulse")) {
+						.equalsIgnoreCase("electric_pulse")) {
 					Toast.makeText(activity.getApplicationContext(),
 							"Insert your paycode", Toast.LENGTH_SHORT).show();
 				}
@@ -980,7 +980,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 						dialogAirplaneTicket.getText().toString(),
 						dialogAirplaneAmount.getText().toString());
 			} else if (paymentType == OTHERS_TYPE) {
-
+				new ProcessPayment().execute("process_others", otherCategoriesBtn.getText().toString().toLowerCase(),showText4.getText().toString(), showText5.getText().toString());
 			}
 			break;
 		default:
@@ -1135,7 +1135,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 	}
 
 	private void setupOthersDialog(ArrayList<String> result) {
-		if (result.get(0).equalsIgnoreCase("vending machine")) {
+		if (result.get(0).equalsIgnoreCase("vending_machine")) {
 			this.processOtherPaymentDialog = new Dialog(this.activity);
 			this.processOtherPaymentDialog
 					.setContentView(R.layout.payment_process_dialog);
@@ -1223,7 +1223,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			this.showText3.setText(result.get(3));
 			this.showText4.setText(result.get(4));
 			this.showText5.setText(result.get(5));
-		}else if (result.get(0).equalsIgnoreCase("electric pulse")) {
+		}else if (result.get(0).equalsIgnoreCase("electric_pulse")) {
 			this.processOtherPaymentDialog = new Dialog(this.activity);
 			this.processOtherPaymentDialog
 					.setContentView(R.layout.payment_process_dialog);
@@ -1328,7 +1328,11 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			if (paymentType != OTHERS_TYPE) {
 				processResult(result1);
 			} else {
-				processResultOthers(result1);
+				if(result1.size() != 0){
+					processResultOthers(result1);
+				}else{
+					Toast.makeText(context, "Pay code wrong", Toast.LENGTH_SHORT).show();
+				}
 			}
 		}
 
@@ -1369,7 +1373,11 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 		protected void onPostExecute(ArrayList<String> result1) {
 			// dismiss the dialog after getting all products
 			pDialog.dismiss();
-			processPaymentResult(result1);
+			if(paymentType == AIRPLANE_TYPE){
+				processPaymentResult(result1);
+			}else if(paymentType == OTHERS_TYPE){
+				processPaymentBillResult(result1);
+			}
 		}
 
 	}
@@ -1430,6 +1438,34 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 		airplaneBuilder.show();
 	}
 
+	public void processPaymentBillResult(ArrayList<String> result) {
+		if (result.size() == 0) {
+			Toast.makeText(context, "Payment successful.", Toast.LENGTH_SHORT)
+					.show();
+			Intent intent = new Intent(context, InvoiceActivity.class);
+			intent.putExtra("tag", "Bill");
+			intent.putExtra("transaction", showText1.getText().toString()
+					+ "\nAccount Name: "
+					+ showText3.getText().toString() + "\nAccountNumber: "+showText2.getText().toString());
+			intent.putExtra("date", showText5.getText().toString());
+			intent.putExtra("price", showText4.getText().toString());
+			intent.putExtra("t_code", t_code);
+			intent.putExtra("from", "payment");
+			startActivity(intent);
+		} else {
+			for (int i = 0; i < result.size(); i++) {
+				if (result.get(i).equals("insufficient amount")) {
+					Toast.makeText(context,
+							"Insufficient balance. Please do top up.",
+							Toast.LENGTH_SHORT).show();
+				} else if (result.get(i).equals("insufficient ticket")) {
+					Toast.makeText(context, "Ticket already sold out.",
+							Toast.LENGTH_SHORT).show();
+				}
+			}
+		}
+	}
+	
 	public void processPaymentResult(ArrayList<String> result) {
 		if (result.size() == 0) {
 			Toast.makeText(context, "Payment successful.", Toast.LENGTH_SHORT)
@@ -1453,9 +1489,6 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 				if (result.get(i).equals("insufficient amount")) {
 					Toast.makeText(context,
 							"Insufficient balance. Please do top up.",
-							Toast.LENGTH_SHORT).show();
-				} else if (result.get(i).equals("insufficient ticket")) {
-					Toast.makeText(context, "Ticket already sold out.",
 							Toast.LENGTH_SHORT).show();
 				}
 			}
