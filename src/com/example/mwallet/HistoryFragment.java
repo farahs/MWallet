@@ -25,7 +25,7 @@ public class HistoryFragment extends Fragment {
 
 	
 	ListView list;
-	Context context = activity.getApplicationContext();
+	Context context;
 	ArrayList<ListData> myList = new ArrayList<ListData>();
 	HistoryBaseAdapter hb;
 	TextView title;
@@ -57,6 +57,7 @@ public class HistoryFragment extends Fragment {
 		
 		this.rootView = inflater.inflate(R.layout.activity_history, container, false);
 		this.activity = (DrawerActivity) this.getActivity();
+		this.context = activity.getApplicationContext();
 		list = (ListView) rootView.findViewById(R.id.list);
 		btn_prev = (Button) rootView.findViewById(R.id.prev);
 		btn_next = (Button) rootView.findViewById(R.id.next);
