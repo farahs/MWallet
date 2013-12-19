@@ -1,5 +1,9 @@
 package com.example.mwallet;
 
+import java.util.Arrays;
+import java.util.List;
+
+import com.example.mwallet.adapter.DrawerAdapter;
 import com.example.pengguna.PenggunaController;
 
 import android.os.Bundle;
@@ -113,7 +117,9 @@ public class DrawerActivity extends FragmentActivity implements OnClickListener 
 		this.menuTitles = this.getResources().getStringArray(R.array.main_menus_array);
 		this.menuList = (ListView) this.findViewById(R.id.menuList);
 		this.mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-		this.menuList.setAdapter(new ArrayAdapter<String>(this, R.layout.module_drawer_list_item, this.menuTitles));
+		List<String> listMenu = Arrays.asList(menuTitles);
+
+		this.menuList.setAdapter(new DrawerAdapter(getApplicationContext(),listMenu));
 		
 	}
 
