@@ -13,6 +13,7 @@ import com.example.pengguna.AirplaneTransaction;
 import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,10 +57,12 @@ public class HistoryFragment extends Fragment {
 		this.activity = (DrawerActivity) this.getActivity();
 		this.context = activity.getApplicationContext();
 		list = (ListView) rootView.findViewById(R.id.list);
+		
 		btn_prev = (Button) rootView.findViewById(R.id.prev);
 		btn_next = (Button) rootView.findViewById(R.id.next);
 		title = (TextView) rootView.findViewById(R.id.title);
-		
+		Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/ColabReg.otf");
+	    title.setTypeface(font); 
 		DatabaseHandler db = new DatabaseHandler(getActivity());
 		ArrayList<AirplaneTransaction> ar = db.getAirplaneTransaction();
 		
@@ -82,10 +85,16 @@ public class HistoryFragment extends Fragment {
 					long arg3) {
 				// TODO Auto-generated method stub
 				TextView tag = (TextView) view.findViewById(R.id.tag);
+				Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/ColabReg.otf");
+	    		tag.setTypeface(font); 
 				TextView transaction = (TextView) view.findViewById(R.id.transaction);
+				transaction.setTypeface(font); 
 				TextView date = (TextView) view.findViewById(R.id.date);
+				date.setTypeface(font); 
 				TextView price = (TextView) view.findViewById(R.id.price);
+				price.setTypeface(font); 
 				TextView t_code = (TextView) view.findViewById(R.id.t_code);
+				t_code.setTypeface(font); 
 				Intent intent = new Intent(context, InvoiceActivity.class);
 				intent.putExtra("tag", tag.getText().toString());
 				intent.putExtra("transaction", transaction.getText().toString());

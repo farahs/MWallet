@@ -9,12 +9,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="match_parent" >
 
         <LinearLayout
             android:id="@+id/invoice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="30"
             android:background="@drawable/receipt2"
             android:orientation="vertical" >
 
@@ -32,6 +33,7 @@
                 android:id="@+id/transactKind"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="Kind of transact"
                 android:textColor="@color/our_blue"
@@ -41,6 +43,7 @@
                 android:id="@+id/transactName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="Name of Transaction"
                 android:textColor="@color/our_blue"
@@ -50,7 +53,7 @@
                 android:id="@+id/dateOfTransact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="11 Desember 2013"
                 android:textColor="#000000"
@@ -60,6 +63,7 @@
                 android:id="@+id/amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="Rp100000,00"
                 android:textColor="#000000"
@@ -69,8 +73,8 @@
                 android:id="@+id/balanceCaption"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="60dp"
+                android:layout_weight="2"
                 android:gravity="center"
                 android:text="Transaction Code"
                 android:textAlignment="center"
@@ -81,8 +85,7 @@
                 android:id="@+id/t_code"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="10dp"
+                android:layout_weight="16"
                 android:gravity="center"
                 android:text="12345678910"
                 android:textAlignment="center"
@@ -101,6 +104,7 @@
                 android:id="@+id/notif"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="2"
                 android:background="#47D5A6"
                 android:gravity="center"
                 android:paddingBottom="10dp"

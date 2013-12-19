@@ -72,6 +72,7 @@ public class HistoryBaseAdapter extends BaseAdapter
 	private TextView detail(View v, int resId, String text) {
 		// TODO Auto-generated method stub
 		TextView tv = (TextView) v.findViewById(resId);
+	
 		tv.setText(text);
 		return tv;
 	}

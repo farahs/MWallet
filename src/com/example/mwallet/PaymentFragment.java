@@ -492,6 +492,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 		airplaneNumOfTicketEt.setEnabled(false);
 		airplaneAmountTv = (TextView) this.rootView
 				.findViewById(R.id.airplane_amount_input);
+	
 	}
 
 	private void setupTrainEvent() {
@@ -730,6 +731,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 				.findViewById(R.id.train_sum_ticket);
 		trainAmountTv = (TextView) this.rootView
 				.findViewById(R.id.train_amount_input);
+	
 	}
 
 	private void setupCinemaEvent() {
