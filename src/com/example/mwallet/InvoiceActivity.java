@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 
-public class Invoice extends Activity {
+public class InvoiceActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

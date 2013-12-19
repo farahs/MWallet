@@ -21,7 +21,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="Invoice"
+            android:text="Receipt"
             android:textColor="@color/our_blue"
             android:textSize="35sp" />
 
