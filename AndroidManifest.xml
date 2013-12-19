@@ -21,6 +21,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.example.mwallet.Splash"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,30 +31,36 @@
         </activity>
         <activity
             android:name="com.example.mwallet.RegisterActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/MyTheme" >
         </activity>
         <activity
             android:name="com.example.mwallet.LoginActivity"
             android:label="@string/title_activity_login"
+            android:screenOrientation="portrait"
             android:theme="@style/MyTheme" >
         </activity>
         <activity
             android:name="com.example.mwallet.SettingActivity"
             android:label="@string/title_activity_setting"
+            android:screenOrientation="portrait"
             android:theme="@style/MyTheme" >
         </activity>
         <activity
             android:name="com.example.mwallet.DrawerActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/MyTheme" >
         </activity>
         <activity
             android:name="com.example.mwallet.Forgot_Pasword"
-            android:label="@string/title_activity_forgot__pasword" >
+            android:label="@string/title_activity_forgot__pasword"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.example.mwallet.InvoiceActivity"
-            android:label="@string/title_activity_invoice" >
+            android:label="@string/title_activity_invoice"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 
