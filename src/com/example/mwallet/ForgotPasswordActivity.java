@@ -119,8 +119,7 @@ public class ForgotPasswordActivity extends Activity implements OnClickListener 
 		}
 
 	}
-	
-	private void processResult(ArrayList<String> result) {
+		private void processResult(ArrayList<String> result) {
 
 		if (result.size() == 0) {
 			Toast.makeText(getApplicationContext(), "EMAIL SENT", Toast.LENGTH_SHORT)
