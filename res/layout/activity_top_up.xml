@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/default_bg"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -19,50 +20,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:paddingBottom="10dp"
             android:text="Top Up"
             android:textColor="@color/our_blue"
-            android:textSize="35sp"
-            android:paddingBottom="10dp" />
+            android:textSize="35sp" />
 
-        
-        
-        
-        <!-- name -->
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            >
-
-                       
-            <EditText
-                android:id="@+id/nameIn"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:ems="10"
-                android:hint="Amount"
-                android:maxLength="20"
-                android:maxLines="1"
-                android:paddingLeft="15dp"
-                android:textColor="@color/default_input_gray" />
-
-            <ImageView
-                android:id="@+id/nameIn_clear"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:padding="5dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_clear_idle" />
-
-            
-
-        </RelativeLayout>
-        <!-- email -->
+        <!-- amount -->
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -71,22 +34,87 @@
             android:orientation="horizontal" >
 
             <EditText
-                android:id="@+id/emailIn"
+                android:id="@+id/topUp_amount_input"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:ems="10"
-                android:hint="Account's password"
+                android:background="@color/white"
+                android:gravity="center"
+                android:hint="amount"
+                android:inputType="number"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:textColor="@color/default_input_gray"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/topUp_amount_clear"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_clear_idle" />
+        </RelativeLayout>
+
+        <!-- account number -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/topUp_accountNumber_input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:gravity="center"
+                android:hint="account&apos;s number"
+                android:inputType="number"
                 android:maxLength="100"
                 android:maxLines="1"
-                android:paddingLeft="15dp"
-                android:textAlignment="center"
-                android:textColor="@color/default_input_gray" >
+                android:textColor="@color/default_input_gray"
+                android:textSize="18sp" />
 
-                
+            <ImageView
+                android:id="@+id/topUp_accountNumber_clear"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_clear_idle" />
+        </RelativeLayout>
+
+        <!-- account name -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/topUp_accountName_input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:gravity="center"
+                android:hint="account&apos;s name"
+                android:maxLength="100"
+                android:maxLines="1"
+                android:textAlignment="center"
+                android:textColor="@color/default_input_gray"
+                android:textSize="18sp" >
             </EditText>
 
             <ImageView
-                android:id="@+id/emailIn_clear"
+                android:id="@+id/topUp_accountName_clear"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_alignParentRight="true"
@@ -97,8 +125,7 @@
                 android:src="@drawable/ic_clear_idle" />
         </RelativeLayout>
 
-        
-        <!-- verify password -->
+        <!-- date -->
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -106,79 +133,31 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal" >
 
-            <EditText
-                android:id="@+id/verifyPassIn"
+            <TextView
+                android:id="@+id/topUp_date"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:ems="10"
-                android:hint="Account's number"
-                android:maxLength="100"
+                android:background="@color/white"
+                android:gravity="center"
+                android:hint="date"
                 android:maxLines="1"
                 android:paddingLeft="15dp"
-                android:textColor="@color/default_input_gray" />
-
-            <ImageView
-                android:id="@+id/verifyPassIn_clear"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:padding="5dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_clear_idle" />
-        </RelativeLayout>
-        
-        
-        <!-- pin -->
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal" >
-
-            <EditText
-                android:id="@+id/pinNumIn"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:ems="10"
-                android:hint="Pin number"
-                android:inputType="textPassword"
-                android:maxLength="6"
-                android:maxLines="1"
-                android:paddingLeft="15dp"
-                android:textColor="@color/default_input_gray" />
-
-            <ImageView
-                android:id="@+id/pinNumIn_clear"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
-                android:padding="5dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_clear_idle" />
+                android:textAlignment="center"
+                android:textColor="@color/default_input_gray"
+                android:textSize="18sp" />
         </RelativeLayout>
 
         <Button
-            android:id="@+id/signUpBtn "
-            android:layout_width="100dp"
+            android:id="@+id/topUpBtn "
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
             android:layout_marginTop="16dp"
             android:background="@color/our_blue"
             android:paddingBottom="5dp"
             android:text="Top Up"
             android:textColor="@color/white"
             android:textSize="20sp" />
-        
-           
     </LinearLayout>
-
-    
 
 </RelativeLayout>

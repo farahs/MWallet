@@ -141,7 +141,7 @@
                             android:id="@+id/email"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="abc@gmail.com"
+                            android:text="farah.sapi@gmail.com"
                             android:textColor="@color/our_blue"
                             android:textSize="20sp" />
 
