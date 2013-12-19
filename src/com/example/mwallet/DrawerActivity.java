@@ -22,6 +22,7 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -39,7 +40,7 @@ public class DrawerActivity extends FragmentActivity implements OnClickListener 
 	
 	private PenggunaController penggunaController;
 	
-	private TextView logout;
+	private LinearLayout logoutButton;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +57,9 @@ public class DrawerActivity extends FragmentActivity implements OnClickListener 
 	private void setupView() {
 		this.mDrawerLayout = (DrawerLayout) this.findViewById(R.id.drawer_layout);
 		this.mDrawerLeftPanel = (RelativeLayout) this.findViewById(R.id.left_panel);
-		this.logout = (TextView) this.findViewById(R.id.logout);
+		this.logoutButton = (LinearLayout) this.findViewById(R.id.logoutButton);
 		
-		logout.setOnClickListener(new View.OnClickListener() {
+		logoutButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
