@@ -14,12 +14,16 @@
     <string name="title_activity_drawer">DrawerActivity</string>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     <string name="settings_name">Name</string>
     <string name="settings_email">E-mail</string>
     <string name="settings_password">Password</string>
     <string name="settings_pinNumber">Pin</string>
     <string name="settings_saveButton">Save</string>
     
+=======
+    <string name="logout">Logout</string>
+>>>>>>> 1fa7e85050b6c6427352cad2691c7d04f95405b3
 =======
     <string name="logout">Logout</string>
 >>>>>>> 1fa7e85050b6c6427352cad2691c7d04f95405b3
