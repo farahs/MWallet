@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/default_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="5dp" >
+
+        <TextView
+            android:id="@+id/dialog_others_nama"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="75dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="nama"
+            android:textAlignment="center"
+            android:textColor="@color/default_input_gray"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:background="@color/default_bg"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:text="NAME"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="5dp" >
+
+        <TextView
+            android:id="@+id/dialog_others_no"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="75dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="nomor"
+            android:textAlignment="center"
+            android:textColor="@color/default_input_gray"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:background="@color/default_bg"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:text="NUMBER"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="5dp" >
+
+        <TextView
+            android:id="@+id/dialog_others_type"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="75dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="type"
+            android:textAlignment="center"
+            android:textColor="@color/default_input_gray"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:background="@color/default_bg"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:text="TYPE"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="5dp" >
+
+        <TextView
+            android:id="@+id/dialog_others_amount"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="75dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:hint="@string/amount"
+            android:textAlignment="center"
+            android:textColor="@color/default_input_gray"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:background="@color/default_bg"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:text="AMOUNT"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+</LinearLayout>

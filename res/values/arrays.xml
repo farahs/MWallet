@@ -6,4 +6,30 @@
         <item>Top Up</item>
         <item>History</item>
     </string-array>
+    
+    <string-array name="payment_array">
+        <item>CHOOSE ONE</item>
+        <item>CINEMA</item>
+        <item>TRAIN</item>
+        <item>AIRPLANE</item>
+        <item>OTHERS</item>
+    </string-array>
+    
+    <string-array name="other_payment">
+        <item>VENDING MACHINE</item>
+        <item>BILL</item>
+        <item>ELECTRIC PULSE</item>
+    </string-array>
+    
+    <string-array name="bill_categories">
+        <item>Electrical</item>
+        <item>Water</item>
+        <item>Internet</item>
+    </string-array>
+    
+    <string-array name="mart">
+        <item>Alfamart</item>
+        <item>Indomaret</item>
+        <item>Giant</item>
+    </string-array>
 </resources>

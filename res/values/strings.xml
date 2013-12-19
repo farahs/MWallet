@@ -12,13 +12,56 @@
     <string name="title_activity_payment">PaymentActivity</string>
     <string name="title_activity_top_up">TopUpActivity</string>
     <string name="title_activity_drawer">DrawerActivity</string>
+<<<<<<< HEAD
     <string name="settings_name">Name</string>
     <string name="settings_email">E-mail</string>
     <string name="settings_password">Password</string>
     <string name="settings_pinNumber">Pin</string>
     <string name="settings_saveButton">Save</string>
     
+=======
+    <string name="logout">Logout</string>
+>>>>>>> 1fa7e85050b6c6427352cad2691c7d04f95405b3
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="history">History</string>
+    <string name="page_1_of_5">Page 1 of 5</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="transaksi">Transaksi</string>
+    <string name="textview">TextView</string>
+    <string name="tanggal">Tanggal</string>
+    <string name="harga">Harga</string>
+    <string name="_20_november_2013">20 November 2013</string>
+    <string name="_21_film_the_hobbit">21-Film The Hobbit</string>
+    <string name="rp156_000">Rp156.000</string>
+
+    <!-- PAYMENT -->
+
+    <string name="choose_payment">Choose Your Payment</string>
+    <string name="choose">CHOOSE</string>
+    <string name="cinema">CINEMA</string>
+    <string name="cinema_name">CINEMA NAME</string>
+    <string name="movie_title">MOVIE TITLE</string>
+    <string name="date">DATE</string>
+    <string name="time">TIME</string>
+    <string name="tickets">TICKETS</string>
+    <string name="num_of_tick">number of ticket</string>
+    <string name="train">TRAIN</string>
+    <string name="train_name">TRAIN NAME</string>
+    <string name="departure">DEPARTURE</string>
+    <string name="destination">DESTINATION</string>
+    <string name="airplane">AIRPLANE</string>
+    <string name="airplane_company">COMPANY / AIRLINES</string>
+    <string name="other_payments">OTHER PAYMENTS</string>
+    <string name="categories">CATEGORIES</string>
+    <string name="paycode_title">PAYCODE</string>
+    <string name="paycode">paycode</string>
+    <string name="amount_title">AMOUNT</string>
+    <string name="amount">amount</string>
+    <string name="rp">Rp</string>
+    <string name="process_payment">PROCESS PAYMENT</string>
+    <string name="title_activity_forgot__pasword">Forgot_Pasword</string>
+    <string name="title_activity_invoice">Invoice</string>
 
 </resources>
