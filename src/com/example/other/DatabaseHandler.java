@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.example.pengguna.PenggunaController;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -174,6 +176,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase();
 		// Hapus semua data di tabel login dan check in
 		db.delete(TABLE_LOGIN, null, null);
+		db.delete(TABLE_AIRPLANE_TRNSC, null, null);
+		db.delete(TABLE_TRNSC_HSTY, null, null);
 		db.close();
 	}
 	
@@ -196,9 +200,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		values.put("TOTAL_TICKET", total_ticket);
 		values.put("PLANE_DATE", date);
 		values.put("PLANE_TIME", time);
+		values.remove("ID_USER");
+		values.remove("TRNSC_CODE");
+		values.remove("AMOUNT");
 
 		// Inserting Row
 		db.insert(TABLE_AIRPLANE_TRNSC, null, values);
+		
+		values = new ContentValues();
+		values.put("balance", PenggunaController.getUser().getBalance() - Float.parseFloat(amount));
+		db.update(TABLE_LOGIN, values, "id_user = ?",
+				new String[] { String.valueOf(PenggunaController.getUser().getId()) });
+		PenggunaController.getUser().setBalance(PenggunaController.getUser().getBalance() - Float.parseFloat(amount));
+		
 		db.close(); // Closing database connection
 	}
 }
