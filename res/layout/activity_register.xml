@@ -4,29 +4,31 @@
     android:layout_height="wrap_content"
     android:background="@color/default_bg"
     android:orientation="horizontal"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".RegisterActivity" >
-	
-   	<LinearLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical"
         android:layout_marginTop="50dp"
-         >
-		 <RelativeLayout
+        android:background="@color/default_bg"
+        android:orientation="vertical" >
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" 
-            android:layout_gravity="center">
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
             android:layout_gravity="center"
-            android:src="@drawable/logo" />
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:src="@drawable/logo" />
         </RelativeLayout>
         <!-- username -->
 
@@ -47,7 +49,9 @@
                 android:maxLines="1"
                 android:paddingLeft="15dp"
                 android:textColor="@color/default_input_gray" />
-			<requestFocus />
+
+            <requestFocus />
+
             <ImageView
                 android:id="@+id/usernameIn_clear"
                 android:layout_width="25dp"
@@ -59,7 +63,7 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_clear_idle" />
         </RelativeLayout>
-        
+
         <!-- name -->
 
         <RelativeLayout
@@ -110,8 +114,6 @@
                 android:paddingLeft="15dp"
                 android:textAlignment="center"
                 android:textColor="@color/default_input_gray" >
-
-                
             </EditText>
 
             <ImageView
@@ -157,7 +159,7 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_clear_idle" />
         </RelativeLayout>
-        
+
         <!-- password -->
 
         <RelativeLayout
@@ -255,56 +257,50 @@
                 android:src="@drawable/ic_clear_idle" />
         </RelativeLayout>
 
-        
-        
-        
-        
-         <!-- pin -->
+        <!-- pin -->
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal" 
             android:layout_gravity="center_horizontal"
-            
-            >
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
 
             <RadioGroup
-	        android:id="@+id/radioSex"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:orientation="horizontal">
+                android:id="@+id/radioSex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
 
-			<RadioButton
-	   	    android:id="@+id/radioOther"
-	   	    android:layout_width="wrap_content"
-	   	    android:layout_height="wrap_content"
-	   	    android:layout_gravity="right"
-	   	    android:text="Other"
-	   	    android:enabled="true"
-	   	    android:textColor="#000" />
-			
-	   	    <RadioButton
-	        android:id="@+id/radioMale"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-			android:layout_marginRight="10dp"
-	        android:layout_gravity="left"
-	        android:text="Male"
-	        android:textColor="#000" />
+                <RadioButton
+                    android:id="@+id/radioOther"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:enabled="true"
+                    android:text="Other"
+                    android:textColor="#000" />
 
-	   	    <RadioButton
-	   	    android:id="@+id/radioFemale"
-	   	    android:layout_width="wrap_content"
-	   	    android:layout_height="wrap_content"
-	   	    android:layout_gravity="center"
-	   	    android:layout_marginRight="10dp"
-	   	    android:text="Female" 
-	   	    android:textColor="#000"/>
-	    </RadioGroup>
+                <RadioButton
+                    android:id="@+id/radioMale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginRight="10dp"
+                    android:text="Male"
+                    android:textColor="#000" />
+
+                <RadioButton
+                    android:id="@+id/radioFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:text="Female"
+                    android:textColor="#000" />
+            </RadioGroup>
         </RelativeLayout>
-        
+
         <Button
             android:id="@+id/signUpBtn "
             android:layout_width="100dp"
@@ -318,7 +314,6 @@
             android:text="Sign Up"
             android:textColor="@color/white"
             android:textSize="20sp" />
-            />
     </LinearLayout>
 
 </ScrollView>
