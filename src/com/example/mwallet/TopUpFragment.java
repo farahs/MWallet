@@ -55,10 +55,13 @@ public class TopUpFragment extends Fragment implements OnClickListener {
 	private void setupView() {
 
 		amount = (EditText) rootView.findViewById(R.id.topUp_amount_input);
+	
 		accountNumber = (EditText) rootView
 				.findViewById(R.id.topUp_accountNumber_input);
+	
 		accountName = (EditText) rootView
 				.findViewById(R.id.topUp_accountName_input);
+		
 		date = (TextView) rootView.findViewById(R.id.topUp_date);
 
 		processTopUp = (Button) rootView.findViewById(R.id.topUpBtn);

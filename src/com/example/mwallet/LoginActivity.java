@@ -65,8 +65,10 @@ public class LoginActivity extends Activity implements OnClickListener {
 		this.submitBtn = (Button) this.findViewById(R.id.login_submitBtn);
 
 		this.registerTV = (TextView) this.findViewById(R.id.login_register);
+		
 		this.forgotPasswordTV = (TextView) this
 				.findViewById(R.id.login_forgot_password);
+		
 	}
 
 	private void setEvent() {
