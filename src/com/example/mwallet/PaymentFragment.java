@@ -1293,7 +1293,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 			Intent intent = new Intent(context, InvoiceActivity.class);
 			intent.putExtra("tag", "Airplane");
 			intent.putExtra("transaction", dialogAirlineName.getText().toString()+"\nFrom: "+dialogAirplaneFrom.getText().toString()+" To: "+dialogAirplaneTo.getText().toString());
-			intent.putExtra("date", dialogAirplaneDate.getText().toString());
+			intent.putExtra("date", dialogAirplaneDate.getText().toString()+" " + dialogAirplaneTime.getText().toString());
 			intent.putExtra("price",dialogAirplaneAmount.getText().toString());
 			intent.putExtra("t_code",t_code);
 			startActivity(intent);
