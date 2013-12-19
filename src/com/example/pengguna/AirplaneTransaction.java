@@ -6,11 +6,29 @@ public class AirplaneTransaction extends Transaction {
 	private String total_ticket;
 	private String date;
 	private String time;
+	private String depart_port;
+	private String dest_port;
+
+	public String getDepart_port() {
+		return depart_port;
+	}
+
+	public void setDepart_port(String depart_port) {
+		this.depart_port = depart_port;
+	}
+
+	public String getDest_port() {
+		return dest_port;
+	}
+
+	public void setDest_port(String dest_port) {
+		this.dest_port = dest_port;
+	}
 
 	public AirplaneTransaction(String transaction_id, String transaction_type,
 			String id_user, String transaction_code, String amount,
 			String id_plane, String company, String total_ticket, String date,
-			String time) {
+			String time, String depart_port, String dest_port) {
 		this.setTransaction_id(transaction_id);
 		this.setTransaction_type(transaction_type);
 		this.setId_user(id_user);
@@ -21,6 +39,8 @@ public class AirplaneTransaction extends Transaction {
 		this.setTotal_ticket(total_ticket);
 		this.setDate(date);
 		this.setTime(time);
+		this.setDepart_port(depart_port);
+		this.setDest_port(dest_port);
 	}
 
 	public String getId_plane() {

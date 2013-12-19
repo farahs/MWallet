@@ -7,6 +7,23 @@
     android:padding="10dp" >
 
     <TextView
+        android:id="@+id/t_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/transaksi"
+        android:textSize="0sp"
+        android:textColor="@color/our_blue" 
+        android:enabled="false"/>
+     <TextView
+        android:id="@+id/tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/transaksi"
+        android:textSize="0sp"
+        android:textColor="@color/our_blue" 
+        android:enabled="false"/>
+     
+    <TextView
         android:id="@+id/transaction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

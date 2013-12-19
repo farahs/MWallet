@@ -63,6 +63,8 @@ public class HistoryBaseAdapter extends BaseAdapter
 		mViewHolder.transaction = detail(convertView, com.example.mwallet.R.id.transaction, myList.get(position).getTransaction());
 		mViewHolder.date = detail(convertView, com.example.mwallet.R.id.date, myList.get(position).getDate());
 		mViewHolder.price = detail(convertView, com.example.mwallet.R.id.price, myList.get(position).getPrice());
+		mViewHolder.tag = detail(convertView, com.example.mwallet.R.id.tag, myList.get(position).getTag());
+		mViewHolder.t_code = detail(convertView, com.example.mwallet.R.id.t_code, myList.get(position).getT_code());
 		
 		return convertView;
 	}
@@ -78,7 +80,7 @@ public class HistoryBaseAdapter extends BaseAdapter
 	
 	private class MyViewHolder
 	{
-		TextView transaction, price,date;
+		TextView transaction, price,date,tag, t_code;
 		
 	}
 

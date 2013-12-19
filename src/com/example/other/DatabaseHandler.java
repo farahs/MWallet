@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.example.mwallet.PaymentFragment;
+import com.example.pengguna.AirplaneTransaction;
 import com.example.pengguna.PenggunaController;
 
 import android.content.ContentValues;
@@ -52,7 +54,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.execSQL(CREATE_LOGIN_TABLE);
 		String CREATE_TRNSC_HSTY_TABLE = "CREATE TABLE " + TABLE_TRNSC_HSTY +"(ID_TRNSC TEXT UNIQUE,TRNSC_TYPE TEXT,ID_USER TEXT,TRNSC_CODE TEXT,AMOUNT TEXT)";
 		db.execSQL(CREATE_TRNSC_HSTY_TABLE);
-		String CREATE_AIRPLANE_TRANSACTION_TABLE = "CREATE TABLE " + TABLE_AIRPLANE_TRNSC +"(ID_TRNSC TEXT UNIQUE,ID_PLANE TEXT,COMPANY TEXT,TOTAL_TICKET TEXT,TRNSC_TYPE TEXT,PLANE_DATE TEXT,PLANE_TIME TEXT)";
+		String CREATE_AIRPLANE_TRANSACTION_TABLE = "CREATE TABLE " + TABLE_AIRPLANE_TRNSC +"(ID_TRNSC TEXT UNIQUE,ID_PLANE TEXT,COMPANY TEXT,TOTAL_TICKET TEXT,TRNSC_TYPE TEXT,PLANE_DATE TEXT,PLANE_TIME TEXT, DEST_PORT TEXT, DEPART_PORT TEXT)";
 		db.execSQL(CREATE_AIRPLANE_TRANSACTION_TABLE);
 	}
 
@@ -184,7 +186,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	public void insertAirplaneTransaction(String transaction_id, String transaction_type,
 			String id_user, String transaction_code, String amount,
 			String id_plane, String company, String total_ticket, String date,
-			String time) {
+			String time, String depart, String dest) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
@@ -192,6 +194,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		values.put("TRNSC_TYPE", transaction_type);
 		values.put("ID_USER", id_user);
 		values.put("TRNSC_CODE",transaction_code);
+		PaymentFragment.t_code = transaction_code;
 		values.put("AMOUNT", amount); 
 		db.insert(TABLE_TRNSC_HSTY, null, values);
 
@@ -200,10 +203,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		values.put("TOTAL_TICKET", total_ticket);
 		values.put("PLANE_DATE", date);
 		values.put("PLANE_TIME", time);
+		values.put("DEPART_PORT", depart);
+		values.put("DEST_PORT", dest);
 		values.remove("ID_USER");
 		values.remove("TRNSC_CODE");
 		values.remove("AMOUNT");
-
 		// Inserting Row
 		db.insert(TABLE_AIRPLANE_TRNSC, null, values);
 		
@@ -215,4 +219,48 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		
 		db.close(); // Closing database connection
 	}
+	
+	public ArrayList<AirplaneTransaction> getAirplaneTransaction() {
+		SQLiteDatabase db = this.getReadableDatabase();
+		ArrayList<AirplaneTransaction> airplaneTransaction = new ArrayList<AirplaneTransaction>();
+		String selectQuery = "SELECT  * FROM " + TABLE_TRNSC_HSTY;
+		
+		Cursor cursor = db.rawQuery(selectQuery,null);
+		// Move to first row
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			String id_transaction = cursor.getString(0);
+			String trnsc_type = cursor.getString(1);
+			String id_user = cursor.getString(2);
+			String trnsc_code = cursor.getString(3);
+			String amount = cursor.getString(4);
+
+ 			
+ 			selectQuery = "SELECT  * FROM " + TABLE_AIRPLANE_TRNSC + " WHERE ID_TRNSC = ?";
+ 			Cursor cursor1 = db.rawQuery(selectQuery,new String[]{id_transaction});
+ 			cursor1.moveToFirst();
+ 			while(!cursor1.isAfterLast()){
+ 				String id_plane = cursor1.getString(1);
+ 				String company = cursor1.getString(2);
+ 				String total_ticket = cursor1.getString(3);
+ 	 			String plane_date = cursor1.getString(5);
+ 	 			String plane_time = cursor1.getString(6);
+ 	 			String depart_port = cursor1.getString(8);
+ 	 			String dest_port = cursor1.getString(7);
+ 	 			AirplaneTransaction ar = new AirplaneTransaction(id_transaction, trnsc_type,
+ 	 					id_user, trnsc_code, amount,
+ 	 					id_plane, company, total_ticket, plane_date,
+ 	 					plane_time,depart_port,dest_port);
+ 	 			airplaneTransaction.add(ar);
+ 	 			cursor1.moveToNext();
+ 			}
+ 			cursor1.close();
+ 			cursor.moveToNext();
+		}
+		cursor.close();
+		db.close();
+		// return user
+		return airplaneTransaction;
+	}
+	
 }

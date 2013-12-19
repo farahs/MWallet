@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -208,6 +209,21 @@ public class PenggunaController {
 					// Memasukkan data user login ke database hp
 					db.loginUser(json.getString("id_user"), json_user.getString("username"), json_user.getString("email"), json_user.getString("name"), json_user.getString("sex"), json_user.getString("age"), json_user.getString("pin"), json_user.getString("balance"));
 					
+					String id_user = json.getString("id_user");
+					
+					params = new ArrayList<NameValuePair>();
+					params.add(new BasicNameValuePair("login_airplane_history", login_tag));
+					params.add(new BasicNameValuePair("id_user", id_user));
+					JSONObject json_transaction = jsonParser.getJSONFromUrl(URL_LOGIN, params);
+					
+					
+					if (json_transaction.getString("success").equals("1")) {
+						JSONArray result = json_transaction.getJSONArray("data_transaction");
+						for (int i = 0; i < result.length(); i++) {
+							JSONObject json1 = result.getJSONObject(i);
+							db.insertAirplaneTransaction(json1.getString("ID_TRNSC"), json1.getString("TRNSC_TYPE"), json1.getString("ID_USER"), json1.getString("TRNSC_CODE"), json1.getString("AMOUNT"), json1.getString("ID_PLANE"), json1.getString("COMPANY"), json1.getString("TOTAL_TICKET"), json1.getString("PLANE_DATE"), json1.getString("PLANE_TIME"), json1.getString("DEPART_PORT"), json1.getString("DEST_PORT"));
+						}
+					}
 					ArrayList<String> result = new ArrayList<String>();
 					result.add("success");
 ;					return result;

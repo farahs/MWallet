@@ -184,7 +184,7 @@ public class TransactionController {
 					JSONArray result = json_transaction.getJSONArray("data_transaction");
 					for (int i = 0; i < result.length(); i++) {
 						JSONObject json = result.getJSONObject(i);
-						db.insertAirplaneTransaction(json.getString("ID_TRNSC"), json.getString("TRNSC_TYPE"), json.getString("ID_USER"), json.getString("TRNSC_CODE"), json.getString("AMOUNT"), json.getString("ID_PLANE"), json.getString("ID_USER"), json.getString("TOTAL_TICKET"), json.getString("PLANE_DATE"), json.getString("PLANE_TIME"));
+						db.insertAirplaneTransaction(json.getString("ID_TRNSC"), json.getString("TRNSC_TYPE"), json.getString("ID_USER"), json.getString("TRNSC_CODE"), json.getString("AMOUNT"), json.getString("ID_PLANE"), json.getString("COMPANY"), json.getString("TOTAL_TICKET"), json.getString("PLANE_DATE"), json.getString("PLANE_TIME"), json.getString("DEPART_PORT"), json.getString("DEST_PORT"));
 					}
 				}else{
 					results.add("insufficient ticket");

@@ -10,6 +10,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -38,6 +39,7 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 	private TransactionController tController;
 	private DrawerActivity activity;
 	private String base_price = "";
+	public static String t_code = "";
 	View rootView;
 	View layout;
 
@@ -1288,6 +1290,13 @@ public class PaymentFragment extends Fragment implements OnClickListener {
 	public void processPaymentResult(ArrayList<String> result){
 		if(result.size() == 0){
 			Toast.makeText(context, "Payment successful.", Toast.LENGTH_SHORT).show();
+			Intent intent = new Intent(context, InvoiceActivity.class);
+			intent.putExtra("tag", "Airplane");
+			intent.putExtra("transaction", dialogAirlineName.getText().toString()+"\nFrom: "+dialogAirplaneFrom.getText().toString()+" To: "+dialogAirplaneTo.getText().toString());
+			intent.putExtra("date", dialogAirplaneDate.getText().toString());
+			intent.putExtra("price",dialogAirplaneAmount.getText().toString());
+			intent.putExtra("t_code",t_code);
+			startActivity(intent);
 		}else{
 			for(int i = 0; i < result.size(); i++){
 				if(result.get(i).equals("insufficient amount")){

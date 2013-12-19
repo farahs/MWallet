@@ -2,18 +2,23 @@ package com.example.mwallet;
 
 import java.util.ArrayList;
 
+import com.example.other.DatabaseHandler;
 import com.example.other.HistoryBaseAdapter;
 import com.example.other.ListData;
+import com.example.pengguna.AirplaneTransaction;
 
 //import com.irfan.customlistviewdemo.R;
 
 
 import android.os.Bundle;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,22 +39,14 @@ public class HistoryFragment extends Fragment {
 	Button btn_next;
 	private int pageCount;
 	private int increment = 0;
-	public int TOTAL_LIST_ITEMS = 8;
+	public int TOTAL_LIST_ITEMS;
 	public int NUM_ITEMS_PAGE = 5;
 	
-	String[] transaction = new String[] {
-			"21-Film The Hobbit", "21-Film The Hobbit", "21-Film The Hobbit", "Train-Jakarta Kota to Depok",
-			"Train-Jakarta Kota to Depok", "Electricity Bill-October Period", "Food Delivery-PHD", "Food Delivery-Sederhana"
-	};
-	String[] date = new String[] {
-			"20 November 2013", "20 November 2013", "20 November 2013", "20 November 2013",
-			"20 November 2013", "20 November 2013", "20 November 2013", "20 November 2013" 
-	};
-	String[] price = new String[] {
-			"Rp70.000,00", "Rp5.000,00", "Rp200.000,00", "Rp70.000,00",
-			"Rp5.000,00", "Rp200.000,00", "Rp70.000,00", "Rp70.000,00" 
-	};
-	
+	ArrayList<String> transaction = new ArrayList<String>();
+	ArrayList<String> date = new ArrayList<String>();
+	ArrayList<String> price = new ArrayList<String>();
+	ArrayList<String> tag = new ArrayList<String>();
+	ArrayList<String> t_code = new ArrayList<String>();
 	
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,6 +60,43 @@ public class HistoryFragment extends Fragment {
 		btn_next = (Button) rootView.findViewById(R.id.next);
 		title = (TextView) rootView.findViewById(R.id.title);
 		
+		DatabaseHandler db = new DatabaseHandler(getActivity());
+		ArrayList<AirplaneTransaction> ar = db.getAirplaneTransaction();
+		
+		for(int i=0; i < ar.size(); i++){
+			AirplaneTransaction art = ar.get(i);
+			String transaction1 = art.getCompany()+"\nFrom: "+art.getDepart_port()+" To: "+art.getDest_port();
+			String date1 = art.getDate()+ " "+ art.getTime();
+			String price1 = "Rp. "+art.getAmount();
+			transaction.add(transaction1);
+			date.add(date1);
+			price.add(price1);
+			tag.add("airplane");
+			t_code.add(art.getTransaction_code());
+		}
+		
+		list.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View view, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				TextView tag = (TextView) view.findViewById(R.id.tag);
+				TextView transaction = (TextView) view.findViewById(R.id.transaction);
+				TextView date = (TextView) view.findViewById(R.id.date);
+				TextView price = (TextView) view.findViewById(R.id.price);
+				TextView t_code = (TextView) view.findViewById(R.id.t_code);
+				Intent intent = new Intent(context, InvoiceActivity.class);
+				intent.putExtra("tag", tag.getText().toString());
+				intent.putExtra("transaction", transaction.getText().toString());
+				intent.putExtra("date", date.getText().toString());
+				intent.putExtra("price",price.getText().toString());
+				intent.putExtra("t_code",t_code.getText().toString());
+				startActivity(intent);
+			}
+			
+		});
+		TOTAL_LIST_ITEMS = date.size();
 		/**
 	     * this block is for checking the number of pages
 	     * ====================================================
@@ -150,12 +184,14 @@ public class HistoryFragment extends Fragment {
 	}
 	private void getDataInList() {
 		// TODO Auto-generated method stub
-		for(int i=0;i<8;i++)
+		for(int i=0;i<date.size();i++)
 		{
 			ListData ld = new ListData();
-			ld.setDate(date[i]);
-			ld.setPrice(price[i]);
-			ld.setTransaction(transaction[i]);
+			ld.setDate(date.get(i));
+			ld.setPrice(price.get(i));
+			ld.setTransaction(transaction.get(i));
+			ld.setTag(tag.get(i));
+			ld.setT_code(t_code.get(i));
 			myList.add(ld);
 		}
 		
