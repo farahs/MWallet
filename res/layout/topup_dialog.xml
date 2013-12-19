@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/default_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/default_bg"
+         >
+
+        <EditText
+            android:id="@+id/dialog_topUp_pin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="75dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:hint="pin"
+            android:inputType="number"
+            android:maxLines="1"
+            android:textAlignment="center"
+            android:textColor="@color/default_input_gray"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:background="@color/default_bg"
+            android:gravity="center_vertical"
+            android:text="PIN"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+    </RelativeLayout>
+</LinearLayout>
