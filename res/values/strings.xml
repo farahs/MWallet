@@ -12,8 +12,7 @@
     <string name="title_activity_payment">PaymentActivity</string>
     <string name="title_activity_top_up">TopUpActivity</string>
     <string name="title_activity_drawer">DrawerActivity</string>
-<<<<<<< HEAD
-
+	
     <string name="settings_name">Name</string>
     <string name="settings_email">E-mail</string>
     <string name="settings_password">Password</string>
@@ -21,12 +20,6 @@
     <string name="settings_saveButton">Save</string>
     <string name="logout">Logout</string>
 	
-
-    <string name="logout">Logout</string>
-
-=======
-    <string name="logout">Logout</string>
->>>>>>> 1fa7e85050b6c6427352cad2691c7d04f95405b3
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="history">History</string>
