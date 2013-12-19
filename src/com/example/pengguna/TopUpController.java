@@ -47,9 +47,7 @@ public class TopUpController {
 
 		if (json_topup.getString("success").equals("1")) {
 			JSONArray result = json_topup.getJSONArray("data_topUp");
-			Log.i("mwallet", "tes");
 			for (int i = 0; i < result.length(); i++) {
-				Log.i("mwallet", "testos");
 				JSONObject json = result.getJSONObject(i);
 				db.insertTopUp(json.getString("ID"), json.getString("ID_USER"),
 						json.getString("TOPUP_DATE"), json.getString("AMOUNT"),

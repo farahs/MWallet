@@ -53,7 +53,7 @@
             android:theme="@style/MyTheme" >
         </activity>
         <activity
-            android:name="com.example.mwallet.Forgot_Pasword"
+            android:name="com.example.mwallet.ForgotPasswordActivity"
             android:label="@string/title_activity_forgot__pasword"
             android:screenOrientation="portrait" >
         </activity>
