@@ -22,6 +22,8 @@ public class PenggunaController {
 
 	private static String URL_LOGIN = "http://www.mwallet.meximas.com/public_html/PHP/login.php";
 	private static String URL_REGISTER = "http://www.mwallet.meximas.com/public_html/PHP/register.php";
+	private static String URL_OTHERS = "http://www.mwallet.meximas.com/public_html/PHP/others.php";
+	private static String URL_FORGOT_PASSWORD = "http://www.mwallet.meximas.com/public_html/PHP/forgot_password.php";
 
 	private static String login_tag = "login";
 	private static String register_tag = "register";
@@ -224,6 +226,21 @@ public class PenggunaController {
 							db.insertAirplaneTransaction1(json1.getString("ID_TRNSC"), json1.getString("TRNSC_TYPE"), json1.getString("ID_USER"), json1.getString("TRNSC_CODE"), json1.getString("AMOUNT"), json1.getString("ID_PLANE"), json1.getString("COMPANY"), json1.getString("TOTAL_TICKET"), json1.getString("PLANE_DATE"), json1.getString("PLANE_TIME"), json1.getString("DEPART_PORT"), json1.getString("DEST_PORT"));
 						}
 					}
+					
+					params = new ArrayList<NameValuePair>();
+					params.add(new BasicNameValuePair("login_bill_history", login_tag));
+					params.add(new BasicNameValuePair("id_user", id_user));
+					json_transaction = jsonParser.getJSONFromUrl(URL_LOGIN, params);
+					
+					
+					if (json_transaction.getString("success").equals("1")) {
+						JSONArray result = json_transaction.getJSONArray("data_transaction");
+						for (int i = 0; i < result.length(); i++) {
+							JSONObject json1 = result.getJSONObject(i);
+							db.insertBillTransaction(json1.getString("ID_TRNSC"), json1.getString("TRNSC_TYPE"), json1.getString("ID_USER"), json1.getString("TRNSC_CODE"), json1.getString("PAID_AMOUNT"), json1.getString("ID_BILL"), json1.getString("PAY_CODE"), json1.getString("FLAG_ELECT"), json1.getString("ELECT_ACC"), json1.getString("FLAG_WATER"), json1.getString("WATER_ACC"), json1.getString("FLAG_INT"), json1.getString("INT_ACC"), json1.getString("ACC_NAME"));
+							}
+					}
+					
 					ArrayList<String> result = new ArrayList<String>();
 					result.add("success");
 ;					return result;
@@ -265,6 +282,28 @@ public class PenggunaController {
 			mistakes.add("length password");
 		}
 		return mistakes;
+	}
+	
+	public ArrayList<String> forgotPassword(Context c, String [] parameter) throws JSONException{
+		
+		ArrayList<String> res = new ArrayList<String>();
+		String email = parameter[0];
+		String pwd = parameter[1];
+		
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("forgot_password", "forgot_password"));
+		params.add(new BasicNameValuePair("email", email));
+		params.add(new BasicNameValuePair("password", pwd));
+		
+		JSONObject json_password = jsonParser.getJSONFromUrl(URL_FORGOT_PASSWORD, params);
+		
+		if (json_password.getString("success").equals("1")) {
+			return res;
+		} else {
+			res.add("unregistered");
+			return res;
+		}
+
 	}
 	
 }

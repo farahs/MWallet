@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DrawerActivity extends FragmentActivity implements OnClickListener {
 
@@ -255,6 +256,7 @@ public class DrawerActivity extends FragmentActivity implements OnClickListener 
 	
 	public void logoutUser(){
 		penggunaController.logoutUser(getApplicationContext());
+		Toast.makeText(this, "Logout successful", Toast.LENGTH_SHORT).show();
 		Intent intent = new Intent(this, LoginActivity.class);
 		startActivity(intent);
 		finish();

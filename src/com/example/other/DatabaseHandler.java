@@ -8,6 +8,7 @@ import java.util.TreeSet;
 
 import com.example.mwallet.PaymentFragment;
 import com.example.pengguna.AirplaneTransaction;
+import com.example.pengguna.BillTransaction;
 import com.example.pengguna.PenggunaController;
 
 import android.content.ContentValues;
@@ -29,6 +30,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String TABLE_LOGIN = "login";
 	private static final String TABLE_TRNSC_HSTY = "transaction_history";
 	private static final String TABLE_AIRPLANE_TRNSC = "airplane_transaction";
+	private static final String TABLE_BILL_TRNSC = "bill_transaction";
 	private static final String TABLE_TOPUP_HSTY = "topup_history";
 
 	private static final String KEY_ID = "id";
@@ -58,10 +60,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.execSQL(CREATE_TRNSC_HSTY_TABLE);
 		String CREATE_AIRPLANE_TRANSACTION_TABLE = "CREATE TABLE " + TABLE_AIRPLANE_TRNSC +"(ID_TRNSC TEXT UNIQUE,ID_PLANE TEXT,COMPANY TEXT,TOTAL_TICKET TEXT,TRNSC_TYPE TEXT,PLANE_DATE TEXT,PLANE_TIME TEXT, DEST_PORT TEXT, DEPART_PORT TEXT)";
 		db.execSQL(CREATE_AIRPLANE_TRANSACTION_TABLE);
+		String CREATE_BILL_TRANSACTION_TABLE = "CREATE TABLE " + TABLE_BILL_TRNSC +"(ID_TRNSC TEXT UNIQUE,ID_BILL TEXT, TRNSC_TYPE TEXT, PAY_CODE TEXT, FLAG_ELECT TEXT, ELECT_ACC TEXT, FLAG_WATER TEXT, WATER_ACC TEXT, FLAG_INT TEXT, INT_ACC TEXT, PAID_AMOUNT TEXT, ACC_NAME TEXT)";
+		db.execSQL(CREATE_BILL_TRANSACTION_TABLE);
 		
 		String CREATE_TOPUP_HISTORY = "CREATE TABLE " + TABLE_TOPUP_HSTY + "(ID TEXT UNIQUE, ID_USER TEXT, TOPUP_DATE TEXT, AMOUNT TEXT, STATUS TEXT, ACC_OWNER TEXT, ACC_NUM TEXT)";
 		db.execSQL(CREATE_TOPUP_HISTORY);
-		
 	}
 
 	// Upgrading database
@@ -187,6 +190,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		// Hapus semua data di tabel login dan check in
 		db.delete(TABLE_LOGIN, null, null);
 		db.delete(TABLE_AIRPLANE_TRNSC, null, null);
+		db.delete(TABLE_BILL_TRNSC, null, null);
 		db.delete(TABLE_TRNSC_HSTY, null, null);
 		db.close();
 	}
@@ -263,11 +267,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.close(); // Closing database connection
 
 	}
-	
-	public void insertAirplaneTransaction1(String transaction_id, String transaction_type,
+	public void insertBillTransaction(String transaction_id, String transaction_type,
 			String id_user, String transaction_code, String amount,
-			String id_plane, String company, String total_ticket, String date,
-			String time, String depart, String dest) {
+			String id_bill, String pay_code, String flag_elect, String elect_acc, String flag_water, String water_acc, String flag_int, String int_acc, String acc_name) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
@@ -279,18 +281,58 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		values.put("AMOUNT", amount); 
 		db.insert(TABLE_TRNSC_HSTY, null, values);
 
-		values.put("ID_PLANE", id_plane);
-		values.put("COMPANY", company);
-		values.put("TOTAL_TICKET", total_ticket);
-		values.put("PLANE_DATE", date);
-		values.put("PLANE_TIME", time);
-		values.put("DEPART_PORT", depart);
-		values.put("DEST_PORT", dest);
+		values.put("ID_BILL", id_bill);
+		values.put("PAY_CODE", pay_code);
+		values.put("FLAG_ELECT", flag_elect);
+		values.put("ELECT_ACC", elect_acc);
+		values.put("FLAG_WATER", flag_water);
+		values.put("WATER_ACC", water_acc);
+		values.put("FLAG_INT", flag_int);
+		values.put("INT_ACC", int_acc);
+		values.put("ACC_NAME", acc_name);
+		values.put("PAID_AMOUNT", amount);
 		values.remove("ID_USER");
 		values.remove("TRNSC_CODE");
 		values.remove("AMOUNT");
 		// Inserting Row
-		db.insert(TABLE_AIRPLANE_TRNSC, null, values);
+		db.insert(TABLE_BILL_TRNSC, null, values);
+		db.close(); // Closing database connection
+	}
+	public void insertBillTransaction1(String transaction_id, String transaction_type,
+			String id_user, String transaction_code, String amount,
+			String id_bill, String pay_code, String flag_elect, String elect_acc, String flag_water, String water_acc, String flag_int, String int_acc, String acc_name) {
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put("ID_TRNSC", transaction_id);
+		values.put("TRNSC_TYPE", transaction_type);
+		values.put("ID_USER", id_user);
+		values.put("TRNSC_CODE",transaction_code);
+		PaymentFragment.t_code = transaction_code;
+		values.put("AMOUNT", amount); 
+		db.insert(TABLE_TRNSC_HSTY, null, values);
+
+		values.put("ID_BILL", id_bill);
+		values.put("PAY_CODE", pay_code);
+		values.put("FLAG_ELECT", flag_elect);
+		values.put("ELECT_ACC", elect_acc);
+		values.put("FLAG_WATER", flag_water);
+		values.put("WATER_ACC", water_acc);
+		values.put("FLAG_INT", flag_int);
+		values.put("INT_ACC", int_acc);
+		values.put("ACC_NAME", acc_name);
+		values.put("PAID_AMOUNT", amount);
+		values.remove("ID_USER");
+		values.remove("TRNSC_CODE");
+		values.remove("AMOUNT");
+		// Inserting Row
+		db.insert(TABLE_BILL_TRNSC, null, values);
+		
+		values = new ContentValues();
+		values.put("balance", PenggunaController.getUser().getBalance() - Float.parseFloat(amount));
+		db.update(TABLE_LOGIN, values, "id_user = ?",
+				new String[] { String.valueOf(PenggunaController.getUser().getId()) });
+		PenggunaController.getUser().setBalance(PenggunaController.getUser().getBalance() - Float.parseFloat(amount));
 		db.close(); // Closing database connection
 	}
 	
@@ -337,5 +379,80 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		// return user
 		return airplaneTransaction;
 	}
+	
+	public void insertAirplaneTransaction1(String transaction_id, String transaction_type,
+			String id_user, String transaction_code, String amount,
+			String id_plane, String company, String total_ticket, String date,
+			String time, String depart, String dest) {
+		SQLiteDatabase db = this.getWritableDatabase();
 
+		ContentValues values = new ContentValues();
+		values.put("ID_TRNSC", transaction_id);
+		values.put("TRNSC_TYPE", transaction_type);
+		values.put("ID_USER", id_user);
+		values.put("TRNSC_CODE",transaction_code);
+		PaymentFragment.t_code = transaction_code;
+		values.put("AMOUNT", amount); 
+		db.insert(TABLE_TRNSC_HSTY, null, values);
+
+		values.put("ID_PLANE", id_plane);
+		values.put("COMPANY", company);
+		values.put("TOTAL_TICKET", total_ticket);
+		values.put("PLANE_DATE", date);
+		values.put("PLANE_TIME", time);
+		values.put("DEPART_PORT", depart);
+		values.put("DEST_PORT", dest);
+		values.remove("ID_USER");
+		values.remove("TRNSC_CODE");
+		values.remove("AMOUNT");
+		// Inserting Row
+		db.insert(TABLE_AIRPLANE_TRNSC, null, values);
+		db.close(); // Closing database connection
+	}
+	
+	public ArrayList<BillTransaction> getBillTransaction() {
+		SQLiteDatabase db = this.getReadableDatabase();
+		ArrayList<BillTransaction> billTransaction = new ArrayList<BillTransaction>();
+		String selectQuery = "SELECT  * FROM " + TABLE_TRNSC_HSTY;
+		
+		Cursor cursor = db.rawQuery(selectQuery,null);
+		// Move to first row
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			String id_transaction = cursor.getString(0);
+			String trnsc_type = cursor.getString(1);
+			String id_user = cursor.getString(2);
+			String trnsc_code = cursor.getString(3);
+			String amount = cursor.getString(4);
+
+ 			
+ 			selectQuery = "SELECT  * FROM " + TABLE_BILL_TRNSC + " WHERE ID_TRNSC = ?";
+ 			Cursor cursor1 = db.rawQuery(selectQuery,new String[]{id_transaction});
+ 			cursor1.moveToFirst();
+ 			while(!cursor1.isAfterLast()){
+ 				String id_bill = cursor1.getString(1);
+ 				String pay_code = cursor1.getString(3);
+ 				String flag_elect = cursor1.getString(4);
+ 	 			String elect_acc = cursor1.getString(5);
+ 	 			String flag_water = cursor1.getString(6);
+ 	 			String water_acc = cursor1.getString(7);
+ 	 			String flag_int = cursor1.getString(8);
+ 	 			String int_acc = cursor1.getString(9);
+ 	 			String acc_name = cursor1.getString(11);
+ 	 			BillTransaction br = new BillTransaction(id_transaction, trnsc_type,
+ 	 					id_user, trnsc_code, amount,
+ 	 					id_bill, pay_code, flag_elect,
+ 	 					elect_acc, flag_water, water_acc,
+ 	 					flag_int, int_acc, acc_name);
+ 	 			billTransaction.add(br);
+ 	 			cursor1.moveToNext();
+ 			}
+ 			cursor1.close();
+ 			cursor.moveToNext();
+		}
+		cursor.close();
+		db.close();
+		// return user
+		return billTransaction;
+	}
 }

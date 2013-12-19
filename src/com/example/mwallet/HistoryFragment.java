@@ -6,6 +6,7 @@ import com.example.other.DatabaseHandler;
 import com.example.other.HistoryBaseAdapter;
 import com.example.other.ListData;
 import com.example.pengguna.AirplaneTransaction;
+import com.example.pengguna.BillTransaction;
 
 //import com.irfan.customlistviewdemo.R;
 
@@ -75,6 +76,40 @@ public class HistoryFragment extends Fragment {
 			date.add(date1);
 			price.add(price1);
 			tag.add("Airplane");
+			t_code.add(art.getTransaction_code());
+		}
+		
+		ArrayList<BillTransaction> br = db.getBillTransaction();
+		
+		for(int i=0; i < br.size(); i++){
+			BillTransaction art = br.get(i);
+			String tipe = "";
+			if(art.getFlag_elect().equals("1")){
+				tipe = "Electric Bill";
+			}else if(art.getFlag_int().equals("1")){
+				tipe = "Internet Bill";
+			}else if(art.getFlag_water().equals("1")){
+				tipe = "Water Bill";
+			}
+			
+			String account = "";
+			if(art.getFlag_elect().equals("1")){
+				account = art.getElect_acc();
+			}else if(art.getFlag_int().equals("1")){
+				account = art.getInt_acc();
+			}else if(art.getFlag_water().equals("1")){
+				account = art.getWater_acc();
+			}
+			
+			String transaction1 = tipe
+					+ "\nAccount Name: "
+					+ art.getAcc_name() + "\nAccount Number: "+account;
+			String date1 = art.getPay_code();
+			String price1 = "Rp. "+art.getAmount();
+			transaction.add(transaction1);
+			date.add(date1);
+			price.add(price1);
+			tag.add("Bill");
 			t_code.add(art.getTransaction_code());
 		}
 		

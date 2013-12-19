@@ -29,8 +29,8 @@
                 android:layout_marginRight="25dp"
                 android:background="@color/white"
                 android:gravity="center"
+                android:inputType="textEmailAddress"
                 android:hint="Email"
-                android:maxLength="16"
                 android:maxLines="1"
                 android:textAlignment="center"
                 android:textColor="@color/default_input_gray"
@@ -50,7 +50,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/login_submitBtn"
+        android:id="@+id/reset_pwd_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/input"
