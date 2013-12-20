@@ -24,6 +24,7 @@ public class PenggunaController {
 	private static String URL_REGISTER = "http://www.mwallet.meximas.com/public_html/PHP/register.php";
 	private static String URL_OTHERS = "http://www.mwallet.meximas.com/public_html/PHP/others.php";
 	private static String URL_FORGOT_PASSWORD = "http://www.mwallet.meximas.com/public_html/PHP/forgot_password.php";
+	private static String URL_EDIT_PROFIL = "http://www.mwallet.meximas.com/public_html/PHP/edit_profile.php";
 
 	private static String login_tag = "login";
 	private static String register_tag = "register";
@@ -46,11 +47,14 @@ public class PenggunaController {
 	public boolean isUserLoggedIn(Context context) {
 		DatabaseHandler db = new DatabaseHandler(context);
 		boolean login = db.getLoginStatus();
-		if(login){
-			HashMap<String,String> user = db.getUserDetails();
-			setUser(new Pengguna(user.get("id_user"),user.get("username") , user.get("email"), user.get("name"), user.get("sex"), user.get("age"), user.get("pin"), Float.parseFloat(user.get("balance"))));
+		if (login) {
+			HashMap<String, String> user = db.getUserDetails();
+			setUser(new Pengguna(user.get("id_user"), user.get("username"),
+					user.get("email"), user.get("name"), user.get("sex"),
+					user.get("age"), user.get("pin"), Float.parseFloat(user
+							.get("balance"))));
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -67,6 +71,7 @@ public class PenggunaController {
 
 	/**
 	 * Function to register user
+	 * 
 	 * @param name
 	 * @param username
 	 * @param email
@@ -78,8 +83,8 @@ public class PenggunaController {
 	 */
 	public ArrayList<String> registerUser(String name, String username,
 			String email, String password, String pin, String sex, String age) {
-		ArrayList<String> mistakes = validateSignUp(name, username, email, password, pin,
-				sex, age);
+		ArrayList<String> mistakes = validateSignUp(name, username, email,
+				password, pin, sex, age);
 		if (mistakes.size() == 0) {
 			// Building Parameters
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -120,9 +125,8 @@ public class PenggunaController {
 		}
 	}
 
-	public ArrayList<String> validateSignUp(String name,
-			String username, String email, String password, String pin,
-			String sex, String age) {
+	public ArrayList<String> validateSignUp(String name, String username,
+			String email, String password, String pin, String sex, String age) {
 		ArrayList<String> mistakes = new ArrayList<String>();
 		String pattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 				+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -175,15 +179,15 @@ public class PenggunaController {
 		}
 		if (!age.matches("[0-9]+") && !empty) {
 			mistakes.add("pattern age");
-		}else{
+		} else {
 			if (Integer.parseInt(age) < 18 && !empty) {
 				mistakes.add("limit age");
 			}
 		}
-		
+
 		return mistakes;
 	}
-	
+
 	/**
 	 * function make Login Request
 	 * 
@@ -207,96 +211,145 @@ public class PenggunaController {
 					JSONObject json_user = json.getJSONObject("data_user");
 
 					// Membuat sebuah model pengguna
-					setUser(new Pengguna(json.getString("id_user"), json_user.getString("username"), json_user.getString("email"), json_user.getString("name"), json_user.getString("sex"), json_user.getString("age"), json_user.getString("pin"), Float.parseFloat(json_user.getString("balance"))));
+					setUser(new Pengguna(json.getString("id_user"),
+							json_user.getString("username"),
+							json_user.getString("email"),
+							json_user.getString("name"),
+							json_user.getString("sex"),
+							json_user.getString("age"),
+							json_user.getString("pin"),
+							Float.parseFloat(json_user.getString("balance"))));
 					// Memasukkan data user login ke database hp
-					db.loginUser(json.getString("id_user"), json_user.getString("username"), json_user.getString("email"), json_user.getString("name"), json_user.getString("sex"), json_user.getString("age"), json_user.getString("pin"), json_user.getString("balance"));
-					
+					db.loginUser(json.getString("id_user"),
+							json_user.getString("username"),
+							json_user.getString("email"),
+							json_user.getString("name"),
+							json_user.getString("sex"),
+							json_user.getString("age"),
+							json_user.getString("pin"),
+							json_user.getString("balance"));
+
 					String id_user = json.getString("id_user");
-					
+
 					params = new ArrayList<NameValuePair>();
-					params.add(new BasicNameValuePair("login_airplane_history", login_tag));
+					params.add(new BasicNameValuePair("login_airplane_history",
+							login_tag));
 					params.add(new BasicNameValuePair("id_user", id_user));
-					JSONObject json_transaction = jsonParser.getJSONFromUrl(URL_LOGIN, params);
-					
-					
+					JSONObject json_transaction = jsonParser.getJSONFromUrl(
+							URL_LOGIN, params);
+
 					if (json_transaction.getString("success").equals("1")) {
-						JSONArray result = json_transaction.getJSONArray("data_transaction");
+						JSONArray result = json_transaction
+								.getJSONArray("data_transaction");
 						for (int i = 0; i < result.length(); i++) {
 							JSONObject json1 = result.getJSONObject(i);
-							db.insertAirplaneTransaction1(json1.getString("ID_TRNSC"), json1.getString("TRNSC_TYPE"), json1.getString("ID_USER"), json1.getString("TRNSC_CODE"), json1.getString("AMOUNT"), json1.getString("ID_PLANE"), json1.getString("COMPANY"), json1.getString("TOTAL_TICKET"), json1.getString("PLANE_DATE"), json1.getString("PLANE_TIME"), json1.getString("DEPART_PORT"), json1.getString("DEST_PORT"));
+							db.insertAirplaneTransaction1(
+									json1.getString("ID_TRNSC"),
+									json1.getString("TRNSC_TYPE"),
+									json1.getString("ID_USER"),
+									json1.getString("TRNSC_CODE"),
+									json1.getString("AMOUNT"),
+									json1.getString("ID_PLANE"),
+									json1.getString("COMPANY"),
+									json1.getString("TOTAL_TICKET"),
+									json1.getString("PLANE_DATE"),
+									json1.getString("PLANE_TIME"),
+									json1.getString("DEPART_PORT"),
+									json1.getString("DEST_PORT"));
 						}
 					}
-					
+
 					params = new ArrayList<NameValuePair>();
-					params.add(new BasicNameValuePair("login_bill_history", login_tag));
+					params.add(new BasicNameValuePair("login_bill_history",
+							login_tag));
 					params.add(new BasicNameValuePair("id_user", id_user));
-					json_transaction = jsonParser.getJSONFromUrl(URL_LOGIN, params);
-					
-					
+					json_transaction = jsonParser.getJSONFromUrl(URL_LOGIN,
+							params);
+
 					if (json_transaction.getString("success").equals("1")) {
-						JSONArray result = json_transaction.getJSONArray("data_transaction");
+						JSONArray result = json_transaction
+								.getJSONArray("data_transaction");
 						for (int i = 0; i < result.length(); i++) {
 							JSONObject json1 = result.getJSONObject(i);
-							db.insertBillTransaction(json1.getString("ID_TRNSC"), json1.getString("TRNSC_TYPE"), json1.getString("ID_USER"), json1.getString("TRNSC_CODE"), json1.getString("PAID_AMOUNT"), json1.getString("ID_BILL"), json1.getString("PAY_CODE"), json1.getString("FLAG_ELECT"), json1.getString("ELECT_ACC"), json1.getString("FLAG_WATER"), json1.getString("WATER_ACC"), json1.getString("FLAG_INT"), json1.getString("INT_ACC"), json1.getString("ACC_NAME"));
-							}
+							db.insertBillTransaction(
+									json1.getString("ID_TRNSC"),
+									json1.getString("TRNSC_TYPE"),
+									json1.getString("ID_USER"),
+									json1.getString("TRNSC_CODE"),
+									json1.getString("PAID_AMOUNT"),
+									json1.getString("ID_BILL"),
+									json1.getString("PAY_CODE"),
+									json1.getString("FLAG_ELECT"),
+									json1.getString("ELECT_ACC"),
+									json1.getString("FLAG_WATER"),
+									json1.getString("WATER_ACC"),
+									json1.getString("FLAG_INT"),
+									json1.getString("INT_ACC"),
+									json1.getString("ACC_NAME"));
+						}
 					}
-					
+
 					ArrayList<String> result = new ArrayList<String>();
 					result.add("success");
-;					return result;
+					;
+					return result;
 				} else {
 					ArrayList<String> result = new ArrayList<String>();
 					result.add("wrong");
-;					return result;
+					;
+					return result;
 				}
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				ArrayList<String> result = new ArrayList<String>();
 				result.add("error");
-;				return result;
+				;
+				return result;
 			}
 		} else {
 			return mistakes;
 		}
 	}
-	
+
 	public ArrayList<String> validateSignIn(String username, String password) {
 		boolean empty = false;
 		ArrayList<String> mistakes = new ArrayList<String>();
-		
+
 		if (username.equals("")) {
 			mistakes.add("empty username");
 			empty = true;
 		}
-		if(password.equals("")){
+		if (password.equals("")) {
 			mistakes.add("empty password");
 			empty = true;
 		}
-		if ((username.length() < 6 || username.length() > 200 ) && !empty) {
+		if ((username.length() < 6 || username.length() > 200) && !empty) {
 			mistakes.add("length username");
 		}
 		if (!username.matches("[A-Za-z0-9]+") && !empty) {
 			mistakes.add("pattern username");
 		}
-		if(password.length() < 6 && !empty){
+		if (password.length() < 6 && !empty) {
 			mistakes.add("length password");
 		}
 		return mistakes;
 	}
-	
-	public ArrayList<String> forgotPassword(Context c, String [] parameter) throws JSONException{
-		
+
+	public ArrayList<String> forgotPassword(Context c, String[] parameter)
+			throws JSONException {
+
 		ArrayList<String> res = new ArrayList<String>();
 		String email = parameter[0];
 		String pwd = parameter[1];
-		
+
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("forgot_password", "forgot_password"));
 		params.add(new BasicNameValuePair("email", email));
 		params.add(new BasicNameValuePair("password", pwd));
-		
-		JSONObject json_password = jsonParser.getJSONFromUrl(URL_FORGOT_PASSWORD, params);
-		
+
+		JSONObject json_password = jsonParser.getJSONFromUrl(
+				URL_FORGOT_PASSWORD, params);
+
 		if (json_password.getString("success").equals("1")) {
 			return res;
 		} else {
@@ -305,5 +358,54 @@ public class PenggunaController {
 		}
 
 	}
-	
+
+	public ArrayList<String> changePassword(Context c, String oldPassword,
+			String newPassword) throws JSONException {
+
+		ArrayList<String> res = new ArrayList<String>();
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("change_password", "change_password"));
+		params.add(new BasicNameValuePair("username", PenggunaController
+				.getUser().getUsername()));
+		params.add(new BasicNameValuePair("old_password", oldPassword));
+		params.add(new BasicNameValuePair("new_password", newPassword));
+
+		JSONObject json_change_password = jsonParser.getJSONFromUrl(
+				URL_EDIT_PROFIL, params);
+
+		if (json_change_password.getString("success").equals("1")) {
+			return res;
+		} else {
+			res.add("failed");
+			return res;
+		}
+	}
+
+	public ArrayList<String> changeProfile(Context c, String username,
+			String name, String email, String pin) throws JSONException {
+
+		ArrayList<String> res = new ArrayList<String>();
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("change_profile", "change_profile"));
+		params.add(new BasicNameValuePair("user_id", PenggunaController.getUser().getId()));
+		params.add(new BasicNameValuePair("username", username));
+		params.add(new BasicNameValuePair("name", name));
+		params.add(new BasicNameValuePair("email", email));
+		params.add(new BasicNameValuePair("pin", pin));
+
+		JSONObject json_change_profile = jsonParser.getJSONFromUrl(
+				URL_EDIT_PROFIL, params);
+
+		if (json_change_profile.getString("success").equals("1")) {
+//			JSONArray result = json_topup.getJSONArray("data_topUp");
+			DatabaseHandler db = new DatabaseHandler(c);
+			db.editUser(username, email, name, pin);
+			return res;
+		} else {
+			return res;
+		}
+	}
+
 }

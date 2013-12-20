@@ -105,6 +105,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				new String[] { String.valueOf(id_user) });
 		db.close();
 	}
+	
+	public void editUser(String username, String email, String name, String pin){
+		SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(KEY_USERNAME, username); // Username
+		values.put(KEY_EMAIL, email); // Email
+		values.put(KEY_NAME, name); // Fullname
+		values.put(KEY_PIN, pin); // Saldo
+		db.update(TABLE_LOGIN, values, "id_user = ?",
+				new String[] { String.valueOf(PenggunaController.getUser().getId()) });
+		PenggunaController.getUser().setEmail(email);
+		PenggunaController.getUser().setUsername(username);
+		PenggunaController.getUser().setName(name);
+		PenggunaController.getUser().setPin(pin);
+		
+		db.close();
+	}
 
 	/**
 	 * Memasukkan data user yang login ke dalam database
