@@ -15,6 +15,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -241,6 +242,9 @@ public class TopUpFragment extends Fragment implements OnClickListener {
 			clearData();
 			Toast.makeText(context, "TOPUP SUCCESSFULL", Toast.LENGTH_SHORT)
 					.show();
+			Intent intent = new Intent(context, DrawerActivity.class);
+			startActivity(intent);
+			getActivity().finish();
 		}
 	}
 	
