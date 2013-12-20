@@ -55,8 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#A51810"
-                android:gravity="center"
-               
+                android:gravity="center_vertical"
                 android:paddingLeft="25dp"
                 android:text="@string/logout"
                 android:textColor="#ffffff"
