@@ -23,6 +23,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 
 public class SettingActivity extends Activity implements OnClickListener {
 
@@ -107,8 +108,9 @@ public class SettingActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.save_edit_profile:
-			 new ProcessEditProfile().execute(usernameIn.getText().toString(), nameIn
-			 .getText().toString(), emailIn.getText().toString(), pinNumIn.getText().toString());
+			new ProcessEditProfile().execute(usernameIn.getText().toString(),
+					nameIn.getText().toString(), emailIn.getText().toString(),
+					pinNumIn.getText().toString());
 			break;
 		case R.id.cancel_edit_profile:
 			break;
@@ -160,8 +162,9 @@ public class SettingActivity extends Activity implements OnClickListener {
 
 		@Override
 		protected ArrayList<String> doInBackground(String... arg0) {
-			 try {
-				return pCont.changeProfile(getApplicationContext(), arg0[0], arg0[1], arg0[2], arg0[3]);
+			try {
+				return pCont.changeProfile(getApplicationContext(), arg0[0],
+						arg0[1], arg0[2], arg0[3]);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -175,9 +178,19 @@ public class SettingActivity extends Activity implements OnClickListener {
 		protected void onPostExecute(ArrayList<String> result1) {
 			// dismiss the dialog after getting all products
 			pDialog.dismiss();
-			// processPaymentResult(result1);
+			result(result1);
 		}
 
+	}
+
+	private void result(ArrayList<String> result1) {
+		if (result1.size() == 0) {
+			Toast.makeText(getApplicationContext(), "PROFILE CHANGED",
+					Toast.LENGTH_SHORT).show();
+			Intent i = new Intent(getApplicationContext(), DrawerActivity.class);
+			startActivity(i);
+			finish();
+		}
 	}
 
 	/**
